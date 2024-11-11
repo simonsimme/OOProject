@@ -15,6 +15,7 @@ public class UIController {
     }
 
     class CreateChannelButtonListener implements ActionListener {
+        //create channel code
         @Override
         public void actionPerformed(ActionEvent e) {
             showChatArea();
@@ -22,6 +23,7 @@ public class UIController {
     }
 
     class JoinChannelButtonListener implements ActionListener {
+        //JoinChannel
         @Override
         public void actionPerformed(ActionEvent e) {
             showChatArea();
