@@ -1,10 +1,18 @@
+package View;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class View {
-    public static void main(String[] args) {
+    private JFrame frame;
+    private JTextArea chatArea;
+    private JTextField inputField;
+    private JButton sendButton;
+
+    public View() {
         // Create the main frame
-        JFrame frame = new JFrame("Chat Application");
+        frame = new JFrame("Chat Application");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 500);
 
@@ -13,7 +21,7 @@ public class View {
         panel.setLayout(new BorderLayout());
 
         // Create the chat area
-        JTextArea chatArea = new JTextArea();
+        chatArea = new JTextArea();
         chatArea.setEditable(false);
         JScrollPane chatScrollPane = new JScrollPane(chatArea);
         panel.add(chatScrollPane, BorderLayout.CENTER);
@@ -21,8 +29,8 @@ public class View {
         // Create the input area
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BorderLayout());
-        JTextField inputField = new JTextField();
-        JButton sendButton = new JButton("Send");
+        inputField = new JTextField();
+        sendButton = new JButton("Send");
         inputPanel.add(inputField, BorderLayout.CENTER);
         inputPanel.add(sendButton, BorderLayout.EAST);
 
@@ -33,5 +41,21 @@ public class View {
 
         // Display the frame
         frame.setVisible(true);
+    }
+
+    public void addSendButtonListener(ActionListener listener) {
+        sendButton.addActionListener(listener);
+    }
+
+    public String getInputText() {
+        return inputField.getText();
+    }
+
+    public void appendChatText(String text) {
+        chatArea.append(text + "\n");
+    }
+
+    public void clearInputText() {
+        inputField.setText("");
     }
 }
