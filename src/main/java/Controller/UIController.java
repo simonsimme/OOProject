@@ -36,6 +36,10 @@ public class UIController {
         view.addJoinNewChannelButtonListener(new JoinNewChannelButtonListener());
         view.addLeaveChannelButtonListener(new LeaveChannelButtonListener());
     }
+    private void sendMessageToChannel(View v,String name,String msg)
+    {
+        v.appendChatText(name +": " + msg);
+    }
 
     class SendButtonListener implements ActionListener {
         @Override
@@ -43,6 +47,7 @@ public class UIController {
             String inputText = view.getInputText();
             view.appendChatText("You: " + inputText);
             view.clearInputText();
+
         }
     }
 
