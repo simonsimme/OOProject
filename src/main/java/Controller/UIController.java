@@ -15,7 +15,6 @@ public class UIController {
     }
 
     class CreateChannelButtonListener implements ActionListener {
-        //create channel code
         @Override
         public void actionPerformed(ActionEvent e) {
             showChatArea();
@@ -23,7 +22,6 @@ public class UIController {
     }
 
     class JoinChannelButtonListener implements ActionListener {
-        //JoinChannel
         @Override
         public void actionPerformed(ActionEvent e) {
             showChatArea();
@@ -35,10 +33,7 @@ public class UIController {
         view.addSendButtonListener(new SendButtonListener());
         view.addJoinNewChannelButtonListener(new JoinNewChannelButtonListener());
         view.addLeaveChannelButtonListener(new LeaveChannelButtonListener());
-    }
-    private void sendMessageToChannel(View v,String name,String msg)
-    {
-        v.appendChatText(name +": " + msg);
+        view.addCreateNewChannelButtonListener(new CreateNewChannelButtonListener());
     }
 
     class SendButtonListener implements ActionListener {
@@ -47,14 +42,12 @@ public class UIController {
             String inputText = view.getInputText();
             view.appendChatText("You: " + inputText);
             view.clearInputText();
-
         }
     }
 
     class JoinNewChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Handle join new channel action
             view.appendChatText("Joining new channel...");
         }
     }
@@ -62,10 +55,16 @@ public class UIController {
     class LeaveChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Handle leave channel action
             view.startArea();
             view.addCreateChannelButtonListener(new CreateChannelButtonListener());
             view.addJoinChannelButtonListener(new JoinChannelButtonListener());
+        }
+    }
+
+    class CreateNewChannelButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.appendChatText("Creating new channel...");
         }
     }
 }
