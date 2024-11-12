@@ -4,29 +4,25 @@ import java.net.*;
 
 public class Client {
     private Socket socket = null;
-    private BufferedReader input = null;
-    private DataOutputStream out = null;
-    private BufferedReader serverInput = null;
-    private PrintWriter output = null;
+    private ObjectOutputStream out = null;
+    private ObjectInputStream serverInput = null;
 
     public Client(String address, int port) {
         try {
             socket = new Socket(address, port);
             System.out.println("Connected");
 
-            input = new BufferedReader(new InputStreamReader(System.in));
-            out = new DataOutputStream(socket.getOutputStream());
-            serverInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            output = new PrintWriter(socket.getOutputStream(), true);
+            out = new ObjectOutputStream(socket.getOutputStream());
+            serverInput = new ObjectInputStream(socket.getInputStream());
 
             new Thread(new Runnable() {
                 public void run() {
                     try {
-                        String serverMessage;
-                        while ((serverMessage = serverInput.readLine()) != null) {
+                        Message serverMessage;
+                        while ((serverMessage = (Message) serverInput.readObject()) != null) {
                             System.out.println("Server: " + serverMessage);
                         }
-                    } catch (IOException e) {
+                    } catch (IOException | ClassNotFoundException e) {
                         System.out.println("Error reading from server: " + e.getMessage());
                     }
                 }
@@ -39,11 +35,13 @@ public class Client {
             return;
         }
 
+        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         String line = "";
         while (!line.equals("Over")) {
             try {
                 line = input.readLine();
-                out.writeUTF(line);
+                Message message = new Message(line, "Client");
+                out.writeObject(message);
                 out.flush();
             } catch (IOException i) {
                 System.out.println(i);
@@ -59,10 +57,6 @@ public class Client {
         }
     }
 
-    public void sendMessage(String message) {
-        output.println(message);
-        output.flush();
-    }
     public static void main(String args[]) {
         Client client = new Client("127.0.0.1", 8070);
     }

@@ -4,49 +4,66 @@ import java.io.*;
 
 class ClientHandler extends Thread {
     private Socket clientSocket;
-    private DataInputStream input;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
     private Server server;
-    private PrintWriter output;
-
+    private ChatChannel currentChannel;
 
     public ClientHandler(Socket socket, Server server) {
         this.server = server;
         this.clientSocket = socket;
         try {
-            this.input = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-            this.output = new PrintWriter(clientSocket.getOutputStream(), true);
+            this.input = new ObjectInputStream(clientSocket.getInputStream());
+            this.output = new ObjectOutputStream(clientSocket.getOutputStream());
         } catch (IOException e) {
-            System.out.println("Error setting up input stream: " + e.getMessage());
+            System.out.println("Error setting up input/output stream: " + e.getMessage());
         }
     }
 
     @Override
     public void run() {
-        String message = "";
         try {
-            // Keep reading messages until the client sends "Over"
-            while (!message.equals("Over")) {
-                message = input.readUTF();
-                System.out.println("Received from client: " + message);
-                server.broadcast(message, this);
+            Message message;
+            while ((message = (Message) input.readObject()) != null) {
+                if (message.getContent().startsWith("/join ")) {
+                    String channelName = message.getContent().substring(6);
+                    joinChannel(channelName);
+                } else if (currentChannel != null) {
+                    currentChannel.broadcast(message, this);
+                }
             }
-
             System.out.println("Client disconnected.");
-
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("Client handler exception: " + e.getMessage());
         } finally {
             try {
-                // Close resources for this client
+                if (currentChannel != null) {
+                    currentChannel.removeClient(this);
+                }
                 clientSocket.close();
                 input.close();
+                output.close();
             } catch (IOException e) {
                 System.out.println("Error closing client connection: " + e.getMessage());
             }
         }
     }
-    public void sendMessage(String m1) {
-            output.println(m1);
+
+    private void joinChannel(String channelName) {
+        if (currentChannel != null) {
+            currentChannel.removeClient(this);
+        }
+        currentChannel = server.getOrCreateChannel(channelName);
+        currentChannel.addClient(this);
+        sendMessage(new Message("Joined channel: " + channelName, "Server"));
+    }
+
+    public void sendMessage(Message message) {
+        try {
+            output.writeObject(message);
             output.flush();
+        } catch (IOException e) {
+            System.out.println("Error sending message: " + e.getMessage());
+        }
     }
 }
