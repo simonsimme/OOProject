@@ -8,6 +8,13 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>21-ea+24</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
