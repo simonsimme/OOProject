@@ -137,7 +137,7 @@ public class View {
         // Add the channel list
         DefaultListModel<String> listModel = new DefaultListModel<>();
         listModel.addElement("Channel 1");
-        listModel.addElement("Channel 2");
+
         channelList = new JList<>(listModel);
         channelList.setFont(new Font("Arial", Font.PLAIN, 14));
         channelList.setBackground(new Color(60, 63, 65));
@@ -175,6 +175,8 @@ public class View {
         // Display the frame
         frame.setVisible(true);
     }
+
+
 
     public void addSendButtonListener(ActionListener listener) {
         sendButton.addActionListener(listener);
