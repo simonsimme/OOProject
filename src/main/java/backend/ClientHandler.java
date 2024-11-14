@@ -25,6 +25,10 @@ class ClientHandler extends Thread {
         try {
             Message message;
             while ((message = (Message) input.readObject()) != null) {
+
+                sendMessage(message); // just for testing
+                // Måster Fixas, Går ej igenom channelNull atm, Och kollar bara /join
+
                 if (message.getContent().startsWith("/join ")) {
                     String channelName = message.getContent().substring(6);
                     joinChannel(channelName);

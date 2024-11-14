@@ -8,5 +8,4 @@ public class User {
         this.UserName = username;
         this.Password = password;
     }
-
 }

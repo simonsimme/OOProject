@@ -24,6 +24,7 @@ public class Server {
         channels.put("yes",new ChatChannel("yes"));
         try {
             this.server = new ServerSocket(port);
+
             while (true) {
                 System.out.println("Waiting for clients...");
                 Socket clientSocket = server.accept();
@@ -37,7 +38,7 @@ public class Server {
     }
 
     public static void main(String args[]) {
-        Server server = Server.createServerInstance(8070);
+        Server server = Server.createServerInstance(1234);
     }
 
     public synchronized ChatChannel getOrCreateChannel(String channelName) {
