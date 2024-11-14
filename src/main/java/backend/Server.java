@@ -41,6 +41,7 @@ public class Server {
     }
 
     public synchronized ChatChannel getOrCreateChannel(String channelName) {
+        System.out.println("Channel name: " + channelName);
         return channels.computeIfAbsent(channelName, ChatChannel::new);
     }
 }
