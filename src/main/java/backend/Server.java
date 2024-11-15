@@ -12,19 +12,21 @@ public class Server {
 
     public static Server createServerInstance(int port) {
         if (thisServer == null) {
-            return new Server(port);
-        } else {
-            return thisServer;
+            thisServer = new Server(port);
         }
+        return thisServer;
     }
-
     private Server(int port) {
         channels = new HashMap<>();
-        //test channel
-        channels.put("yes",new ChatChannel("yes"));
+        channels.put("yes", new ChatChannel("yes"));
         try {
             this.server = new ServerSocket(port);
-
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void startListening() {
+        try {
             while (true) {
                 System.out.println("Waiting for clients...");
                 Socket clientSocket = server.accept();
@@ -35,10 +37,6 @@ public class Server {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public static void main(String args[]) {
-        Server server = Server.createServerInstance(1234);
     }
 
     public synchronized ChatChannel getOrCreateChannel(String channelName) {
