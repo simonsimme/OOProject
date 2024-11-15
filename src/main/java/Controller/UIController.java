@@ -70,7 +70,14 @@ public class UIController {
     //use this to send message to a view, add in what channel as well
     public void showTextinView(Message msg)
     {
-        view.appendChatText(msg.getSender() + ": " + msg.getContent());
+        try
+        {
+            view.appendChatText(msg.getTimestamp().getHour() +"." +msg.getTimestamp().getMinute() + "  " +msg.getSender() + ": " + msg.getContent());
+
+        }catch (Exception e)
+        {
+        System.out.println("clients not found");
+        }
     }
 
     class JoinNewChannelButtonListener implements ActionListener {

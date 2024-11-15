@@ -33,8 +33,12 @@ public class View {
     }
     public String getNickNameFeild()
     {
-        return inputTextField.getText();
-
+        String name = inputTextField.getText();
+        if (name.isBlank())
+        {
+            name = "Guest";
+        }
+        return name;
     }
     public void startArea() {
         // Clear the frame content
