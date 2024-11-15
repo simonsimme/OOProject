@@ -1,4 +1,6 @@
-package backend;
+package backend.toLater;
+import backend.Message;
+
 import java.io.*;
 import java.net.*;
 
@@ -7,7 +9,7 @@ public class Client {
     private ObjectOutputStream out = null;
     private ObjectInputStream serverInput = null;
 
-    public Client(String address, int port) {
+    public Client(String address, int port)  {
         try {
             socket = new Socket(address, port);
             System.out.println("Connected");
