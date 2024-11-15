@@ -1,15 +1,20 @@
 package Controller;
 
+import Main.ChatApplication;
 import View.View;
+import backend.Message;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class UIController {
     private View view;
+    private ChatApplication chatApplication;
 
-    public UIController(View view) {
+    public UIController(View view, ChatApplication chatApplication) {
         this.view = view;
-
+        this.chatApplication = chatApplication;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
     }
@@ -40,9 +45,22 @@ public class UIController {
         @Override
         public void actionPerformed(ActionEvent e) {
             String inputText = view.getInputText();
+
             view.appendChatText("You: " + inputText);
             view.clearInputText();
+            try {
+                chatApplication.sendFromClients(inputText);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
         }
+    }
+
+    //use this to send message to a view, add in what channel as well
+    public void showTextinView(Message msg)
+    {
+        view.appendChatText(msg.getSender() + ": " + msg.getContent());
     }
 
     class JoinNewChannelButtonListener implements ActionListener {

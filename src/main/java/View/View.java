@@ -5,11 +5,14 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class View {
     private JFrame frame;
-    private JTextArea chatArea;
-    private JTextField inputField;
+    private JTextArea chatArea; // area of text, make this a part of channel
+    private JTextArea inputField;
+    JTextField inputTextField = new JTextField(20); // get the user name from here on press
     private JButton sendButton;
     private JButton createChannelButton;
     private JButton joinChannelButton;
@@ -17,6 +20,7 @@ public class View {
     private JButton leaveChannelButton;
     private JButton createNewChannelButton;
     private JList<String> channelList;
+    DefaultListModel<String> listModel = new DefaultListModel<>(); // make this into a list of channels
 
     public View() {
         // Set the FlatLaf look and feel
@@ -70,7 +74,17 @@ public class View {
         gbc.gridy = 1;
         startPanel.add(joinChannelButton, gbc);
 
+
+        inputTextField.setFont(new Font("Arial", Font.PLAIN, 14));
+        inputTextField.setBackground(new Color(60, 63, 65));
+        inputTextField.setForeground(Color.WHITE);
+        inputTextField.setToolTipText("Nickname");
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        startPanel.add(inputTextField, gbc);
+
         panel.add(startPanel, BorderLayout.CENTER);
+
 
         // Add the panel to the frame
         frame.add(panel);
@@ -99,45 +113,59 @@ public class View {
     }
 
     private void chatArea() {
-        // Create the main panel
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBackground(new Color(43, 43, 43));
 
-        // Create the chat area
         chatArea = new JTextArea();
         chatArea.setEditable(false);
         chatArea.setFont(new Font("Arial", Font.PLAIN, 14));
         chatArea.setBackground(new Color(60, 63, 65));
         chatArea.setForeground(Color.WHITE);
+        chatArea.setLineWrap(true);
+        chatArea.setWrapStyleWord(true);
         JScrollPane chatScrollPane = new JScrollPane(chatArea);
-        panel.add(chatScrollPane, BorderLayout.CENTER);
+        chatScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        chatScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        // Create the input area
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BorderLayout());
-        inputField = new JTextField();
+        inputField = new JTextArea(1, 20);
         inputField.setFont(new Font("Arial", Font.PLAIN, 14));
         inputField.setBackground(new Color(60, 63, 65));
         inputField.setForeground(Color.WHITE);
+        inputField.setLineWrap(true);
+        inputField.setWrapStyleWord(true);
+        JScrollPane inputScrollPane = new JScrollPane(inputField);
+        inputScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        inputScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         sendButton = new JButton("Send");
         sendButton.setFont(new Font("Arial", Font.BOLD, 14));
         sendButton.setBackground(new Color(60, 63, 65));
         sendButton.setForeground(Color.WHITE);
-        inputPanel.add(inputField, BorderLayout.CENTER);
+        inputPanel.add(inputScrollPane, BorderLayout.CENTER);
         inputPanel.add(sendButton, BorderLayout.EAST);
+
+        inputField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER && !e.isShiftDown()) {
+                    sendButton.doClick();
+                    e.consume();
+                } else if (e.getKeyCode() == KeyEvent.VK_ENTER && e.isShiftDown()) {
+                    inputField.append("\n");
+                    e.consume();
+                }
+            }
+        });
 
         panel.add(inputPanel, BorderLayout.SOUTH);
 
-        // Create the sidebar
         JPanel sidebar = new JPanel();
         sidebar.setLayout(new BorderLayout());
         sidebar.setBackground(new Color(43, 43, 43));
 
-        // Add the channel list
-        DefaultListModel<String> listModel = new DefaultListModel<>();
         listModel.addElement("Channel 1");
-
         channelList = new JList<>(listModel);
         channelList.setFont(new Font("Arial", Font.PLAIN, 14));
         channelList.setBackground(new Color(60, 63, 65));
@@ -145,7 +173,6 @@ public class View {
         JScrollPane channelScrollPane = new JScrollPane(channelList);
         sidebar.add(channelScrollPane, BorderLayout.CENTER);
 
-        // Add the buttons to the sidebar
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(3, 1));
         buttonPanel.setBackground(new Color(43, 43, 43));
@@ -167,14 +194,16 @@ public class View {
 
         sidebar.add(buttonPanel, BorderLayout.SOUTH);
 
-        panel.add(sidebar, BorderLayout.WEST);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidebar, chatScrollPane);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setDividerLocation(200);
 
-        // Add the panel to the frame
+        panel.add(splitPane, BorderLayout.CENTER);
+
         frame.add(panel);
-
-        // Display the frame
         frame.setVisible(true);
     }
+
 
 
 

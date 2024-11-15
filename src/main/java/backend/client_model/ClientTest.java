@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class ClientTest {
+    /*
     public static void main(String[] args) throws IOException {
         // Start the server in a separate thread
         Thread serverThread = new Thread(() -> {
@@ -30,4 +31,6 @@ public class ClientTest {
         }
 
     }
+
+     */
 }

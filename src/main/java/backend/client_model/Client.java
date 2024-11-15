@@ -2,6 +2,8 @@ package backend.client_model;
 
 import java.io.*;
 import java.net.Socket;
+
+import Controller.UIController;
 import backend.Message;
 
 /**
@@ -15,6 +17,7 @@ public class Client implements Runnable {
     private ObjectOutputStream out;
     private String host;
     private int port;
+    private UIController uiController;
 
     /**
      * Client's only constructor, requires the adress to connect to and a port.
@@ -22,9 +25,10 @@ public class Client implements Runnable {
      * @param port The port that the Socket connects to. (Has to match with server port)
      * @throws IOException TODO: Handle exception
      */
-    public Client(String adress, int port) throws IOException {
+    public Client(String adress, int port, UIController uiController) throws IOException {
         this.host = adress;
         this.port = port;
+        this.uiController = uiController;
 
         System.out.print("Connecting to server...");
         socket = new Socket(host, port);
@@ -42,8 +46,10 @@ public class Client implements Runnable {
      */
     public void sendMessage(String messageString) throws IOException
     {
-        Message message = new Message(messageString, "Client");
-        out.writeObject(message);
+        String sender = "Client";
+        Message message = new Message(messageString,sender );
+        uiController.showTextinView(message);
+       // out.writeObject(message);
     }
 
     /**
