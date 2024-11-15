@@ -18,6 +18,7 @@ public class Client implements Runnable {
     private String host;
     private int port;
     private UIController uiController;
+    private String sender = "Client";
 
     /**
      * Client's only constructor, requires the adress to connect to and a port.
@@ -36,6 +37,10 @@ public class Client implements Runnable {
         in = new ObjectInputStream(socket.getInputStream());
 
     }
+    public void setNickName(String name)
+    {
+        sender = name;
+    }
 
     /**
      * Send the given String to the server through ObjectOutputStream out.
@@ -47,7 +52,7 @@ public class Client implements Runnable {
     public void sendMessage(String messageString) throws IOException
     {
 
-        String sender = "Client";
+
         Message message = new Message(messageString,sender );
         //uiController.showTextinView(message);
         out.writeObject(message);

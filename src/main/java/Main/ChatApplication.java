@@ -29,11 +29,6 @@ public class ChatApplication {
         }
         chatApplication.startClients();
 
-
-
-
-
-
     }
     public void startClients() throws IOException {
         // Create and run the first client with its own view

@@ -71,6 +71,7 @@ public class UIController {
         }
     }
 
+
     class LeaveChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

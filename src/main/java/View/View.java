@@ -12,7 +12,7 @@ public class View {
     private JFrame frame;
     private JTextArea chatArea; // area of text, make this a part of channel
     private JTextArea inputField;
-    JTextField inputTextField = new JTextField(20); // get the user name from here on press
+    private JTextField inputTextField = new JTextField(20); // get the user name from here on press
     private JButton sendButton;
     private JButton createChannelButton;
     private JButton joinChannelButton;
@@ -31,7 +31,10 @@ public class View {
         }
         startArea();
     }
-
+    public String getNickNameFeild()
+    {
+        return inputField.getText();
+    }
     public void startArea() {
         // Clear the frame content
         if (frame != null) {
