@@ -17,7 +17,6 @@ public class Client implements Runnable {
     private ObjectOutputStream out;
     private String host;
     private int port;
-    private UIController uiController;
     private String sender = "Client";
 
     /**
@@ -26,10 +25,9 @@ public class Client implements Runnable {
      * @param port The port that the Socket connects to. (Has to match with server port)
      * @throws IOException TODO: Handle exception
      */
-    public Client(String adress, int port, UIController uiController) throws IOException {
+    public Client(String adress, int port) throws IOException {
         this.host = adress;
         this.port = port;
-        this.uiController = uiController;
 
         System.out.print("Connecting to server...");
         socket = new Socket(host, port);
@@ -51,12 +49,14 @@ public class Client implements Runnable {
      */
     public void sendMessage(String messageString) throws IOException
     {
-
-
         Message message = new Message(messageString,sender );
         //uiController.showTextinView(message);
         out.writeObject(message);
         out.flush();
+    }
+    public String getName()
+    {
+        return sender;
     }
 
     /**
@@ -87,7 +87,7 @@ public class Client implements Runnable {
      */
     private void handleMessage(Message message) throws IOException {
         System.out.println(message.getTimestamp() + ". " + message.getSender() + " : " + message.getContent());
-        uiController.showTextinView(message);
+        //uiController.showTextinView(message);
         //Display message in UI
     }
 

@@ -33,7 +33,8 @@ public class View {
     }
     public String getNickNameFeild()
     {
-        return inputField.getText();
+        return inputTextField.getText();
+
     }
     public void startArea() {
         // Clear the frame content

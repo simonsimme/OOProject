@@ -11,10 +11,12 @@ import java.io.IOException;
 
 public class UIController {
     private View view;
+    private Client refrence;
     private ChatApplication chatApplication;
 
-    public UIController(View view, ChatApplication chatApplication) {
+    public UIController(View view,ChatApplication chatApplication ,Client ref) {
         this.view = view;
+        this.refrence = ref;
         this.chatApplication = chatApplication;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
@@ -40,6 +42,7 @@ public class UIController {
         view.addJoinNewChannelButtonListener(new JoinNewChannelButtonListener());
         view.addLeaveChannelButtonListener(new LeaveChannelButtonListener());
         view.addCreateNewChannelButtonListener(new CreateNewChannelButtonListener());
+        nicknameset(view.getNickNameFeild());
     }
 
     class SendButtonListener implements ActionListener {
@@ -50,12 +53,18 @@ public class UIController {
             //view.appendChatText("You: " + inputText);
             view.clearInputText();
             try {
-                chatApplication.sendFromClients(inputText);
+                chatApplication.sendFromClients(inputText, refrence);
+
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
 
         }
+    }
+    private void nicknameset(String name)
+    {
+        refrence.setNickName(name);
+
     }
 
     //use this to send message to a view, add in what channel as well
