@@ -18,6 +18,7 @@ public class ChatApplication {
         // Start the server in a separate thread
         Thread serverThread = new Thread(() -> {
             Server server = Server.createServerInstance(1234);
+            server.startListening();
         });
         serverThread.start();
 
