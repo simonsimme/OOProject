@@ -13,8 +13,7 @@ public class ChatApplication {
     Client client2;
     public static void main(String[] args) throws IOException {
         ChatApplication chatApplication = new ChatApplication();
-        View view = new View();
-        UIController uiController = new UIController(view ,chatApplication);
+
 
         // Start the server in a separate thread
         Thread serverThread = new Thread(() -> {

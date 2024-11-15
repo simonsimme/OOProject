@@ -46,10 +46,12 @@ public class Client implements Runnable {
      */
     public void sendMessage(String messageString) throws IOException
     {
+
         String sender = "Client";
         Message message = new Message(messageString,sender );
-        uiController.showTextinView(message);
-       // out.writeObject(message);
+        //uiController.showTextinView(message);
+        out.writeObject(message);
+        out.flush();
     }
 
     /**
@@ -80,7 +82,7 @@ public class Client implements Runnable {
      */
     private void handleMessage(Message message) throws IOException {
         System.out.println(message.getTimestamp() + ". " + message.getSender() + " : " + message.getContent());
-
+        uiController.showTextinView(message);
         //Display message in UI
     }
 

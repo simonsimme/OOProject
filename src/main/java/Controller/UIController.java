@@ -3,6 +3,7 @@ package Controller;
 import Main.ChatApplication;
 import View.View;
 import backend.Message;
+import backend.client_model.Client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,7 +47,7 @@ public class UIController {
         public void actionPerformed(ActionEvent e) {
             String inputText = view.getInputText();
 
-            view.appendChatText("You: " + inputText);
+            //view.appendChatText("You: " + inputText);
             view.clearInputText();
             try {
                 chatApplication.sendFromClients(inputText);
