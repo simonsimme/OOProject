@@ -39,43 +39,38 @@ class ClientHandler extends Thread {
     }
     /**
      * Listens for incoming messages from the clients and processes then.
-     * <li>If the messages starts with {@code /join}, the clients switches to the specific channel</li>
-     * <li>If the client is in a channel, broadcasts messages to the chat channel</li>
+     * <li>MESSAGE: execute SendMessageCommand to send message to the clients</li>
      * Ensures resources are cleaned up when the client disconnects.
      */
     @Override
     public void run() {
+        Message message;
         try {
-            Message message;
             while ((message = (Message) input.readObject()) != null) {
-
-                sendMessage(message); // just for testing
-                //TODO Måster Fixas, Går ej igenom channelNull atm, Och kollar bara /join
-
-                if (message.getContent().startsWith("/join ")) {
-                    String channelName = message.getContent().substring(6);
-                    joinChannel(channelName);
-                } else if (currentChannel != null) {
-                    currentChannel.broadcast(message, this);
+                switch (message.getCommandType()) {
+                    case MESSAGE:
+                        // Create and execute the SendMessageCommand
+                        Command sendMessageCommand = new SendMessageCommand(message, this);
+                        sendMessageCommand.execute(); // Pass the current ClientHandler context
+                        break;
                 }
             }
-            System.out.println("Client disconnected.");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Client handler exception: " + e.getMessage());
         } finally {
-            try {
-                if (currentChannel != null) {
-                    currentChannel.removeClient(this);
-                }
-                clientSocket.close();
-                input.close();
-                output.close();
-            } catch (IOException e) {
-                System.out.println("Error closing client connection: " + e.getMessage());
-            }
+            closeConnections();
         }
     }
+    private void closeConnections() {
+        try {
+            clientSocket.close();
+            input.close();
+            output.close();
+        } catch (IOException e) {
+            System.out.println("Error closing client connection: " + e.getMessage());
+        }
 
+    }
     /**
      * Joins the client to a new chat channel. If the client was in a previous
      * channel, they are removed from it before joining a new chat channel.

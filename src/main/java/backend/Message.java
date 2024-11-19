@@ -18,10 +18,13 @@ public class Message implements Serializable {
 
     // The timestamp when the message was created
     private LocalDateTime timestamp;
+    // The CommandType of the message sent
+    private CommandType commandType;
 
     /**
      * Constructs a new Message with the specified content and sender.
      * The timestamp is set to the current time.
+     * By default, sets the commandType to MESSAGE
      *
      * @param content the content of the message
      * @param sender the sender of the message
@@ -30,6 +33,22 @@ public class Message implements Serializable {
         this.content = content;
         this.sender = sender;
         this.timestamp = LocalDateTime.now();
+        this.commandType = CommandType.MESSAGE;
+    }
+
+    /**
+     * Constructs a new Message with the specified content, sender and commandType.
+     * The timestamp is set to the current time.
+     *
+     * @param content the content of the message
+     * @param sender the sender of the message
+     * @param commandType the command the message asks the server to preform
+     */
+    public Message(String content, String sender, CommandType commandType) {
+        this.content = content;
+        this.sender = sender;
+        this.timestamp = LocalDateTime.now();
+        this.commandType = commandType;
     }
 
     /**
@@ -60,10 +79,19 @@ public class Message implements Serializable {
     }
 
     /**
+     * Returns a CommandType representation of the type of command the message should preform
+     * @return CommandType of the message
+     */
+    public CommandType getCommandType() {
+        return commandType;
+    }
+
+    /**
      * Returns a string representation of the message.
      *
      * @return a string representation of the message
      */
+
     @Override
     public String toString() {
         return "Message from " + sender + " at " + timestamp + ": " + content;
