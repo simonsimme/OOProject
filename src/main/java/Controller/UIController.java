@@ -2,6 +2,7 @@ package Controller;
 
 import Main.ChatApplication;
 import View.View;
+import View.IView;
 import backend.Message;
 import backend.client_model.Client;
 import backend.client_model.ClientObserver;
@@ -11,11 +12,11 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class UIController implements ClientObserver {
-    private View view;
+    private IView view;
     private Client refrence;
     private ChatApplication chatApplication;
 
-    public UIController(View view,ChatApplication chatApplication ,Client ref) {
+    public UIController(IView view,ChatApplication chatApplication ,Client ref) {
         this.view = view;
         this.refrence = ref;
         this.chatApplication = chatApplication;
@@ -77,7 +78,7 @@ public class UIController implements ClientObserver {
     {
         try
         {
-            view.appendChatText(msg.getTimestamp().getHour() +"." +msg.getTimestamp().getMinute() + "  " +msg.getSender() + ": " + msg.getContent());
+            view.appendChatText(msg.getSender() + ": " + msg.getContent());
 
         }catch (Exception e)
         {

@@ -1,13 +1,16 @@
+// ChatApplication.java
 package Main;
 
+import View.TimestampDecorator;
 import View.View;
+import View.StandardView;
+import View.IView;
 import Controller.UIController;
 import backend.Message;
 import backend.Server;
 import backend.client_model.Client;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class ChatApplication {
     Client client;
@@ -17,7 +20,6 @@ public class ChatApplication {
 
     public static void main(String[] args) throws IOException {
         ChatApplication chatApplication = new ChatApplication();
-
 
         // Start the server in a separate thread
         Thread serverThread = new Thread(() -> {
@@ -33,30 +35,28 @@ public class ChatApplication {
             e.printStackTrace();
         }
         chatApplication.startClients();
-
     }
+
     public void startClients() throws IOException {
         // Create and run the first client with its own view
-        View view1 = new View();
+        IView view1 = new TimestampDecorator(new StandardView());
         client = new Client("localhost", 1234);
-         uiController1 = new UIController(view1, this, client);
+        uiController1 = new UIController(view1, this, client);
         new Thread(client).start();
 
         // Create and run the second client with its own view
-        View view2 = new View();
+        IView view2 = new TimestampDecorator(new StandardView());
         client2 = new Client("localhost", 1234);
-         uiController2 = new UIController(view2, this, client2);
+        uiController2 = new UIController(view2, this, client2);
         new Thread(client2).start();
         client.attach(uiController1);
         client.attach(uiController2);
         client2.attach(uiController2);
         client2.attach(uiController1);
-
-
-
     }
+
     public void sendFromClients(String msg, Client ref) throws IOException {
-        Message message = new Message(msg,ref.getName());
+        Message message = new Message(msg, ref.getName());
         uiController1.showTextinView(message);
         uiController2.showTextinView(message);
     }
