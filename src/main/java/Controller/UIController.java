@@ -62,14 +62,11 @@ public class UIController implements ClientObserver {
             }
             //view.appendChatText("You: " + inputText);
             view.clearInputText();
-
-
         }
     }
     private void nicknameset(String name)
     {
         refrence.setNickName(name);
-
     }
 
     //use this to send message to a view, add in what channel as well
@@ -88,7 +85,16 @@ public class UIController implements ClientObserver {
     class JoinNewChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.appendChatText("Joining new channel...");
+            try {
+                refrence.joinChannel("exampleName");
+                view.appendChatText("Joining new channel...");
+            } catch (IOException ex) {
+                view.appendChatText("Failed to join channel...");
+                throw new RuntimeException(ex);
+            }
+            // exempel på hur vi kan skicka request till servern
+            // Hur ska detta fungera? Ska vi låta user skicka join request till Channel
+            // eller är de invite only?
         }
     }
 
@@ -96,15 +102,23 @@ public class UIController implements ClientObserver {
     class LeaveChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.startArea();
-            view.addCreateChannelButtonListener(new CreateChannelButtonListener());
-            view.addJoinChannelButtonListener(new JoinChannelButtonListener());
+            try {
+                refrence.leaveChannel();
+
+                view.startArea();
+                view.addCreateChannelButtonListener(new CreateChannelButtonListener());
+                view.addJoinChannelButtonListener(new JoinChannelButtonListener());
+            } catch (IOException ex) {
+                view.appendChatText("Failed to leave channel... Try again later");
+                throw new RuntimeException(ex);
+            }
         }
     }
 
     class CreateNewChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            // refrence.createNewChannel();
             view.appendChatText("Creating new channel...");
         }
     }

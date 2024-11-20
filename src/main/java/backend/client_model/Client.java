@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observer;
 
 import Controller.UIController;
+import backend.CommandType;
 import backend.Message;
 
 /**
@@ -22,6 +23,7 @@ public class Client implements Runnable, ClientSubject {
     private int port;
     private String sender = "Client";
     private List<ClientObserver> observers = new ArrayList<>();
+
     /**
      * Client's only constructor, requires the adress to connect to and a port.
      * @param adress The adress that the Socket connects to. (Has to be "localhost" for now)
@@ -38,6 +40,7 @@ public class Client implements Runnable, ClientSubject {
         in = new ObjectInputStream(socket.getInputStream());
 
     }
+
     public void setNickName(String name)
     {
         sender = name;
@@ -52,8 +55,7 @@ public class Client implements Runnable, ClientSubject {
      */
     public void sendMessage(String messageString) throws IOException
     {
-        Message message = new Message(messageString,sender );
-        //uiController.showTextinView(message);
+        Message message = new Message(messageString, sender);
         out.writeObject(message);
         out.flush();
     }
@@ -74,7 +76,6 @@ public class Client implements Runnable, ClientSubject {
             while ((message = (Message) in.readObject()) != null)
             {
                 handleMessage(message);
-                notifyObservers(message);
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -90,10 +91,41 @@ public class Client implements Runnable, ClientSubject {
      * @throws IOException TODO: Handle exception
      */
     private void handleMessage(Message message) throws IOException {
+        if(message.getCommandType() == CommandType.MESSAGE)
+        {
+            notifyObservers(message);
+        }
+
+
         System.out.println(message.getTimestamp() + ". " + message.getSender() + " : " + message.getContent());
         //uiController.showTextinView(message);
         //Display message in UI
     }
+    public void joinChannel(String channelName) throws IOException
+    {
+        Message message = new Message(channelName, sender, CommandType.JOIN);
+        out.writeObject(message);
+
+        out.flush();
+    }
+
+    public void leaveChannel() throws IOException
+    {
+        Message message = new Message("", sender, CommandType.LEAVE);
+        out.writeObject(message);
+        out.flush();
+    }
+
+    public void createChannel(String name, String password) throws IOException
+    {
+        // TODO: Implement create channel functionality & split name & password at : in message.getContent()
+        Message message = new Message(name + ":" + password, sender/*, CommandType.CREATE*/);
+    }
+
+
+
+
+
 
     @Override
     public void attach(ClientObserver observer) {

@@ -77,7 +77,6 @@ class ClientHandler extends Thread {
         } catch (IOException e) {
             System.out.println("Error closing client connection: " + e.getMessage());
         }
-
     }
     /**
      * Joins the client to a new chat channel. If the client was in a previous
