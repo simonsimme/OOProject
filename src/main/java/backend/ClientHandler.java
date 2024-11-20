@@ -54,7 +54,7 @@ class ClientHandler extends Thread {
                         joinChannelCommand.execute();
                         break;
                     case LEAVE:
-                        Command leaveChannelCommand = new LeaveChannelCommand(message.getContent(), this);
+                        Command leaveChannelCommand = new LeaveChannelCommand(this);
                         leaveChannelCommand.execute();
                     case MESSAGE:
                         // Create and execute the SendMessageCommand
