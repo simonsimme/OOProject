@@ -2,10 +2,10 @@ package backend.Messages;
 
 import backend.toLater.User;
 
-public class LeaveChannelCommand extends Message implements Visitable{
+public class LeaveChannelResponse extends Message{
     private String channelName;
 
-    public LeaveChannelCommand(User user, String channelName){
+    public LeaveChannelResponse(User user, String channelName){
         super(user);
         this.channelName = channelName;
     }
