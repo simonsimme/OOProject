@@ -2,12 +2,10 @@ package Main;
 
 import View.View;
 import Controller.UIController;
-import backend.Message;
 import backend.Server;
 import backend.client_model.Client;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class ChatApplication {
     Client client;

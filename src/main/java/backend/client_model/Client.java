@@ -4,11 +4,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observer;
 
-import Controller.UIController;
 import backend.CommandType;
-import backend.Message;
 
 /**
  * The client class handles the logic behind the client communication with the server. This includes sending

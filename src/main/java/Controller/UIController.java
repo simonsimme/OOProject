@@ -2,7 +2,6 @@ package Controller;
 
 import Main.ChatApplication;
 import View.View;
-import backend.Message;
 import backend.client_model.Client;
 import backend.client_model.ClientObserver;
 

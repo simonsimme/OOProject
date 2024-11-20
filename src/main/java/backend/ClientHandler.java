@@ -1,4 +1,7 @@
 package backend;
+import backend.Messages.Message;
+import backend.Messages.MessageVisitor;
+
 import java.net.*;
 import java.io.*;
 
@@ -44,24 +47,11 @@ class ClientHandler extends Thread {
      */
     @Override
     public void run() {
-        Message message;
         try {
+            Message message;
+            MessageVisitor handler = new MessageVisitor();
             while ((message = (Message) input.readObject()) != null) {
-                switch (message.getCommandType()) {
-                    case JOIN:
-                        String channelName = message.getContent();
-                        Command joinChannelCommand = new JoinChannelCommand(channelName, this);
-                        joinChannelCommand.execute();
-                        break;
-                    case LEAVE:
-                        Command leaveChannelCommand = new LeaveChannelCommand(this);
-                        leaveChannelCommand.execute();
-                    case MESSAGE:
-                        // Create and execute the SendMessageCommand
-                        Command sendMessageCommand = new SendMessageCommand(message, this);
-                        sendMessageCommand.execute(); // Pass the current ClientHandler context
-                        break;
-                }
+                message.accept(handler);
             }
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Client handler exception: " + e.getMessage());
