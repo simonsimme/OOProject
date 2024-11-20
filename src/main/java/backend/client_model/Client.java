@@ -54,13 +54,13 @@ public class Client implements Runnable, ClientSubject {
     public void sendMessage(String messageString) throws IOException
     {
         Message message = new Message(messageString,sender );
-        //uiController.showTextinView(message);
+        System.out.println(sender + ": " + messageString);
+
         out.writeObject(message);
         out.flush();
     }
     public void sendMessage(Message msg) throws IOException
     {
-        //uiController.showTextinView(message);
         out.writeObject(msg);
         out.flush();
     }

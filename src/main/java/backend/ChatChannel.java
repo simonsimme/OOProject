@@ -26,7 +26,7 @@ public class ChatChannel {
 
     public synchronized void broadcast(Message message, ClientHandler sender) {
         for (ClientHandler client : clients) {
-            if (client != sender) {
+            if(client.equals(sender)) {
                 client.sendMessage(message);
             }
         }

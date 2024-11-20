@@ -293,7 +293,9 @@ public class StandardView implements IView {
 
     @Override
     public void appendChatText(String text) {
-        chatArea.append(text + "\n");
+            if (chatArea != null) {
+                chatArea.append(text + "\n");
+            }
     }
 
     @Override
