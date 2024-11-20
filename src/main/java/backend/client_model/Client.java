@@ -2,6 +2,9 @@ package backend.client_model;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observer;
 
 import Controller.UIController;
 import backend.Message;
@@ -11,14 +14,14 @@ import backend.Message;
  * messages to the server and receiving messages from the server.
  * TODO: Implement client in a way that satisfies: Single Responsibility Principle, Open, Closed Principle
  */
-public class Client implements Runnable {
+public class Client implements Runnable, ClientSubject {
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private String host;
     private int port;
     private String sender = "Client";
-
+    private List<ClientObserver> observers = new ArrayList<>();
     /**
      * Client's only constructor, requires the adress to connect to and a port.
      * @param adress The adress that the Socket connects to. (Has to be "localhost" for now)
@@ -71,6 +74,7 @@ public class Client implements Runnable {
             while ((message = (Message) in.readObject()) != null)
             {
                 handleMessage(message);
+                notifyObservers(message);
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -90,5 +94,25 @@ public class Client implements Runnable {
         //uiController.showTextinView(message);
         //Display message in UI
     }
+
+    @Override
+    public void attach(ClientObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void detach(ClientObserver observer) {
+        observers.remove(observer);
+    }
+
+
+
+    @Override
+    public void notifyObservers(Message message) {
+        for (ClientObserver observer : observers) {
+            observer.update(message);
+        }
+    }
+
 
 }

@@ -4,12 +4,13 @@ import Main.ChatApplication;
 import View.View;
 import backend.Message;
 import backend.client_model.Client;
+import backend.client_model.ClientObserver;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class UIController {
+public class UIController implements ClientObserver {
     private View view;
     private Client refrence;
     private ChatApplication chatApplication;
@@ -20,6 +21,11 @@ public class UIController {
         this.chatApplication = chatApplication;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
+    }
+
+    @Override
+    public void update(Message message) {
+        showTextinView(message);
     }
 
     class CreateChannelButtonListener implements ActionListener {
@@ -49,15 +55,14 @@ public class UIController {
         @Override
         public void actionPerformed(ActionEvent e) {
             String inputText = view.getInputText();
-
-            //view.appendChatText("You: " + inputText);
-            view.clearInputText();
             try {
-                chatApplication.sendFromClients(inputText, refrence);
-
+                refrence.sendMessage(inputText);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+            //view.appendChatText("You: " + inputText);
+            view.clearInputText();
+
 
         }
     }

@@ -14,6 +14,7 @@ public class ChatApplication {
     Client client2;
     UIController uiController1;
     UIController uiController2;
+
     public static void main(String[] args) throws IOException {
         ChatApplication chatApplication = new ChatApplication();
 
@@ -46,6 +47,13 @@ public class ChatApplication {
         client2 = new Client("localhost", 1234);
          uiController2 = new UIController(view2, this, client2);
         new Thread(client2).start();
+        client.attach(uiController1);
+        client.attach(uiController2);
+        client2.attach(uiController2);
+        client2.attach(uiController1);
+
+
+
     }
     public void sendFromClients(String msg, Client ref) throws IOException {
         Message message = new Message(msg,ref.getName());

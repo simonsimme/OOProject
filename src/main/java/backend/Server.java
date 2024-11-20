@@ -61,6 +61,7 @@ public class Server {
             System.out.println(e.getMessage());
         }
     }
+
     /**
      * Get an existing Chat Channel by its name or creates a new one
      * if none exist.
