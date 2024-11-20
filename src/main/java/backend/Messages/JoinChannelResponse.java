@@ -2,15 +2,20 @@ package backend.Messages;
 
 import backend.toLater.User;
 
-public class JoinChannelResponse extends Message {
+public class JoinChannelResponse extends Message implements VisitableMessage {
     private String channelName;
 
-    public JoinChannelResponse(User user, String channelName){
-        super(user);
+    public JoinChannelResponse(String channelName){
+        super("OK", "Server");
         this.channelName = channelName;
     }
 
     public String getChannelName() {
         return channelName;
+    }
+
+    @Override
+    public void accept(VisitorMessage visitor) {
+
     }
 }

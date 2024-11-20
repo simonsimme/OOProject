@@ -24,4 +24,9 @@ public class CreateChannelCommand extends Message implements Visitable {
     public String getChannelName() {
         return channelName;
     }
+
+    public void accept(Visitor visitor)
+    {
+        visitor.handle(this);
+    }
 }

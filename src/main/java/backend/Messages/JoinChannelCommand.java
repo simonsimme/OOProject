@@ -21,7 +21,8 @@ public class JoinChannelCommand extends Message implements Visitable {
         return password;
     }
 
-    public void accept(Visitor visitor) {
-
+    public void accept(Visitor visitor)
+    {
+        visitor.handle(this);
     }
 }

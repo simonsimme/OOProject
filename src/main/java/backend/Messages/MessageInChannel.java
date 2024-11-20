@@ -2,7 +2,7 @@ package backend.Messages;
 
 import backend.toLater.User;
 
-public class MessageInChannel extends Message{
+public class MessageInChannel extends Message implements Visitable{
     private String channelName;
     private String message;
 
@@ -17,5 +17,11 @@ public class MessageInChannel extends Message{
     }
     public String getMessage(){
         return message;
+    }
+
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.handle(this);
     }
 }

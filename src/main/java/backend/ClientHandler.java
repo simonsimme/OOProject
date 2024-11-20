@@ -1,6 +1,8 @@
 package backend;
 import backend.Messages.Message;
 import backend.Messages.MessageVisitor;
+import backend.Messages.ServerMessageVisitor;
+import backend.Messages.Visitor;
 
 import java.net.*;
 import java.io.*;
@@ -13,7 +15,7 @@ import java.io.*;
  * <li>Joining chat channels</li>
  * <li>Broadcast messages to other clients in the same channel</li>
  */
-class ClientHandler extends Thread {
+public class ClientHandler extends Thread {
     //The socket represents the client's connection.
     private Socket clientSocket;
     //Input stream to receive messages from the client.
@@ -49,7 +51,7 @@ class ClientHandler extends Thread {
     public void run() {
         try {
             Message message;
-            MessageVisitor handler = new MessageVisitor();
+            Visitor handler = new ServerMessageVisitor(this);
             while ((message = (Message) input.readObject()) != null) {
                 message.accept(handler);
             }
