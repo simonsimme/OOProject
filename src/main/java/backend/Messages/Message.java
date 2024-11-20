@@ -71,6 +71,13 @@ public abstract class Message implements Serializable {
     }
 
     /**
+     * This method is part of the Visitor pattern implementation,
+     * allowing the message to delegate the processing logic to a {@code MessageVisitor}.
+     * @param visitor the {@code MessageVisitor} responsible for handling this message
+     */
+    public abstract void accept(MessageVisitor visitor);
+
+    /**
      * Returns a CommandType representation of the type of command the message should preform
      * @return CommandType of the message
      */
