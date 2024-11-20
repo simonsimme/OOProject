@@ -1,7 +1,6 @@
 package Controller;
 
 import Main.ChatApplication;
-import View.View;
 import View.IView;
 import backend.Message;
 import backend.client_model.Client;
@@ -10,6 +9,8 @@ import backend.client_model.ClientObserver;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
+import backend.CommandType;
 
 public class UIController implements ClientObserver {
     private IView view;
@@ -26,22 +27,46 @@ public class UIController implements ClientObserver {
 
     @Override
     public void update(Message message) {
-        showTextinView(message);
+        if(!message.getSender().equals("Server")) {
+            System.out.println(message.getSender() + ": " + message.getContent());
+            showTextinView(message);
+        }
+
+        System.out.println(message.getSender());
     }
 
     class CreateChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            showChatArea();
+            showCreateChannelScreen();
         }
     }
+
 
     class JoinChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            Message msg = new Message(view.getNickNameFeild(), view.getNickNameFeild(), CommandType.JOIN);
+           try {
+               refrence.sendMessage(msg);
+           } catch (IOException ex) {
+               throw new RuntimeException(ex);
+           }
             showChatArea();
         }
     }
+    /*
+    class JoinChannelButtonListener implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String channelName = view.getChannelName(); // Assume this method gets the channel name from the user
+        Command joinChannelCommand = new JoinChannelCommand(channelName, refrence.getClientHandler());
+        joinChannelCommand.execute();
+        view.appendChatText("Joined channel: " + channelName);
+    }
+}
+
+     */
 
     private void showChatArea() {
         view.showChatArea();
@@ -51,14 +76,22 @@ public class UIController implements ClientObserver {
         view.addCreateNewChannelButtonListener(new CreateNewChannelButtonListener());
         nicknameset(view.getNickNameFeild());
     }
+    private void showCreateChannelScreen() {
+        view.showCreateChannelScreen();
+        view.addCreateButtonListener(new CreateButtonListener());
+    }
 
     class SendButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            System.out.println("send button pressed");
             String inputText = view.getInputText();
             try {
                 refrence.sendMessage(inputText);
+                System.out.println("sent message");
             } catch (IOException ex) {
+                System.out.println("ERROR");
+
                 throw new RuntimeException(ex);
             }
             //view.appendChatText("You: " + inputText);
@@ -66,6 +99,29 @@ public class UIController implements ClientObserver {
 
 
         }
+    }
+    class CreateButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String channelName = view.getChannelName();
+            showChatArea();
+
+            Message msg = new Message(view.getChannelName(), view.getNickNameFeild(), CommandType.JOIN);
+            try {
+                refrence.sendMessage(msg);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
+
+
+
+
+        }
+    }
+    public void sendPrivateMessage(String msg)
+    {
+        view.appendChatText("You: " + msg);
     }
     private void nicknameset(String name)
     {
@@ -82,7 +138,7 @@ public class UIController implements ClientObserver {
 
         }catch (Exception e)
         {
-        System.out.println("clients not found");
+        e.printStackTrace();
         }
     }
 

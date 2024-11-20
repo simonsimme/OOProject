@@ -16,12 +16,74 @@ public class StandardView implements IView {
     private JTextField inputTextField = new JTextField(20);
     private JButton sendButton;
     private JButton createChannelButton;
+    private JButton createChannelButtonItem;
+    private JButton createButton;
     private JButton joinChannelButton;
     private JButton joinNewChannelButton;
     private JButton leaveChannelButton;
     private JButton createNewChannelButton;
     private JList<String> channelList;
     DefaultListModel<String> listModel = new DefaultListModel<>();
+
+        private JTextField channelNameField;
+
+        @Override
+        public String getChannelName() {
+            return channelNameField.getText();
+        }
+
+        @Override
+        public void showCreateChannelScreen() {
+            frame.getContentPane().removeAll();
+            createChannelScreen();
+            frame.revalidate();
+            frame.repaint();
+        }
+
+        private void createChannelScreen() {
+            JPanel panel = new JPanel();
+            panel.setLayout(new BorderLayout());
+            panel.setBackground(new Color(43, 43, 43));
+
+            JPanel createChannelPanel = new JPanel();
+            createChannelPanel.setLayout(new GridBagLayout());
+            createChannelPanel.setBackground(new Color(43, 43, 43));
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(10, 10, 10, 10);
+
+            JLabel channelNameLabel = new JLabel("Channel Name:");
+            channelNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            channelNameLabel.setForeground(Color.WHITE);
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            createChannelPanel.add(channelNameLabel, gbc);
+
+            channelNameField = new JTextField(20);
+            channelNameField.setFont(new Font("Arial", Font.PLAIN, 14));
+            channelNameField.setBackground(new Color(60, 63, 65));
+            channelNameField.setForeground(Color.WHITE);
+            gbc.gridx = 1;
+            gbc.gridy = 0;
+            createChannelPanel.add(channelNameField, gbc);
+
+            createButton = new JButton("Create");
+            createButton.setFont(new Font("Arial", Font.BOLD, 16));
+            createButton.setBackground(new Color(60, 63, 65));
+            createButton.setForeground(Color.WHITE);
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            gbc.gridwidth = 2;
+            createChannelPanel.add(createButton, gbc);
+
+            panel.add(createChannelPanel, BorderLayout.CENTER);
+
+            frame.add(panel);
+            frame.setVisible(true);
+        }
+    @Override
+    public void addCreateButtonListener(ActionListener listener) {
+        createButton.addActionListener(listener);
+    }
 
     public StandardView() {
         try {

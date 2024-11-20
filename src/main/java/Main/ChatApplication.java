@@ -56,9 +56,5 @@ public class ChatApplication {
         client2.attach(uiController1);
     }
 
-    public void sendFromClients(String msg, Client ref) throws IOException {
-        Message message = new Message(msg, ref.getName());
-        uiController1.showTextinView(message);
-        uiController2.showTextinView(message);
-    }
+
 }

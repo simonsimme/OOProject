@@ -11,8 +11,13 @@ public interface IView {
     void addJoinNewChannelButtonListener(ActionListener listener);
     void addLeaveChannelButtonListener(ActionListener listener);
     void addCreateNewChannelButtonListener(ActionListener listener);
+    void addCreateButtonListener(ActionListener listener);
     String getInputText();
     void appendChatText(String text);
+
     void clearInputText();
     String getNickNameFeild();
+
+    String getChannelName();
+    void showCreateChannelScreen();
 }

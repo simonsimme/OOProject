@@ -69,4 +69,17 @@ public abstract class ViewDecorator implements IView {
     public String getNickNameFeild() {
         return decoratedView.getNickNameFeild();
     }
+    @Override
+    public String getChannelName() {
+        return decoratedView.getChannelName();
+    }
+
+    @Override
+    public void showCreateChannelScreen() {
+        decoratedView.showCreateChannelScreen();
+    }
+    @Override
+    public void addCreateButtonListener(ActionListener listener) {
+        decoratedView.addCreateButtonListener(listener);
+    }
 }

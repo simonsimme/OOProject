@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observer;
 
 import Controller.UIController;
+import backend.CommandType;
 import backend.Message;
 
 /**
@@ -57,6 +58,12 @@ public class Client implements Runnable, ClientSubject {
         out.writeObject(message);
         out.flush();
     }
+    public void sendMessage(Message msg) throws IOException
+    {
+        //uiController.showTextinView(message);
+        out.writeObject(msg);
+        out.flush();
+    }
     public String getName()
     {
         return sender;
@@ -75,6 +82,7 @@ public class Client implements Runnable, ClientSubject {
             {
                 handleMessage(message);
                 notifyObservers(message);
+
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
