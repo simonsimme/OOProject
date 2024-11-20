@@ -48,6 +48,11 @@ class ClientHandler extends Thread {
         try {
             while ((message = (Message) input.readObject()) != null) {
                 switch (message.getCommandType()) {
+                    case JOIN:
+                        String channelName = message.getContent();
+                        Command joinChannelCommand = new JoinChannelCommand(channelName, this);
+                        joinChannelCommand.execute();
+                        break;
                     case MESSAGE:
                         // Create and execute the SendMessageCommand
                         Command sendMessageCommand = new SendMessageCommand(message, this);
@@ -76,13 +81,13 @@ class ClientHandler extends Thread {
      * channel, they are removed from it before joining a new chat channel.
      * @param channelName the name of the channel to join
      */
-    private void joinChannel(String channelName) {
+    public void joinChannel(String channelName) {
         if (currentChannel != null) {
             currentChannel.removeClient(this);
         }
         currentChannel = server.getOrCreateChannel(channelName);
         currentChannel.addClient(this);
-        sendMessage(new Message("Joined channel: " + channelName, "Server"));
+        sendMessage(new Message("Joined channel: " + channelName, "Server", CommandType.MESSAGE));
     }
 
     /**
@@ -96,5 +101,8 @@ class ClientHandler extends Thread {
         } catch (IOException e) {
             System.out.println("Error sending message: " + e.getMessage());
         }
+    }
+    public ChatChannel getCurrentChannel() {
+        return currentChannel;
     }
 }

@@ -2,14 +2,20 @@ package backend;
 
 public class SendMessageCommand implements Command {
     private Message message;
-    private ClientHandler ch;
+    private ClientHandler clientHandler;
 
-    public SendMessageCommand(Message message, ClientHandler ch) {
+    public SendMessageCommand(Message message, ClientHandler clientHandler) {
         this.message = message;
-        this.ch = ch;
+        this.clientHandler = clientHandler;
     }
     @Override
     public void execute() {
-        ch.sendMessage(message);
+        ChatChannel channel = clientHandler.getCurrentChannel();
+        if(channel != null) {
+            channel.broadcast(message, clientHandler);
+        }
+        else {
+            clientHandler.sendMessage(new Message("You are not in a channel! Join a channel to send messages!", "Server"));
+        }
     }
 }
