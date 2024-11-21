@@ -7,7 +7,7 @@ import backend.Messages.Client.MessageInChannel;
 import backend.Messages.Client.SendMessageInChannelResponseClient;
 
 public class MessageVisitorServer implements ServerMessageVisitor {
-    private ClientHandler clientHandler;
+    private final ClientHandler clientHandler;
 
     public MessageVisitorServer(ClientHandler clientHandler)
     {
@@ -22,10 +22,10 @@ public class MessageVisitorServer implements ServerMessageVisitor {
     }
 
     @Override
-    public void handle(SendMessageInChannelCommand sendMessageInChannelCommand)
+    public void handle(SendMessageInChannelCommand message)
     {
-        clientHandler.getCurrentChannel().broadcast(sendMessageInChannelCommand.getMessage()); // send message to all users in the channel
-        clientHandler.sendMessage(new SendMessageInChannelResponseClient(sendMessageInChannelCommand.getMessage()));
+        clientHandler.getCurrentChannel().broadcast(message, clientHandler); // send message to all users in the channel
+        clientHandler.sendMessage(new SendMessageInChannelResponseClient(message.getUserName(), message.getChannelName(), message.getMessage()));
     }
 
     @Override

@@ -1,11 +1,13 @@
 package backend;
 
+import backend.Messages.Message;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class ChatChannel {
-    private String name;
-    private Set<ClientHandler> clients;
+    private final String name;
+    private final Set<ClientHandler> clients;
 
     public ChatChannel(String name) {
         this.name = name;

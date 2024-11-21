@@ -26,7 +26,7 @@ public class ClientVisitor implements ClientMessageVisitor{
 
     @Override
     public void handle(CreateChannelResponse m) {
-        channelGroup. addNewChannel(m.getChannelName());
+        channelGroup.addNewChannel(m.getChannelName());
         notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
     }
 
