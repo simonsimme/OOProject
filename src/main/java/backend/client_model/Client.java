@@ -28,7 +28,7 @@ public class Client implements ClientSubject{
         this.user = "client default user name";
         this.channelGroup = new ClientChannelGroup();
         cm = new ClientCommunicationManager(adress,port,this.channelGroup,observers);
-        cm.run();
+        new Thread(cm).start();
 
     }
 
