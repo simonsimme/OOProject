@@ -1,6 +1,8 @@
 // ViewDecorator.java
 package View;
 
+import backend.Message;
+
 import java.awt.event.ActionListener;
 
 public abstract class ViewDecorator implements IView {
@@ -57,6 +59,10 @@ public abstract class ViewDecorator implements IView {
 
     @Override
     public void appendChatText(String text) {
+        decoratedView.appendChatText(text);
+    }
+    @Override
+    public void appendChatText(Message text) {
         decoratedView.appendChatText(text);
     }
 

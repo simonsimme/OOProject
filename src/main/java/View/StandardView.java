@@ -1,6 +1,7 @@
 // BasicView.java
 package View;
 
+import backend.Message;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 import javax.swing.*;
@@ -97,7 +98,7 @@ public class StandardView implements IView {
     @Override
     public String getNickNameFeild() {
         String name = inputTextField.getText();
-        if (name.isBlank()) {
+        if (name.isEmpty() || name.equals("")) {
             name = "Guest";
         }
         return name;
@@ -292,10 +293,16 @@ public class StandardView implements IView {
     }
 
     @Override
-    public void appendChatText(String text) {
+    public void appendChatText(Message text) {
             if (chatArea != null) {
-                chatArea.append(text + "\n");
+                chatArea.append(text.getContent() +  "\n");
             }
+    }
+    @Override
+    public void appendChatText(String text) {
+        if (chatArea != null) {
+            chatArea.append(text + "\n");
+        }
     }
 
     @Override

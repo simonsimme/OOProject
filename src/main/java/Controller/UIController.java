@@ -108,6 +108,7 @@ public class UIController implements ClientObserver {
 
             Message msg = new Message(view.getChannelName(), view.getNickNameFeild(), CommandType.JOIN);
             try {
+                refrence.setNickName(view.getNickNameFeild());
                 refrence.sendMessage(msg);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -119,9 +120,9 @@ public class UIController implements ClientObserver {
 
         }
     }
-    public void sendPrivateMessage(String msg)
+    public void sendPrivateMessage(Message msg)
     {
-        view.appendChatText("You: " + msg);
+        view.appendChatText(msg);
     }
     private void nicknameset(String name)
     {
@@ -134,7 +135,7 @@ public class UIController implements ClientObserver {
     {
         try
         {
-            view.appendChatText(msg.getSender() + ": " + msg.getContent());
+            view.appendChatText(msg);
 
         }catch (Exception e)
         {
@@ -145,7 +146,8 @@ public class UIController implements ClientObserver {
     class JoinNewChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.appendChatText("Joining new channel...");
+            Message msg = new Message("Joining new channel...", "INFO", CommandType.MESSAGE);
+            view.appendChatText(msg);
         }
     }
 
@@ -162,7 +164,8 @@ public class UIController implements ClientObserver {
     class CreateNewChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.appendChatText("Creating new channel...");
+            Message msg = new Message("Creating new channel...", "INFO", CommandType.MESSAGE);
+            view.appendChatText(msg);
         }
     }
 }

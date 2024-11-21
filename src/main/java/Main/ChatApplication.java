@@ -1,6 +1,7 @@
 // ChatApplication.java
 package Main;
 
+import View.DecoderViewFactory;
 import View.TimestampViewFactory;
 import View.ViewFactory;
 import View.IView;
@@ -38,14 +39,14 @@ public class ChatApplication {
 
     public void startClients() throws IOException {
         // Create and run the first client with its own view
-        ViewFactory viewFactory1 = new TimestampViewFactory();
+        ViewFactory viewFactory1 = new DecoderViewFactory();
         IView view1 = viewFactory1.createView();
         client = new Client("localhost", 1234);
         uiController1 = new UIController(view1, this, client);
         new Thread(client).start();
 
         // Create and run the second client with its own view
-        ViewFactory viewFactory2 = new TimestampViewFactory();
+        ViewFactory viewFactory2 = new DecoderViewFactory();
         IView view2 = viewFactory2.createView();
         client2 = new Client("localhost", 1234);
         uiController2 = new UIController(view2, this, client2);

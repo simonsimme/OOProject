@@ -1,6 +1,8 @@
 // TimestampDecorator.java
 package View;
 
+import backend.Message;
+
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 
@@ -11,8 +13,8 @@ public class TimestampDecorator extends ViewDecorator {
     }
 
     @Override
-    public void appendChatText(String text) {
-        String timestampedText = LocalDateTime.now().getHour() + "." + LocalDateTime.now().getMinute() + " - "+text;
+    public void appendChatText(Message text) {
+        String timestampedText = LocalDateTime.now().getHour() + "." + LocalDateTime.now().getMinute() + " - "+text.getContent();
         super.appendChatText(timestampedText);
     }
 }

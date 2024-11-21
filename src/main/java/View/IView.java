@@ -1,5 +1,7 @@
 package View;
 
+import backend.Message;
+
 import java.awt.event.ActionListener;
 
 public interface IView {
@@ -14,6 +16,7 @@ public interface IView {
     void addCreateButtonListener(ActionListener listener);
     String getInputText();
     void appendChatText(String text);
+    void appendChatText(Message text);
 
     void clearInputText();
     String getNickNameFeild();

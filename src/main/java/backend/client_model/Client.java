@@ -44,6 +44,7 @@ public class Client implements Runnable, ClientSubject {
         sender = name;
     }
 
+
     /**
      * Send the given String to the server through ObjectOutputStream out.
      * TODO: Implement functionality for sending messages of different types (ex. send join channel request)
@@ -51,16 +52,14 @@ public class Client implements Runnable, ClientSubject {
      * @param messageString Input string, from interface
      * @throws IOException
      */
-    public void sendMessage(String messageString) throws IOException
-    {
-        Message message = new Message(messageString,sender );
-        System.out.println(sender + ": " + messageString);
+    public void sendMessage(String messageString) throws IOException {
+        Message message = new Message(messageString, sender);
 
         out.writeObject(message);
         out.flush();
     }
-    public void sendMessage(Message msg) throws IOException
-    {
+
+    public void sendMessage(Message msg) throws IOException {
         out.writeObject(msg);
         out.flush();
     }
