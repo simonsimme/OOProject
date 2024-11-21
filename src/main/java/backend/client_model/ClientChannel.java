@@ -11,6 +11,8 @@ public class ClientChannel {
 
     public ClientChannel(String channelName) {
         this.channelName = channelName;
+        this.usersInChannel = new ArrayList<>(); //Initialize empty list to avoid nullexceptions
+        this.history = new StringBuilder();
     }
 
     public ClientChannel(ClientChannel clientChannel){

@@ -1,5 +1,6 @@
 package backend.Messages.Server;
 
+import backend.ChatChannel;
 import backend.ClientHandler;
 import backend.Messages.Client.JoinChannelResponse;
 import backend.Messages.Client.LeaveChannelResponse;
@@ -22,12 +23,16 @@ public class MessageVisitorServer implements ServerMessageVisitor {
     }
 
     @Override
-    public void handle(SendMessageInChannelCommand message)
-    {
-        clientHandler.getCurrentChannel().broadcast(message, clientHandler); // send message to all users in the channel
-        clientHandler.sendMessage(new SendMessageInChannelResponseClient(message.getUserName(), message.getChannelName(), message.getMessage()));
+    public void handle(SendMessageInChannelCommand message) {
+        ChatChannel currentChannel = clientHandler.getCurrentChannel();
+        if (currentChannel == null) {
+            clientHandler.sendMessage(new SendMessageInChannelResponseClient("Server", "No chat channel", "You are not in a channel"));
+            System.out.println("You are not in a channel");
+        } else {
+            clientHandler.getCurrentChannel().broadcast(message, clientHandler); // send message to all users in the channel
+            clientHandler.sendMessage(new SendMessageInChannelResponseClient(message.getUserName(), message.getChannelName(), message.getMessage()));
+        }
     }
-
     @Override
     public void handle(JoinChannelCommand joinChannelCommand) {
         clientHandler.joinChannel(joinChannelCommand.getChannelName());
