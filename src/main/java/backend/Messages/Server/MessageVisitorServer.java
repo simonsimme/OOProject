@@ -1,7 +1,6 @@
 package backend.Messages.Server;
 
 import backend.ClientHandler;
-import backend.Server;
 import backend.Messages.Client.JoinChannelResponse;
 import backend.Messages.Client.LeaveChannelResponse;
 import backend.Messages.Client.MessageInChannel;
@@ -31,14 +30,8 @@ public class MessageVisitorServer implements ServerMessageVisitor {
 
     @Override
     public void handle(JoinChannelCommand joinChannelCommand) {
-
-        if(clientHandler.getCurrentChannel() != null) {
-            clientHandler.getCurrentChannel().removeClient(clientHandler);
-        }
-        Server server = clientHandler.getServer();
-        clientHandler.setCurrentChannel(server.getOrCreateChannel(joinChannelCommand.getChannelName()));
-        clientHandler.getCurrentChannel().removeClient(clientHandler);
-        MessageInChannel msg = new MessageInChannel("Server", joinChannelCommand.getChannelName(), "Joined channel: " + joinChannelCommand.getChannelName());
+        clientHandler.joinChannel(joinChannelCommand.getChannelName());
+        clientHandler.sendMessage(new JoinChannelResponse(joinChannelCommand.getChannelName()));
     }
 
     @Override

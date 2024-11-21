@@ -74,21 +74,16 @@ public class ClientHandler extends Thread {
      * channel, they are removed from it before joining a new chat channel.
      * @param channelName the name of the channel to join
      */
-    /*public void joinChannel(String channelName) {
+    public void joinChannel(String channelName) {
         if (currentChannel != null) {
             currentChannel.removeClient(this);
         }
         currentChannel = server.getOrCreateChannel(channelName);
         currentChannel.addClient(this);
-        sendMessage(new Message("Joined channel: " + channelName, "Server", CommandType.MESSAGE));
-    }*/
+    }
     public void leaveChannel() {
         if (currentChannel != null) {
             currentChannel.removeClient(this);
-            sendMessage(new Message("Left channel " + currentChannel, "Server", CommandType.MESSAGE));
-        }
-        else {
-            sendMessage(new Message("You are not in any channel to leave", "Server", CommandType.MESSAGE));
         }
     }
 
@@ -107,10 +102,5 @@ public class ClientHandler extends Thread {
     public ChatChannel getCurrentChannel() {
         return currentChannel;
     }
-    public void setCurrentChannel(ChatChannel channel) {
-        currentChannel = channel;
-    }
-    public Server getServer() {
-        return server;
-    }
+
 }
