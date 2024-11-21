@@ -1,12 +1,11 @@
-package backend.Messages;
+package backend.Messages.Client;
 
-public class CreateChannelResponse extends Message implements VisitableMessage {
+public class CreateChannelResponse extends ClientMessage {
     private String channelName;
     //TODO : Add channel settings?
 
     // PARAMS CAN CHANGE WHEN IMPLEMENTED FUNCTIONALITY
     public CreateChannelResponse(String channelName){
-        super("OK", "Server");
         this.channelName = channelName;
     }
 
@@ -15,7 +14,7 @@ public class CreateChannelResponse extends Message implements VisitableMessage {
     }
 
     @Override
-    public void accept(VisitorMessage visitor) {
+    public void accept(ClientMessageVisitor visitor) {
 
     }
 }

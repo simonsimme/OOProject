@@ -1,4 +1,6 @@
 package backend.Messages;
+import backend.Messages.Server.ServerMessageVisitor;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -26,8 +28,6 @@ import java.time.LocalDateTime;
  */
 public abstract class Message implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String content;
-    private String sender;
     private LocalDateTime timestamp;
 
     /**
@@ -35,25 +35,10 @@ public abstract class Message implements Serializable {
      * The timestamp is set to the current time.
      * By default, sets the commandType to MESSAGE
      *
-     * @param content the content of the message
-     * @param sender the sender of the message
-     */
-    public Message(String content, String sender) {
-        this.content = content;
-        this.sender = sender;
-        this.timestamp = LocalDateTime.now();
-    }
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * Returns the sender of the message.
      *
-     * @return the sender of the message
      */
-    public String getSender() {
-        return sender;
+    public Message() {
+        this.timestamp = LocalDateTime.now();
     }
 
     /**
@@ -76,10 +61,16 @@ public abstract class Message implements Serializable {
      */
     @Override
     public String toString() {
-        return "Message from " + sender + " at " + timestamp;
+        return getMessageAsString() + " from " + getSenderAsString() + " at " + timestamp;
     }
 
-    public void accept(Visitor handler) {
+    protected String getMessageAsString(){
+        return "Undefined message";
+    }
+
+    protected String getSenderAsString(){return "Undefined sender";}
+
+    public void accept(ServerMessageVisitor handler) {
         System.out.println("Message accept method missing for " + this.getClass().getName());
     }
 }

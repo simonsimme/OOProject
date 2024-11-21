@@ -2,6 +2,7 @@ package Main;
 
 import View.View;
 import Controller.UIController;
+import backend.Messages.UI.DisplayMessage;
 import backend.Server;
 import backend.client_model.Client;
 
@@ -38,13 +39,13 @@ public class ChatApplication {
         View view1 = new View();
         client = new Client("localhost", 1234);
          uiController1 = new UIController(view1, this, client);
-        new Thread(client).start();
+        //new Thread(client).start(); Thread startas i client nu
 
         // Create and run the second client with its own view
         View view2 = new View();
         client2 = new Client("localhost", 1234);
          uiController2 = new UIController(view2, this, client2);
-        new Thread(client2).start();
+        //new Thread(client2).start(); Thread startas i client nu
         client.attach(uiController1);
         client.attach(uiController2);
         client2.attach(uiController2);
@@ -54,9 +55,9 @@ public class ChatApplication {
 
     }
     public void sendFromClients(String msg, Client ref) throws IOException {
-        Message message = new Message(msg,ref.getName());
+        //Message message = new Message(msg,ref.getUserName());
         ref.sendMessage(msg);
-        uiController1.showTextinView(message);
-        uiController2.showTextinView(message);
+        uiController1.showTextinView(new DisplayMessage(ref.getUserName(),msg));
+        uiController2.showTextinView(new DisplayMessage(ref.getUserName(), msg));
     }
 }

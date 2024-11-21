@@ -1,8 +1,7 @@
 package backend;
 import backend.Messages.Message;
-import backend.Messages.MessageVisitor;
-import backend.Messages.ServerMessageVisitor;
-import backend.Messages.Visitor;
+import backend.Messages.Server.MessageVisitorServer;
+import backend.Messages.Server.ServerMessageVisitor;
 
 import java.net.*;
 import java.io.*;
@@ -51,7 +50,7 @@ public class ClientHandler extends Thread {
     public void run() {
         try {
             Message message;
-            Visitor handler = new ServerMessageVisitor(this);
+            ServerMessageVisitor handler = new MessageVisitorServer(this);
             while ((message = (Message) input.readObject()) != null) {
                 message.accept(handler);
             }

@@ -1,11 +1,15 @@
-package backend.Messages;
+package backend.Messages.Server;
 
 import backend.ClientHandler;
+import backend.Messages.Client.JoinChannelResponse;
+import backend.Messages.Client.LeaveChannelResponse;
+import backend.Messages.Client.MessageInChannel;
+import backend.Messages.Client.SendMessageInChannelResponseClient;
 
-public class ServerMessageVisitor implements Visitor {
+public class MessageVisitorServer implements ServerMessageVisitor {
     private ClientHandler ch;
 
-    public ServerMessageVisitor(ClientHandler clientHandler)
+    public MessageVisitorServer(ClientHandler clientHandler)
     {
         this.ch = clientHandler;
     }
@@ -21,7 +25,7 @@ public class ServerMessageVisitor implements Visitor {
     public void handle(SendMessageInChannelCommand sendMessageInChannelCommand)
     {
         ch.getCurrentChannel().broadcast(sendMessageInChannelCommand.getMessage()); // send message to all users in the channel
-        ch.sendMessage(new SendMessageInChannelResponse(sendMessageInChannelCommand.getMessage()));
+        ch.sendMessage(new SendMessageInChannelResponseClient(sendMessageInChannelCommand.getMessage()));
     }
 
     @Override

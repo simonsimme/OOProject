@@ -1,12 +1,10 @@
-package backend.Messages;
+package backend.Messages.Client;
 
-import backend.toLater.User;
-
-public class JoinChannelResponse extends Message implements VisitableMessage {
+public class JoinChannelResponse extends ClientMessage {
     private String channelName;
 
+
     public JoinChannelResponse(String channelName){
-        super("OK", "Server");
         this.channelName = channelName;
     }
 
@@ -15,7 +13,7 @@ public class JoinChannelResponse extends Message implements VisitableMessage {
     }
 
     @Override
-    public void accept(VisitorMessage visitor) {
+    public void accept(ClientMessageVisitor visitor) {
 
     }
 }

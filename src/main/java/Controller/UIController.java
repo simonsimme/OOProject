@@ -2,6 +2,8 @@ package Controller;
 
 import Main.ChatApplication;
 import View.View;
+import backend.Messages.Message;
+import backend.Messages.UI.*;
 import backend.client_model.Client;
 import backend.client_model.ClientObserver;
 
@@ -9,10 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class UIController implements ClientObserver {
+public class UIController implements ClientObserver, UIMessageVisitor {
     private View view;
     private Client refrence;
     private ChatApplication chatApplication;
+
 
     public UIController(View view,ChatApplication chatApplication ,Client ref) {
         this.view = view;
@@ -23,8 +26,23 @@ public class UIController implements ClientObserver {
     }
 
     @Override
-    public void update(Message message) {
-        showTextinView(message);
+    public void update(UIMessage message) {
+        message.accept(this);
+    }
+
+    @Override
+    public void handle(DisplayError e) {
+
+    }
+
+    @Override
+    public void handle(DisplayMessage m) {
+        showTextinView(m);
+    }
+
+    @Override
+    public void handle(UpdateChannels u) {
+
     }
 
     class CreateChannelButtonListener implements ActionListener {
@@ -54,11 +72,11 @@ public class UIController implements ClientObserver {
         @Override
         public void actionPerformed(ActionEvent e) {
             String inputText = view.getInputText();
-            try {
+            //try {
                 refrence.sendMessage(inputText);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            //} catch (IOException ex) {
+             //   throw new RuntimeException(ex); -Exceptions catchas i client nu, DisplayError skickas via notify() vid errors
+            //}
             //view.appendChatText("You: " + inputText);
             view.clearInputText();
         }
@@ -69,11 +87,11 @@ public class UIController implements ClientObserver {
     }
 
     //use this to send message to a view, add in what channel as well
-    public void showTextinView(Message msg)
+    public void showTextinView(DisplayMessage msg)
     {
         try
         {
-            view.appendChatText(msg.getTimestamp().getHour() +"." +msg.getTimestamp().getMinute() + "  " +msg.getSender() + ": " + msg.getContent());
+            view.appendChatText(msg.getTimestamp().getHour() +"." +msg.getTimestamp().getMinute() + "  " +msg.getMessage() + ": " + msg.getMessage());
 
         }catch (Exception e)
         {
@@ -84,13 +102,13 @@ public class UIController implements ClientObserver {
     class JoinNewChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
+            //try {
                 refrence.joinChannel("exampleName");
                 view.appendChatText("Joining new channel...");
-            } catch (IOException ex) {
-                view.appendChatText("Failed to join channel...");
-                throw new RuntimeException(ex);
-            }
+            //} catch (IOException ex) {           -Exceptions catchas i client nu, DisplayError skickas via notify() vid errors
+              //  view.appendChatText("Failed to join channel...");
+              //  throw new RuntimeException(ex);
+            //}
             // exempel på hur vi kan skicka request till servern
             // Hur ska detta fungera? Ska vi låta user skicka join request till Channel
             // eller är de invite only?
@@ -101,16 +119,16 @@ public class UIController implements ClientObserver {
     class LeaveChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
+            //try {
                 refrence.leaveChannel();
 
                 view.startArea();
                 view.addCreateChannelButtonListener(new CreateChannelButtonListener());
                 view.addJoinChannelButtonListener(new JoinChannelButtonListener());
-            } catch (IOException ex) {
-                view.appendChatText("Failed to leave channel... Try again later");
-                throw new RuntimeException(ex);
-            }
+            //} catch (IOException ex) {         -Exceptions catchas i client nu, DisplayError skickas via notify() vid errors
+            //    view.appendChatText("Failed to leave channel... Try again later");
+            //    throw new RuntimeException(ex);
+            //}
         }
     }
 

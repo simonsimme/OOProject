@@ -1,6 +1,8 @@
-package backend.Messages;
+package backend.Messages.Server;
 
-public interface Visitor
+import backend.Messages.Client.MessageInChannel;
+
+public interface ServerMessageVisitor
 {
     void handle(LeaveChannelCommand leaveChannelCommand);
     void handle(SendMessageInChannelCommand sendMessageInChannelCommand);
