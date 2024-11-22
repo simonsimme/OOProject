@@ -1,6 +1,12 @@
 package backend.Messages.Client;
 
+/**
+ * Message to client : Display an error message in the UI
+ */
 public class ErrorResponse extends ClientMessage {
+    /**
+     * This string is displayed to the user
+     */
     private String errorMessage;
 
     public ErrorResponse(String errorMessage){

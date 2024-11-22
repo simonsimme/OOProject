@@ -30,7 +30,7 @@ public class MessageVisitorServer implements ServerMessageVisitor {
             System.out.println("You are not in a channel");
         } else {
             clientHandler.getCurrentChannel().broadcast(message, clientHandler); // send message to all users in the channel
-            clientHandler.sendMessage(new SendMessageInChannelResponseClient(message.getUserName(), message.getChannelName(), message.getMessage()));
+            clientHandler.sendMessage(new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage()));
         }
     }
     @Override
