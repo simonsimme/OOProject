@@ -51,7 +51,7 @@ public class ClientHandler extends Thread {
         try {
             Message message;
             ServerMessageVisitor handler = new MessageVisitorServer(this);
-            while ((message = (Message) input.readObject()) != null) {
+            while (input != null && (message = (Message) input.readObject()) != null) {
                 message.accept(handler);
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -60,13 +60,20 @@ public class ClientHandler extends Thread {
             closeConnections();
         }
     }
-    private void closeConnections() {
+    public void closeConnections() {
+        // Ensure the input/output streams are closed properly
         try {
-            clientSocket.close();
-            input.close();
-            output.close();
+            if (input != null) {
+                input.close();
+            }
+            if (output != null) {
+                output.close();
+            }
+            if (clientSocket != null && !clientSocket.isClosed()) {
+                clientSocket.close();
+            }
         } catch (IOException e) {
-            System.out.println("Error closing client connection: " + e.getMessage());
+            System.out.println("Error closing connections: " + e.getMessage());
         }
     }
     /**

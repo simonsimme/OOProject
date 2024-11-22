@@ -55,6 +55,7 @@ public class UIController implements ClientObserver, UIMessageVisitor {
     class JoinChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            refrence.joinChannel("password");
             showChatArea();
         }
     }

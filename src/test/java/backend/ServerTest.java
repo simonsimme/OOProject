@@ -4,6 +4,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.net.Socket;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -16,6 +19,8 @@ class ServerTest {
     private Server server;
     //The port number used for testing.
     private int port;
+    private Thread serverThread;
+    private Socket testClientSocket;
 
     /**
      * Sets up the test environment by initializing the server instance
@@ -23,15 +28,49 @@ class ServerTest {
      */
     @BeforeEach
     void setUp() {
-        port = 1234;
+        port = 12345;
         server = Server.createServerInstance(port);
+
+        serverThread = new Thread(() -> server.startListening());
+        serverThread.setDaemon(true);
+        serverThread.start();
     }
 
     /**
      * Cleans up after each test case.
      */
     @AfterEach
-    void tearDown() {
+    void tearDown() throws IOException {
+        // Clean up: Close any resources
+        if (testClientSocket != null && !testClientSocket.isClosed()) {
+            testClientSocket.close();
+        }
+        server.stop();
+    }
+    @Test
+    void testStopServer() throws IOException {
+        // Create a client to simulate a connection
+        testClientSocket = new Socket("localhost", 12345);
+
+        // The server should accept this connection and create a handler
+        assertTrue(testClientSocket.isConnected(), "Client should be connected");
+
+        // Now, stop the server
+        server.stop();
+
+        // Try to create another client connection after the server has been stopped
+        Socket anotherClientSocket = null;
+        try {
+            anotherClientSocket = new Socket("localhost", 12345);
+            fail("Server should not accept new connections after stop() is called");
+        } catch (IOException e) {
+            // Expected: since the server is stopped, this should throw an IOException
+            assertTrue(e.getMessage().contains("Connection refused"), "Expected 'Connection refused' exception");
+        } finally {
+            if (anotherClientSocket != null && !anotherClientSocket.isClosed()) {
+                anotherClientSocket.close();
+            }
+        }
     }
 
     /**

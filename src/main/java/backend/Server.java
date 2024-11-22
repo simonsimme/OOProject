@@ -16,6 +16,7 @@ public class Server {
     private static Server thisServer = null;
     //A map of active chat channels, identified by their names.
     private final Map<String, ChatChannel> channels;
+    private volatile boolean isRunning;
 
     /**
      * Creates a singleton instance of the Server with the specific port.
@@ -35,6 +36,7 @@ public class Server {
      * @param port the port number the server will listen to.
      */
     private Server(int port) {
+        isRunning = true;
         channels = new HashMap<>();
         channels.put("yes", new ChatChannel("yes"));
         try {
@@ -50,9 +52,12 @@ public class Server {
      */
     public void startListening() {
         try {
-            while (true) {
+            while (isRunning) {
                 System.out.println("Waiting for clients...");
                 Socket clientSocket = server.accept();
+                if(!isRunning) {
+                    break;
+                }
                 System.out.println("New client connected: " + clientSocket.getLocalAddress());
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
                 clientHandler.start();
@@ -61,7 +66,12 @@ public class Server {
             System.out.println(e.getMessage());
         }
     }
-
+    public void stop() throws IOException {
+        isRunning = false; // Stop accepting new connections
+        if (server != null && !server.isClosed()) {
+            server.close(); // Close the server socket to break the accept() call
+        }
+    }
     /**
      * Get an existing Chat Channel by its name or creates a new one
      * if none exist.
