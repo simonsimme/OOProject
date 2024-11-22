@@ -50,6 +50,33 @@ public class MultiThreadTesting {
         }
         assertTrue(truthTable.stream().allMatch(x -> x == true));
     }
+    @Test
+    void testToBreakeTheServer(){
+        List<Socket> clientSockets = new ArrayList<>();
+        List<Boolean> truthTable = new ArrayList<>();
+        for(int i = 0; i < 100; i++){
+            try {
+                Socket clientSocket = new Socket("localhost", 12345);
+                clientSockets.add(clientSocket);
+                truthTable.add(clientSocket.isConnected());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            finally {
+                for (Socket clientSocket : clientSockets) {
+                    try {
+                        if (clientSocket != null && !clientSocket.isClosed()) {
+                            clientSocket.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+        }
+        }
+        assertTrue(truthTable.stream().allMatch(x -> x == true));
+    }
 
     //test to check if the server can handle multiple user connecting to the server and closing the connection
     @Test
