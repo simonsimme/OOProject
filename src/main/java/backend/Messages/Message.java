@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
  * </ul>
  */
 public abstract class Message implements Serializable {
+    //The serialVersionUID is a unique identifier for each class that implements the Serializable interface
     private static final long serialVersionUID = 1L;
     private LocalDateTime timestamp;
 
