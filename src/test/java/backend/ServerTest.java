@@ -19,7 +19,6 @@ class ServerTest {
     private Server server;
     //The port number used for testing.
     private int port;
-    private Thread serverThread;
     private Socket testClientSocket;
 
     /**
@@ -31,7 +30,7 @@ class ServerTest {
         port = 12345;
         server = Server.createServerInstance(port);
 
-        serverThread = new Thread(() -> server.startListening());
+        Thread serverThread = new Thread(() -> server.startListening());
         serverThread.setDaemon(true);
         serverThread.start();
     }
@@ -89,7 +88,31 @@ class ServerTest {
         assertSame(server, server2);
     }
 
+    /**
+     * Test the {@code getOrCreateChannel} method of the {@code Server} class.
+     * This test verifies that:
+     * <ul>
+     *     <li>a new {@code ChatChannel} is created when the channel name does not exist</li>
+     *     <li>The same {@code ChatChannel} instance is returned when call with an existing name</li>
+     *     <li>A new {@code ChatChannel} is created for a different channel name</li>
+     * </ul>
+     */
     @Test
-    void getOrCreateChannel() {
+    void getOrCreateChannelTest() {
+        String channelName = "test";
+        ChatChannel firstChannel = server.getOrCreateChannel(channelName);
+
+        assertNotNull(firstChannel);
+        assertEquals(channelName, firstChannel.getName());
+
+        ChatChannel secondChannel = server.getOrCreateChannel(channelName);
+        assertSame(firstChannel, secondChannel);
+
+        String anotherChannel = "AnotherChannel";
+        ChatChannel newChannel = server.getOrCreateChannel(anotherChannel);
+
+        assertNotNull(newChannel);
+        assertEquals(anotherChannel, newChannel.getName());
+        assertNotSame(firstChannel, newChannel);
     }
 }
