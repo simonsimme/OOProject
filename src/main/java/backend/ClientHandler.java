@@ -81,12 +81,14 @@ public class ClientHandler extends Thread {
      * channel, they are removed from it before joining a new chat channel.
      * @param channelName the name of the channel to join
      */
-    public void joinChannel(String channelName) {
-        if (currentChannel != null) {
-            currentChannel.removeClient(this);
+    public void joinChannel(String channelName, String password) {
+        ChatChannel channel = getChannel(channelName);
+        if(channel.validatePassword(password))
+        {
+            currentChannel = server.getOrCreateChannel(channelName, password);
+            currentChannel.addClient(this);
         }
-        currentChannel = server.getOrCreateChannel(channelName);
-        currentChannel.addClient(this);
+
     }
     public void leaveChannel() {
         if (currentChannel != null) {
@@ -108,6 +110,18 @@ public class ClientHandler extends Thread {
     }
     public ChatChannel getCurrentChannel() {
         return currentChannel;
+    }
+    public void createChannel(String channelName, String password) {
+        server.createChannel(channelName, password);
+        currentChannel = getChannel(channelName);
+    }
+    public ChatChannel getChannel(String channelName) {
+        ChatChannel channel = server.getChannel(channelName);
+        if(channel != null){
+            return channel;
+        } else{
+            throw new IllegalArgumentException("Channel does not exist");
+        }
     }
 
 }

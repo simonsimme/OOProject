@@ -49,8 +49,8 @@ public class Client implements ClientSubject{
         cm.createChannel(user,channelName,password);
     }
 
-    public void joinChannel(String password){
-        cm.joinChannel(user,channelGroup.getCurrentChannel().getChannelName(),password);
+    public void joinChannel(String channelName, String password){
+        cm.joinChannel(user, channelName, password);
     }
     public void leaveChannel(){
         cm.leaveChannel(user,channelGroup.getCurrentChannel().getChannelName());
@@ -67,7 +67,7 @@ public class Client implements ClientSubject{
 
     public void sendMessage(String message)
     {
-        cm.sendMessage(user,channelGroup.getCurrentChannel().getChannelName(),message);
+        cm.sendMessage(user,channelGroup.getCurrentChannel().getChannelName(), message);
     }
 
     public List<String> getChannelNames(){

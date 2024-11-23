@@ -29,19 +29,18 @@ public class MessageVisitorServer implements ServerMessageVisitor {
             clientHandler.sendMessage(new SendMessageInChannelResponseClient("Server", "No chat channel", "You are not in a channel"));
             System.out.println("You are not in a channel");
         } else {
-            clientHandler.getCurrentChannel().broadcast(message, clientHandler); // send message to all users in the channel
-            clientHandler.sendMessage(new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage()));
+            clientHandler.getCurrentChannel().broadcast((new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage())), clientHandler); // send message to all users in the channel
         }
     }
     @Override
     public void handle(JoinChannelCommand joinChannelCommand) {
-        clientHandler.joinChannel(joinChannelCommand.getChannelName());
+        clientHandler.joinChannel(joinChannelCommand.getChannelName(), joinChannelCommand.getPassword());
         clientHandler.sendMessage(new JoinChannelResponse(joinChannelCommand.getChannelName()));
     }
 
     @Override
     public void handle(CreateChannelCommand createChannelCommand) {
-        // ch.createChannel(createChannelCommand.getChannelName());
+        clientHandler.createChannel(createChannelCommand.getChannelName(), createChannelCommand.getChannelPassword());
     }
 
     @Override

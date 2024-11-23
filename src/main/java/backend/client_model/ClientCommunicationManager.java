@@ -49,11 +49,11 @@ public class ClientCommunicationManager implements Runnable{
     @Override
     public void run()
     {
-        ClientMessage message;
+        Object message;
         try {
-            while ((message = (ClientMessage) in.readObject()) != null)
+            while ((message = in.readObject()) != null)
             {
-                handleMessage(message);
+                if(message instanceof ClientMessage) handleMessage((ClientMessage) message);
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -74,12 +74,13 @@ public class ClientCommunicationManager implements Runnable{
     {
         Message message = new CreateChannelCommand(userName,channelName,password);
         sendMessageToServer(message);
+
     }
 
     public void sendMessage(String user, String channel, String messageString)
     {
         Message message =
-                new SendMessageInChannelCommand(user, channel,messageString);
+                new SendMessageInChannelCommand(user, channel, messageString);
         sendMessageToServer(message);
     }
 

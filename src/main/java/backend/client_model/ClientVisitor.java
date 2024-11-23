@@ -51,7 +51,8 @@ public class ClientVisitor implements ClientMessageVisitor{
         if(m.getChannelName() == channelGroup.getCurrentChannel().getChannelName()){
             notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));
         }
-         channelGroup.sendMessageInChannel(m.getMessage(),m.getChannelName());
+        notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));
+        channelGroup.sendMessageInChannel(m.getMessage(),m.getChannelName());
     }
 
     public void notifyObservers(UIMessage message) {

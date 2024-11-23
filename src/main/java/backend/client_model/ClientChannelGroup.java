@@ -17,6 +17,7 @@ public class ClientChannelGroup {
         for (ClientChannel channel : channels) {
             if(channel.getChannelName() == channelName){
                 currentChannel = channel;
+                break;
             }
         }
     }
@@ -31,6 +32,7 @@ public class ClientChannelGroup {
         for (ClientChannel channel: channels) {
             if( channel.getChannelName() == channelName){
                 channel.sendMessage(message);
+                break;
             }
         }
     }

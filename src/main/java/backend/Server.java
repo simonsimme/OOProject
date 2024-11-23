@@ -38,7 +38,7 @@ public class Server {
     private Server(int port) {
         isRunning = true;
         channels = new HashMap<>();
-        channels.put("yes", new ChatChannel("yes"));
+        channels.put("yes", new ChatChannel("yes", "yes"));
         try {
             this.server = new ServerSocket(port);
         } catch (IOException e) {
@@ -78,8 +78,19 @@ public class Server {
      * @param channelName the name of the chat channel
      * @return the chat channel with the name
      */
-    public synchronized ChatChannel getOrCreateChannel(String channelName) {
+    public synchronized ChatChannel getOrCreateChannel(String channelName, String password) {
         System.out.println("Channel name: " + channelName);
-        return channels.computeIfAbsent(channelName, ChatChannel::new);
+        return channels.computeIfAbsent(channelName, newChannel -> new ChatChannel(channelName, password));
+    }
+
+    public synchronized void createChannel(String channelName, String password) {
+        if (channels.containsKey(channelName)) {
+            System.out.println("ChannelName taken, Try another one.");
+        } else {
+            channels.put(channelName, new ChatChannel(channelName, password));
+        }
+    }
+    public synchronized ChatChannel getChannel(String channelName) {
+        return channels.get(channelName);
     }
 }

@@ -11,6 +11,13 @@ public class UpdateChannels extends UIMessage {
         this.current = current;
     }
 
+    public List<String> getChannels() {
+        return channels;
+    }
+    public String getCurrentChannel() {
+        return current;
+    }
+
     @Override
     public void accept(UIMessageVisitor visitor) {
         visitor.handle(this);
