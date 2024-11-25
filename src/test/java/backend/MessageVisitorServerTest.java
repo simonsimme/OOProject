@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * It verifies the proper handling of server messages by the server.
  */
 public class MessageVisitorServerTest {
-
         ClientHandler clientHandler;
         MessageVisitorServer messageVisitorServer;
          LeaveChannelCommand leaveChannelCommand;
