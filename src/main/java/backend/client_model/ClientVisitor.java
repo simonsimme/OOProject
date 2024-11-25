@@ -47,11 +47,11 @@ public class ClientVisitor implements ClientMessageVisitor{
     }
 
     @Override
-    public void handle(MessageInChannel m) {
+    public void handle(MessageInChannel m) { // Denna får vi fixa
         if(m.getChannelName() == channelGroup.getCurrentChannel().getChannelName()){
             notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));
         }
-        notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));
+        notifyObservers(new DisplayMessage(m.getUserName(), m.getMessage()));
         channelGroup.sendMessageInChannel(m.getMessage(),m.getChannelName());
     }
 

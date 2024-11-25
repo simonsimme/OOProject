@@ -53,6 +53,7 @@ public class ClientCommunicationManager implements Runnable{
         try {
             while ((message = in.readObject()) != null)
             {
+                System.out.println(message.getClass());
                 if(message instanceof ClientMessage) handleMessage((ClientMessage) message);
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -74,7 +75,6 @@ public class ClientCommunicationManager implements Runnable{
     {
         Message message = new CreateChannelCommand(userName,channelName,password);
         sendMessageToServer(message);
-
     }
 
     public void sendMessage(String user, String channel, String messageString)

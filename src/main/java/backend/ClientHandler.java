@@ -111,9 +111,11 @@ public class ClientHandler extends Thread {
     public ChatChannel getCurrentChannel() {
         return currentChannel;
     }
+
     public void createChannel(String channelName, String password) {
         server.createChannel(channelName, password);
         currentChannel = getChannel(channelName);
+        getChannel(channelName).addClient(this);
     }
     public ChatChannel getChannel(String channelName) {
         ChatChannel channel = server.getChannel(channelName);

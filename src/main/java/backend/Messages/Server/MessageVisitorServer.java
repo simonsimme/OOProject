@@ -30,6 +30,8 @@ public class MessageVisitorServer implements ServerMessageVisitor {
             System.out.println("You are not in a channel");
         } else {
             clientHandler.getCurrentChannel().broadcast((new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage())), clientHandler); // send message to all users in the channel
+
+            //clientHandler.sendMessage(new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage()));
         }
     }
     @Override
@@ -43,9 +45,4 @@ public class MessageVisitorServer implements ServerMessageVisitor {
         clientHandler.createChannel(createChannelCommand.getChannelName(), createChannelCommand.getChannelPassword());
     }
 
-    @Override
-    public void handle(MessageInChannel messageInChannel)
-    {
-
-    }
 }

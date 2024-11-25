@@ -9,7 +9,4 @@ public interface ServerMessageVisitor
     void handle(JoinChannelCommand joinChannelCommand);
     void handle(CreateChannelCommand createChannelCommand);
 
-    void handle(MessageInChannel messageInChannel);
-
-
 }

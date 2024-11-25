@@ -7,7 +7,7 @@ import backend.Messages.Server.ServerVisitableMessage;
 /**
  * Message to client : Display the given message in the given channel.
  */
-public class MessageInChannel extends Message implements ServerVisitableMessage {
+public class MessageInChannel extends ClientMessage implements ClientVisitableMessage {
     /**
      * The user name of the sender of the message. This string is displayed before the message in the UI.
      */
@@ -43,7 +43,7 @@ public class MessageInChannel extends Message implements ServerVisitableMessage 
      * @param serverMessageVisitor
      */
     @Override
-    public void accept(ServerMessageVisitor serverMessageVisitor) {
-        serverMessageVisitor.handle(this);
+    public void accept(ClientMessageVisitor visitor) {
+        visitor.handle(this);
     }
 }

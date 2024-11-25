@@ -67,6 +67,7 @@ public class Client implements ClientSubject{
 
     public void sendMessage(String message)
     {
+        System.out.println("Curr channel: " + channelGroup.getCurrentChannel().getChannelName());
         cm.sendMessage(user,channelGroup.getCurrentChannel().getChannelName(), message);
     }
 

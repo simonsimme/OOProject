@@ -88,6 +88,8 @@ public class Server {
             System.out.println("ChannelName taken, Try another one.");
         } else {
             channels.put(channelName, new ChatChannel(channelName, password));
+            ChatChannel channel = getChannel(channelName);
+
         }
     }
     public synchronized ChatChannel getChannel(String channelName) {
