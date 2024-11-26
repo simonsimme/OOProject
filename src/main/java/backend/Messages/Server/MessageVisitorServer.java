@@ -1,7 +1,7 @@
 package backend.Messages.Server;
 
-import backend.ChatChannel;
-import backend.ClientHandler;
+import backend.Server.ChatChannel;
+import backend.Server.ClientHandler;
 import backend.Messages.Client.JoinChannelResponse;
 import backend.Messages.Client.LeaveChannelResponse;
 import backend.Messages.Client.MessageInChannel;

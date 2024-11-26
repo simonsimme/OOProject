@@ -1,4 +1,4 @@
-package backend;
+package backend.Server;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,6 @@ public class MultiThreadTesting {
     //The port number used for testing.
     private int port;
     private Thread serverThread;
-    private Socket testClientSocket;
 
     /**
      * Sets up the test environment by initializing the server instance
