@@ -1,6 +1,10 @@
+// ChatApplication.java
 package Main;
 
-import View.View;
+import View.DecoderViewFactory;
+import View.TimestampViewFactory;
+import View.ViewFactory;
+import View.IView;
 import Controller.UIController;
 import backend.Messages.UI.DisplayMessage;
 import backend.Server;
@@ -17,7 +21,6 @@ public class ChatApplication {
     public static void main(String[] args) throws IOException {
         ChatApplication chatApplication = new ChatApplication();
 
-
         // Start the server in a separate thread
         Thread serverThread = new Thread(() -> {
             Server server = Server.createServerInstance(1234);
@@ -32,24 +35,32 @@ public class ChatApplication {
             e.printStackTrace();
         }
         chatApplication.startClients();
-
     }
+
     public void startClients() throws IOException {
         // Create and run the first client with its own view
-        View view1 = new View();
+        ViewFactory viewFactory1 = new DecoderViewFactory();
+        IView view1 = viewFactory1.createView();
         client = new Client("localhost", 1234);
+
          uiController1 = new UIController(view1, this, client);
         //new Thread(client).start(); Thread startas i client nu
 
+
         // Create and run the second client with its own view
-        View view2 = new View();
+        ViewFactory viewFactory2 = new DecoderViewFactory();
+        IView view2 = viewFactory2.createView();
         client2 = new Client("localhost", 1234);
+
          uiController2 = new UIController(view2, this, client2);
         //new Thread(client2).start(); Thread startas i client nu
+
         client.attach(uiController1);
         client.attach(uiController2);
         client2.attach(uiController2);
         client2.attach(uiController1);
+    }
+
 
 
 
@@ -60,4 +71,5 @@ public class ChatApplication {
         uiController1.showTextinView(new DisplayMessage(ref.getUserName(),msg));
         uiController2.showTextinView(new DisplayMessage(ref.getUserName(), msg));
     }
+
 }

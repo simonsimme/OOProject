@@ -1,9 +1,11 @@
 package Controller;
 
 import Main.ChatApplication;
+
 import View.View;
 import backend.Messages.Message;
 import backend.Messages.UI.*;
+
 import backend.client_model.Client;
 import backend.client_model.ClientObserver;
 
@@ -11,14 +13,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import backend.CommandType;
+
 public class UIController implements ClientObserver {
-    private View view;
+    private IView view;
     private Client refrence;
     private ChatApplication chatApplication;
     private MessageVisitorUI messageVisitorUI;
 
 
-    public UIController(View view,ChatApplication chatApplication ,Client ref) {
+    public UIController(IView view,ChatApplication chatApplication ,Client ref) {
         this.view = view;
         this.refrence = ref;
         this.chatApplication = chatApplication;
@@ -28,14 +32,17 @@ public class UIController implements ClientObserver {
     }
 
     @Override
+
     public void update(UIMessage message) {
         message.accept(messageVisitorUI);
+
     }
 
 
 
     class CreateChannelButtonListener implements ActionListener {
         @Override
+
         public void actionPerformed(ActionEvent e)
         {
             String channelName = view.getChannelNameInput();
@@ -71,12 +78,16 @@ public class UIController implements ClientObserver {
                 String inputText = view.getInputText();
                 refrence.sendMessage(inputText);
                 view.clearInputText();
+
             }
         }
+
+
 
         private void nicknameset(String name) {
             refrence.setNickName(name);
         }
+
 
         //use this to send message to a view, add in what channel as well
         public void showTextinView(DisplayMessage msg) {
@@ -86,7 +97,9 @@ public class UIController implements ClientObserver {
             } catch (Exception e) {
                 System.out.println("clients not found");
             }
+
         }
+
 
         class JoinNewChannelButtonListener implements ActionListener {
             @Override
@@ -101,6 +114,7 @@ public class UIController implements ClientObserver {
                 // Hur ska detta fungera? Ska vi låta user skicka join request till Channel
                 // eller är de invite only?
             }
+
         }
 
 
@@ -119,6 +133,7 @@ public class UIController implements ClientObserver {
             }
         }
 
+
         class CreateNewChannelButtonListener implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -128,5 +143,6 @@ public class UIController implements ClientObserver {
                 refrence.createChannel(channelName, password);
                 view.appendChatText("Creating new channel...");
             }
+
         }
     }

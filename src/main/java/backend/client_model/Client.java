@@ -6,6 +6,7 @@ import backend.Messages.UI.UpdateChannels;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Facade for the client
  */
@@ -44,6 +45,7 @@ public class Client implements ClientSubject{
         user = userName;
     }
 
+
     public void createChannel(String channelName, String password)
     {
         cm.createChannel(user,channelName,password);
@@ -63,6 +65,7 @@ public class Client implements ClientSubject{
     public void nextChannel(){
         channelGroup.switchToNextChannel();
         notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+
     }
 
     public void sendMessage(String message)
