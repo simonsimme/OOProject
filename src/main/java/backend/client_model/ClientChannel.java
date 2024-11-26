@@ -1,5 +1,8 @@
 package backend.client_model;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -111,7 +114,11 @@ public class ClientChannel {
      * This method is currently a placeholder and needs implementation.
      */
     public void saveHistory(){
-        //TODO : Implement saving feature
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(channelName + "_history.txt"))) {
+            writer.write(history.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * Loads the channel's history from persistent storage.

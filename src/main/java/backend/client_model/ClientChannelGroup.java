@@ -14,8 +14,10 @@ public class ClientChannelGroup {
     }
 
     public void switchToChannel(String channelName){
+
         for (ClientChannel channel : channels) {
-            if(channel.getChannelName() == channelName){
+            System.out.println(channel.getChannelName());
+            if(channel.getChannelName().equals(channelName) ){
                 currentChannel = channel;
                 break;
             }
@@ -52,6 +54,7 @@ public class ClientChannelGroup {
 
     public void loadChannels(){
         //TODO : Implement saving feature
+
     }
 
     public void saveChannels(){

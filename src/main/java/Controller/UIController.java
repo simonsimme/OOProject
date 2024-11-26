@@ -43,6 +43,7 @@ public class UIController implements ClientObserver {
 
 
 
+
     class CreateChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e)
@@ -98,6 +99,7 @@ public class UIController implements ClientObserver {
         public void valueChanged(ListSelectionEvent e) {
             if (!e.getValueIsAdjusting()) {
                 String selectedChannel = ((JList<String>) e.getSource()).getSelectedValue();
+                System.out.println(refrence.getCurrentChannelName());
                 if (selectedChannel != null && !selectedChannel.equals(refrence.getCurrentChannelName())) {
                     refrence.switchChannel(selectedChannel);
                     view.changeChannel(selectedChannel);

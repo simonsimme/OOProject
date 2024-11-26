@@ -83,6 +83,8 @@ public class Client implements ClientSubject{
     public void switchChannel(String channelName){
         channelGroup.switchToChannel(channelName);
         notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+        saveChannel();
+
     }
     /**
      * Switches to the next available channel in the channel group.
@@ -91,6 +93,9 @@ public class Client implements ClientSubject{
         channelGroup.switchToNextChannel();
         notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
 
+    }
+    public void saveChannel(){
+        channelGroup.getCurrentChannel().saveHistory();
     }
     /**
      * Sends a message to the current channel.
