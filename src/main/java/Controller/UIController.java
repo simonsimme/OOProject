@@ -29,6 +29,7 @@ public class UIController implements ClientObserver {
         this.chatApplication = chatApplication;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
+        messageVisitorUI = new MessageVisitorUI(view);
        //TODO we need to fix this also
         // this.messageVisitorUI = new MessageVisitorUI(view);
     }
