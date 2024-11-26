@@ -1,6 +1,6 @@
 package View;
 
-import backend.Message;
+import backend.Messages.*;
 
 import java.awt.event.ActionListener;
 
@@ -23,4 +23,8 @@ public interface IView {
 
     String getChannelName();
     void showCreateChannelScreen();
+
+    String getPasswordInput();
+
+    String getChannelNameInput();
 }

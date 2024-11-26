@@ -43,7 +43,7 @@ public class ChatApplication {
         IView view1 = viewFactory1.createView();
         client = new Client("localhost", 1234);
 
-         uiController1 = new UIController(view1, this, client);
+         uiController1 = new UIController( view1, this, client);
         //new Thread(client).start(); Thread startas i client nu
 
 
@@ -64,7 +64,7 @@ public class ChatApplication {
 
 
 
-    }
+
     public void sendFromClients(String msg, Client ref) throws IOException {
         //Message message = new Message(msg,ref.getUserName());
         ref.sendMessage(msg);

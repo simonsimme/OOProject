@@ -2,18 +2,19 @@ package Controller;
 
 import Main.ChatApplication;
 
-import View.View;
-import backend.Messages.Message;
+
 import backend.Messages.UI.*;
+import backend.Messages.*;
 
 import backend.client_model.Client;
 import backend.client_model.ClientObserver;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import View.IView;
+import View.View;
 
-import backend.CommandType;
+
 
 public class UIController implements ClientObserver {
     private IView view;
@@ -28,7 +29,7 @@ public class UIController implements ClientObserver {
         this.chatApplication = chatApplication;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
-        this.messageVisitorUI = new MessageVisitorUI(view);
+        this.messageVisitorUI = new MessageVisitorUI((View) view);
     }
 
     @Override
@@ -42,7 +43,6 @@ public class UIController implements ClientObserver {
 
     class CreateChannelButtonListener implements ActionListener {
         @Override
-
         public void actionPerformed(ActionEvent e)
         {
             String channelName = view.getChannelNameInput();
