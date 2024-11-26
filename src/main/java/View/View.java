@@ -239,13 +239,7 @@ public class View {
     public void clearInputText() {
         inputField.setText("");
     }
-    public void updateChannelList(List<String> channels, String currentChannel) {
-        listModel.clear();
-        for (String channel : channels) {
-            listModel.addElement(channel);
-        }
-        channelList.setSelectedValue(currentChannel, true);
-    }
+
     public String getChannelNameInput() {
         return JOptionPane.showInputDialog(frame, "Enter Channel Name:", "Channel Name", JOptionPane.PLAIN_MESSAGE);
     }

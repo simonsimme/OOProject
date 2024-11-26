@@ -4,6 +4,7 @@ package View;
 import backend.Messages.*;
 
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public  class ViewDecorator implements IView {
     protected IView decoratedView;
@@ -75,10 +76,7 @@ public  class ViewDecorator implements IView {
     public String getNickNameFeild() {
         return decoratedView.getNickNameFeild();
     }
-    @Override
-    public String getChannelName() {
-        return decoratedView.getChannelName();
-    }
+
 
     @Override
     public void showCreateChannelScreen() {
@@ -103,6 +101,10 @@ public  class ViewDecorator implements IView {
     @Override
     public void joinChannel(String channelName) {
         decoratedView.joinChannel(channelName);
+    }
+    @Override
+    public void updateChannelList(List<String> channels, String currentChannel) {
+        decoratedView.updateChannelList(channels, currentChannel);
     }
 
 }

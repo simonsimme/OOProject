@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 public class StandardView implements IView {
     private JFrame frame;
@@ -29,10 +30,13 @@ public class StandardView implements IView {
 
         private JTextField channelNameField;
 
-        @Override
-        public String getChannelName() {
-            return channelNameField.getText();
+    public void updateChannelList(List<String> channels, String currentChannel) {
+        listModel.clear();
+        for (String channel : channels) {
+            listModel.addElement(channel);
         }
+        channelList.setSelectedValue(currentChannel, true);
+    }
 
         @Override
         public void showCreateChannelScreen() {
@@ -49,7 +53,7 @@ public class StandardView implements IView {
 
     @Override
     public String getChannelNameInput() {
-        return null;
+        return channelNameField.getText();
     }
 
     private void createChannelScreen() {

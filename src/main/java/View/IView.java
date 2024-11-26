@@ -3,6 +3,7 @@ package View;
 import backend.Messages.*;
 
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public interface IView {
     void startArea();
@@ -14,6 +15,7 @@ public interface IView {
     void addLeaveChannelButtonListener(ActionListener listener);
     void addCreateNewChannelButtonListener(ActionListener listener);
     void addCreateButtonListener(ActionListener listener);
+    void updateChannelList(List<String> channels, String currentChannel);
     String getInputText();
     void appendChatText(String text);
     void appendChatText(Message text);
@@ -22,7 +24,6 @@ public interface IView {
     void clearInputText();
     String getNickNameFeild();
 
-    String getChannelName();
     void showCreateChannelScreen();
 
     String getPasswordInput();
