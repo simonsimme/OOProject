@@ -16,6 +16,7 @@ public class Server {
     private static Server thisServer = null;
     //A map of active chat channels, identified by their names.
     private final Map<String, ChatChannel> channels;
+    private volatile boolean isRunning;
 
     /**
      * Creates a singleton instance of the Server with the specific port.
@@ -35,8 +36,9 @@ public class Server {
      * @param port the port number the server will listen to.
      */
     private Server(int port) {
+        isRunning = true;
         channels = new HashMap<>();
-        channels.put("yes", new ChatChannel("yes"));
+        channels.put("yes", new ChatChannel("yes", "yes"));
         try {
             this.server = new ServerSocket(port);
         } catch (IOException e) {
@@ -50,9 +52,12 @@ public class Server {
      */
     public void startListening() {
         try {
-            while (true) {
+            while (isRunning) {
                 System.out.println("Waiting for clients...");
                 Socket clientSocket = server.accept();
+                if(!isRunning) {
+                    break;
+                }
                 System.out.println("New client connected: " + clientSocket.getLocalAddress());
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
                 clientHandler.start();
@@ -61,15 +66,33 @@ public class Server {
             System.out.println(e.getMessage());
         }
     }
-
+    public void stop() throws IOException {
+        isRunning = false; // Stop accepting new connections
+        if (server != null && !server.isClosed()) {
+            server.close(); // Close the server socket to break the accept() call
+        }
+    }
     /**
      * Get an existing Chat Channel by its name or creates a new one
      * if none exist.
      * @param channelName the name of the chat channel
      * @return the chat channel with the name
      */
-    public synchronized ChatChannel getOrCreateChannel(String channelName) {
+    public synchronized ChatChannel getOrCreateChannel(String channelName, String password) {
         System.out.println("Channel name: " + channelName);
-        return channels.computeIfAbsent(channelName, ChatChannel::new);
+        return channels.computeIfAbsent(channelName, newChannel -> new ChatChannel(channelName, password));
+    }
+
+    public synchronized void createChannel(String channelName, String password) {
+        if (channels.containsKey(channelName)) {
+            System.out.println("ChannelName taken, Try another one.");
+        } else {
+            channels.put(channelName, new ChatChannel(channelName, password));
+            ChatChannel channel = getChannel(channelName);
+
+        }
+    }
+    public synchronized ChatChannel getChannel(String channelName) {
+        return channels.get(channelName);
     }
 }

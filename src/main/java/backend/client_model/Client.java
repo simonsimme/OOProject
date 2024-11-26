@@ -1,122 +1,99 @@
 package backend.client_model;
 
-import java.io.*;
-import java.net.Socket;
+import backend.Messages.UI.UIMessage;
+import backend.Messages.UI.UpdateChannels;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observer;
 
-import Controller.UIController;
-import backend.CommandType;
-import backend.Message;
 
 /**
- * The client class handles the logic behind the client communication with the server. This includes sending
- * messages to the server and receiving messages from the server.
- * TODO: Implement client in a way that satisfies: Single Responsibility Principle, Open, Closed Principle
+ * Facade for the client
  */
-public class Client implements Runnable, ClientSubject {
-    private Socket socket;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
-    private String host;
-    private int port;
-    private String sender = "Client";
+public class Client implements ClientSubject{
+
+    private String user;
+
+    private ClientChannelGroup channelGroup;
+
+    private ClientCommunicationManager cm;
+
     private List<ClientObserver> observers = new ArrayList<>();
+
     /**
      * Client's only constructor, requires the adress to connect to and a port.
      * @param adress The adress that the Socket connects to. (Has to be "localhost" for now)
      * @param port The port that the Socket connects to. (Has to match with server port)
-     * @throws IOException TODO: Handle exception
      */
-    public Client(String adress, int port) throws IOException {
-        this.host = adress;
-        this.port = port;
+    public Client(String adress, int port) {
+        this.user = "client default user name";
+        this.channelGroup = new ClientChannelGroup();
+        cm = new ClientCommunicationManager(adress,port,this.channelGroup,observers);
+        new Thread(cm).start();
 
-        System.out.print("Connecting to server...");
-        socket = new Socket(host, port);
-        out = new ObjectOutputStream(socket.getOutputStream());
-        in = new ObjectInputStream(socket.getInputStream());
+    }
 
+    public String getUserName()
+    {
+        return user;
     }
     public void setNickName(String name)
     {
-        sender = name;
+        user = name;
+    }
+    public void setUserName(String userName){
+        user = userName;
     }
 
 
-    /**
-     * Send the given String to the server through ObjectOutputStream out.
-     * TODO: Implement functionality for sending messages of different types (ex. send join channel request)
-     * TODO: Handle exception
-     * @param messageString Input string, from interface
-     * @throws IOException
-     */
-    public void sendMessage(String messageString) throws IOException {
-        Message message = new Message(messageString, sender);
-
-        out.writeObject(message);
-        out.flush();
-    }
-
-    public void sendMessage(Message msg) throws IOException {
-        out.writeObject(msg);
-        out.flush();
-    }
-    public String getName()
+    public void createChannel(String channelName, String password)
     {
-        return sender;
+        cm.createChannel(user,channelName,password);
     }
 
-    /**
-     * Client implements the Runnable interface. The run() method continually reads messages from the server.
-     * TODO:Read Messages of different types
-     */
-    @Override
-    public void run()
+    public void joinChannel(String channelName, String password){
+        cm.joinChannel(user, channelName, password);
+    }
+    public void leaveChannel(){
+        cm.leaveChannel(user,channelGroup.getCurrentChannel().getChannelName());
+    }
+
+    public void switchChannel(String channelName){
+        channelGroup.switchToChannel(channelName);
+        notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+    }
+    public void nextChannel(){
+        channelGroup.switchToNextChannel();
+        notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+
+    }
+
+    public void sendMessage(String message)
     {
-        Message message;
-        try {
-            while ((message = (Message) in.readObject()) != null)
-            {
-                handleMessage(message);
-                notifyObservers(message);
-
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Curr channel: " + channelGroup.getCurrentChannel().getChannelName());
+        cm.sendMessage(user,channelGroup.getCurrentChannel().getChannelName(), message);
     }
 
-    /**
-     * TODO:
-     * Display message in UI
-     * Handle Different Kind of Messages, Differentiate between Server & User Messages
-     *
-     * @param message The message to display.
-     * @throws IOException TODO: Handle exception
-     */
-    private void handleMessage(Message message) throws IOException {
-        System.out.println(message.getTimestamp() + ". " + message.getSender() + " : " + message.getContent());
-        //uiController.showTextinView(message);
-        //Display message in UI
+    public List<String> getChannelNames(){
+        return channelGroup.getChannelNames();
     }
 
-    @Override
-    public void attach(ClientObserver observer) {
+    public List<String> getUserNamesInCurrentChannel(){
+        return channelGroup.getCurrentChannel().getUsersInChannel();
+    }
+
+
+    public void attach( ClientObserver observer){
         observers.add(observer);
     }
 
-    @Override
-    public void detach(ClientObserver observer) {
-        observers.remove(observer);
+    public void detach(ClientObserver observer){
+         observers.add(observer);
     }
 
-
-
     @Override
-    public void notifyObservers(Message message) {
-        for (ClientObserver observer : observers) {
+    public void notifyObservers(UIMessage message) {
+        for (ClientObserver observer: observers) {
             observer.update(message);
         }
     }
