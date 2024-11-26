@@ -38,8 +38,10 @@ public class Client implements ClientSubject{
     }
     /**
      * Sets a nickname for the client.
-     * @param name the new nickname for the client.
      */
+    public String getCurrentChannelName(){
+        return channelGroup.getCurrentChannel().getChannelName();
+    }
     public void setNickName(String name)
     {
         user = name;

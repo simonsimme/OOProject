@@ -6,6 +6,7 @@ import backend.Messages.Message;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -25,7 +26,7 @@ public class StandardView implements IView {
     private JButton joinNewChannelButton;
     private JButton leaveChannelButton;
     private JButton createNewChannelButton;
-    private JList<String> channelList;
+    private JList<String> channelList = new JList<>();
     DefaultListModel<String> listModel = new DefaultListModel<>();
 
         private JTextField channelNameField;
@@ -33,12 +34,26 @@ public class StandardView implements IView {
     public void updateChannelList(List<String> channels, String currentChannel) {
         listModel.clear();
         for (String channel : channels) {
+            chatArea.append(channel);
+
             listModel.addElement(channel);
         }
         channelList.setSelectedValue(currentChannel, true);
     }
+    public DefaultListModel<String> getChannelList() {
+        return listModel;
+    }
 
-        @Override
+    @Override
+    public void changeChannel(String channelName) {
+        if(chatArea != null) {
+            //save chat history
+            chatArea.setText(""); //clear chat
+            chatArea.append("Switched to channel: " + channelName + "\n");
+        }
+    }
+
+    @Override
         public void showCreateChannelScreen() {
             frame.getContentPane().removeAll();
             createChannelScreen();
@@ -284,7 +299,8 @@ public class StandardView implements IView {
         frame.add(panel);
         frame.setVisible(true);
     }
-    public void joinChannel(String channelName) {
+    @Override
+    public void addChannelToList(String channelName) {
         listModel.addElement(channelName);
     }
 
@@ -296,6 +312,10 @@ public class StandardView implements IView {
     @Override
     public void addJoinNewChannelButtonListener(ActionListener listener) {
         joinNewChannelButton.addActionListener(listener);
+    }
+    @Override
+    public void addChannelListSelectionListener(ListSelectionListener listener) {
+        channelList.addListSelectionListener(listener);
     }
 
     @Override
@@ -319,6 +339,11 @@ public class StandardView implements IView {
     @Override
     public void appendChatText(Message text) {
 
+    }
+
+    @Override
+    public void removeChannelFromList(String channelName) {
+        listModel.removeElement(channelName);
     }
 
     @Override

@@ -4,6 +4,7 @@ package View;
 import backend.Messages.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionListener;
 import java.util.List;
 
@@ -100,12 +101,28 @@ public  class ViewDecorator implements IView {
     }
 
     @Override
-    public void joinChannel(String channelName) {
-        decoratedView.joinChannel(channelName);
+    public void addChannelToList(String channelName) {
+        decoratedView.addChannelToList(channelName);
     }
     @Override
     public void updateChannelList(List<String> channels, String currentChannel) {
         decoratedView.updateChannelList(channels, currentChannel);
+    }
+    @Override
+    public void changeChannel(String channelName) {
+        decoratedView.changeChannel(channelName);
+    }
+    @Override
+    public void addChannelListSelectionListener(ListSelectionListener listener) {
+        decoratedView.addChannelListSelectionListener(listener);
+    }
+    @Override
+    public void removeChannelFromList(String channelName) {
+        decoratedView.removeChannelFromList(channelName);
+    }
+    @Override
+    public DefaultListModel<String> getChannelList() {
+        return decoratedView.getChannelList();
     }
 
 

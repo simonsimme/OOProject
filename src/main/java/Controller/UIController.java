@@ -12,6 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import View.IView;
 
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 
 public class UIController implements ClientObserver {
     private IView view;
@@ -43,9 +47,7 @@ public class UIController implements ClientObserver {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            String channelName = view.getChannelNameInput();
-            String password = view.getPasswordInput();
-            refrence.createChannel(channelName, password);
+            createChannel();
             showChatArea();
         }
     }
@@ -54,11 +56,21 @@ public class UIController implements ClientObserver {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                String channelName = view.getChannelNameInput();
-                String password = view.getPasswordInput();
-                refrence.joinChannel(channelName, password);
+                joinChannel();
                 showChatArea();
             }
+        }
+        private void joinChannel() {
+            String channelName = view.getChannelNameInput();
+            String password = view.getPasswordInput();
+            refrence.joinChannel(channelName, password);
+            view.addChannelToList(channelName);
+        }
+        private void createChannel() {
+            String channelName = view.getChannelNameInput();
+            String password = view.getPasswordInput();
+            refrence.createChannel(channelName, password);
+            view.addChannelToList(channelName);
         }
 
         private void showChatArea() {
@@ -67,6 +79,7 @@ public class UIController implements ClientObserver {
             view.addJoinNewChannelButtonListener(new JoinNewChannelButtonListener());
             view.addLeaveChannelButtonListener(new LeaveChannelButtonListener());
             view.addCreateNewChannelButtonListener(new CreateNewChannelButtonListener());
+            view.addChannelListSelectionListener(new ChannelListSelectionListener());
             nicknameset(view.getNickNameFeild());
         }
 
@@ -79,6 +92,19 @@ public class UIController implements ClientObserver {
 
             }
         }
+
+    class ChannelListSelectionListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if (!e.getValueIsAdjusting()) {
+                String selectedChannel = ((JList<String>) e.getSource()).getSelectedValue();
+                if (selectedChannel != null && !selectedChannel.equals(refrence.getCurrentChannelName())) {
+                    refrence.switchChannel(selectedChannel);
+                    view.changeChannel(selectedChannel);
+                }
+            }
+        }
+    }
 
 
 
@@ -103,9 +129,7 @@ public class UIController implements ClientObserver {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                String channelName = view.getChannelNameInput();
-                String password = view.getPasswordInput();
-                refrence.joinChannel(channelName, password);
+                joinChannel();
                 view.appendChatText("Joining new channel...");
 
                 // exempel på hur vi kan skicka request till servern
@@ -121,9 +145,17 @@ public class UIController implements ClientObserver {
             public void actionPerformed(ActionEvent e) {
                 //try {
                 refrence.leaveChannel();
-                view.startArea();
-                view.addCreateChannelButtonListener(new CreateChannelButtonListener());
-                view.addJoinChannelButtonListener(new JoinChannelButtonListener());
+                view.removeChannelFromList(refrence.getCurrentChannelName());
+                if (view.getChannelList().size() == 0) {
+                    view.startArea();
+                    view.addCreateChannelButtonListener(new CreateChannelButtonListener());
+                    view.addJoinChannelButtonListener(new JoinChannelButtonListener());
+                }else {
+                    view.removeChannelFromList(refrence.getCurrentChannelName());
+                    String name = refrence.getChannelNames().get(0);
+                    refrence.switchChannel(name);
+                    view.changeChannel(name);
+                }
                 //} catch (IOException ex) {         -Exceptions catchas i client nu, DisplayError skickas via notify() vid errors
                 //    view.appendChatText("Failed to leave channel... Try again later");
                 //    throw new RuntimeException(ex);
@@ -136,9 +168,7 @@ public class UIController implements ClientObserver {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                String channelName = view.getChannelNameInput();
-                String password = view.getPasswordInput();
-                refrence.createChannel(channelName, password);
+                createChannel();
                 view.appendChatText("Creating new channel...");
             }
         }

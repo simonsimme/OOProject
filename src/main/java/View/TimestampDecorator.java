@@ -14,7 +14,7 @@ public class TimestampDecorator extends ViewDecorator {
 
     @Override
     public void appendChatText(Message text) {
-        String timestampedText = LocalDateTime.now().getHour() + "." + LocalDateTime.now().getMinute() + " - " ;//+text.getContent(); //TODO fix this
+        String timestampedText = text.getTimestamp().getHour() + "." + text.getTimestamp().getMinute() + " - " ;//+text.getContent(); //TODO fix this
         super.appendChatText(timestampedText);
     }
 }
