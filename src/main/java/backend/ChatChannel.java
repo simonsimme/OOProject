@@ -1,21 +1,24 @@
 package backend;
 
+import backend.Messages.Message;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class ChatChannel {
-    private String name;
-    private Set<ClientHandler> clients;
+    private final String name;
+    private String password;
+    private final Set<ClientHandler> clients;
 
-    public ChatChannel(String name) {
+    public ChatChannel(String name, String password) {
         this.name = name;
+        this.password = password;
         this.clients = new HashSet<>();
     }
 
-    public String getName() {
-        return name;
+    public boolean validatePassword(String password) {
+        return this.password.equals(password);
     }
-
     public synchronized void addClient(ClientHandler client) {
         clients.add(client);
     }

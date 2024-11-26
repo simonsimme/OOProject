@@ -1,7 +1,8 @@
 // BasicView.java
 package View;
 
-import backend.Message;
+import backend.Messages.*;
+import backend.Messages.Message;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 import javax.swing.*;
@@ -41,7 +42,17 @@ public class StandardView implements IView {
             frame.repaint();
         }
 
-        private void createChannelScreen() {
+    @Override
+    public String getPasswordInput() {
+        return null;
+    }
+
+    @Override
+    public String getChannelNameInput() {
+        return null;
+    }
+
+    private void createChannelScreen() {
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
             panel.setBackground(new Color(43, 43, 43));
@@ -294,17 +305,17 @@ public class StandardView implements IView {
         return inputField.getText();
     }
 
-    @Override
-    public void appendChatText(Message text) {
-            if (chatArea != null) {
-                chatArea.append(text.getContent() +  "\n");
-            }
-    }
+
     @Override
     public void appendChatText(String text) {
         if (chatArea != null) {
             chatArea.append(text + "\n");
         }
+    }
+
+    @Override
+    public void appendChatText(Message text) {
+
     }
 
     @Override

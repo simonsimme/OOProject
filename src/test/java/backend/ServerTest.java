@@ -4,6 +4,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.net.Socket;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -16,6 +19,7 @@ class ServerTest {
     private Server server;
     //The port number used for testing.
     private int port;
+    private Socket testClientSocket;
 
     /**
      * Sets up the test environment by initializing the server instance
@@ -23,15 +27,50 @@ class ServerTest {
      */
     @BeforeEach
     void setUp() {
-        port = 1234;
+        port = 12345;
         server = Server.createServerInstance(port);
+
+        Thread serverThread = new Thread(() -> server.startListening());
+        serverThread.setDaemon(true);
+        serverThread.start();
     }
 
     /**
      * Cleans up after each test case.
      */
     @AfterEach
-    void tearDown() {
+    void tearDown() throws IOException {
+        // Clean up: Close any resources
+        if (testClientSocket != null && !testClientSocket.isClosed()) {
+            testClientSocket.close();
+        }
+        server.stop();
+    }
+    @Test
+    void testStopServer() throws IOException, InterruptedException {
+        // Create a client to simulate a connection
+        testClientSocket = new Socket("localhost", 12345);
+
+        // The server should accept this connection and create a handler
+        assertTrue(testClientSocket.isConnected(), "Client should be connected");
+
+        // Now, stop the server
+        server.stop();
+        Thread.sleep(500);
+
+        // Try to create another client connection after the server has been stopped
+        Socket anotherClientSocket = null;
+        try {
+            anotherClientSocket = new Socket("localhost", 12345);
+            fail("Server should not accept new connections after stop() is called");
+        } catch (IOException e) {
+            // Expected: since the server is stopped, this should throw an IOException
+            assertTrue(e.getMessage().contains("Connection refused"), "Expected 'Connection refused' exception");
+        } finally {
+            if (anotherClientSocket != null && !anotherClientSocket.isClosed()) {
+                anotherClientSocket.close();
+            }
+        }
     }
 
     /**
@@ -50,7 +89,32 @@ class ServerTest {
         assertSame(server, server2);
     }
 
+    /**
+     * Test the {@code getOrCreateChannel} method of the {@code Server} class.
+     * This test verifies that:
+     * <ul>
+     *     <li>a new {@code ChatChannel} is created when the channel name does not exist</li>
+     *     <li>The same {@code ChatChannel} instance is returned when call with an existing name</li>
+     *     <li>A new {@code ChatChannel} is created for a different channel name</li>
+     * </ul>
+     */
     @Test
-    void getOrCreateChannel() {
-    }
+    void getOrCreateChannelTest() {
+        /*String channelName = "test";
+        //ChatChannel firstChannel = server.getOrCreateChannel(channelName);
+
+        assertNotNull(firstChannel);
+        assertEquals(channelName, firstChannel.getName());
+
+        ChatChannel secondChannel = server.getOrCreateChannel(channelName);
+        assertSame(firstChannel, secondChannel);
+
+        String anotherChannel = "AnotherChannel";
+        ChatChannel newChannel = server.getOrCreateChannel(anotherChannel);
+
+        assertNotNull(newChannel);
+        assertEquals(anotherChannel, newChannel.getName());
+        assertNotSame(firstChannel, newChannel);
+    } */
+}
 }

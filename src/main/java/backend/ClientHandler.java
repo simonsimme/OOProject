@@ -1,4 +1,8 @@
 package backend;
+import backend.Messages.Message;
+import backend.Messages.Server.MessageVisitorServer;
+import backend.Messages.Server.ServerMessageVisitor;
+
 import java.net.*;
 import java.io.*;
 
@@ -10,7 +14,7 @@ import java.io.*;
  * <li>Joining chat channels</li>
  * <li>Broadcast messages to other clients in the same channel</li>
  */
-class ClientHandler extends Thread {
+public class ClientHandler extends Thread {
     //The socket represents the client's connection.
     private Socket clientSocket;
     //Input stream to receive messages from the client.
@@ -44,24 +48,11 @@ class ClientHandler extends Thread {
      */
     @Override
     public void run() {
-        Message message;
         try {
-            while ((message = (Message) input.readObject()) != null) {
-                switch (message.getCommandType()) {
-                    case JOIN:
-                        String channelName = message.getContent();
-                        Command joinChannelCommand = new JoinChannelCommand(channelName, this);
-                        joinChannelCommand.execute();
-                        break;
-                    case LEAVE:
-                        Command leaveChannelCommand = new LeaveChannelCommand(this);
-                        leaveChannelCommand.execute();
-                    case MESSAGE:
-                        // Create and execute the SendMessageCommand
-                        Command sendMessageCommand = new SendMessageCommand(message, this);
-                        sendMessageCommand.execute(); // Pass the current ClientHandler context
-                        break;
-                }
+            Message message;
+            ServerMessageVisitor handler = new MessageVisitorServer(this);
+            while (input != null && (message = (Message) input.readObject()) != null) {
+                message.accept(handler);
             }
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Client handler exception: " + e.getMessage());
@@ -69,36 +60,39 @@ class ClientHandler extends Thread {
             closeConnections();
         }
     }
-    private void closeConnections() {
+    public void closeConnections() {
+        // Ensure the input/output streams are closed properly
         try {
-            clientSocket.close();
-            input.close();
-            output.close();
+            if (input != null) {
+                input.close();
+            }
+            if (output != null) {
+                output.close();
+            }
+            if (clientSocket != null && !clientSocket.isClosed()) {
+                clientSocket.close();
+            }
         } catch (IOException e) {
-            System.out.println("Error closing client connection: " + e.getMessage());
+            System.out.println("Error closing connections: " + e.getMessage());
         }
-
     }
     /**
      * Joins the client to a new chat channel. If the client was in a previous
      * channel, they are removed from it before joining a new chat channel.
      * @param channelName the name of the channel to join
      */
-    public void joinChannel(String channelName) {
-        if (currentChannel != null) {
-            currentChannel.removeClient(this);
+    public void joinChannel(String channelName, String password) {
+        ChatChannel channel = getChannel(channelName);
+        if(channel.validatePassword(password))
+        {
+            currentChannel = server.getOrCreateChannel(channelName, password);
+            currentChannel.addClient(this);
         }
-        currentChannel = server.getOrCreateChannel(channelName);
-        currentChannel.addClient(this);
-        sendMessage(new Message("Joined channel: " + channelName, "Server", CommandType.MESSAGE));
+
     }
     public void leaveChannel() {
         if (currentChannel != null) {
             currentChannel.removeClient(this);
-            sendMessage(new Message("Left channel " + currentChannel, "Server", CommandType.MESSAGE));
-        }
-        else {
-            sendMessage(new Message("You are not in any channel to leave", "Server", CommandType.MESSAGE));
         }
     }
 
@@ -117,4 +111,19 @@ class ClientHandler extends Thread {
     public ChatChannel getCurrentChannel() {
         return currentChannel;
     }
+
+    public void createChannel(String channelName, String password) {
+        server.createChannel(channelName, password);
+        currentChannel = getChannel(channelName);
+        getChannel(channelName).addClient(this);
+    }
+    public ChatChannel getChannel(String channelName) {
+        ChatChannel channel = server.getChannel(channelName);
+        if(channel != null){
+            return channel;
+        } else{
+            throw new IllegalArgumentException("Channel does not exist");
+        }
+    }
+
 }

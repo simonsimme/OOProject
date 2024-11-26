@@ -1,21 +1,27 @@
 package Controller;
 
 import Main.ChatApplication;
-import View.IView;
-import backend.Message;
+
+
+import backend.Messages.UI.*;
+import backend.Messages.*;
+
 import backend.client_model.Client;
 import backend.client_model.ClientObserver;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import View.IView;
+import View.View;
 
-import backend.CommandType;
+
 
 public class UIController implements ClientObserver {
     private IView view;
     private Client refrence;
     private ChatApplication chatApplication;
+    private MessageVisitorUI messageVisitorUI;
+
 
     public UIController(IView view,ChatApplication chatApplication ,Client ref) {
         this.view = view;
@@ -23,150 +29,121 @@ public class UIController implements ClientObserver {
         this.chatApplication = chatApplication;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
+       //TODO we need to fix this also
+        // this.messageVisitorUI = new MessageVisitorUI(view);
     }
 
     @Override
-    public void update(Message message) {
-        if(!message.getSender().equals("Server")) {
-            System.out.println(message.getSender() + ": " + message.getContent());
-            showTextinView(message);
-        }
 
-        System.out.println(message.getSender());
+    public void update(UIMessage message) {
+        message.accept(messageVisitorUI);
+
     }
+
+
 
     class CreateChannelButtonListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
-            showCreateChannelScreen();
-        }
-    }
-
-
-    class JoinChannelButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Message msg = new Message(view.getNickNameFeild(), view.getNickNameFeild(), CommandType.JOIN);
-           try {
-               refrence.sendMessage(msg);
-           } catch (IOException ex) {
-               throw new RuntimeException(ex);
-           }
+        public void actionPerformed(ActionEvent e)
+        {
+            String channelName = view.getChannelNameInput();
+            String password = view.getPasswordInput();
+            refrence.createChannel(channelName, password);
             showChatArea();
         }
     }
-    /*
-    class JoinChannelButtonListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String channelName = view.getChannelName(); // Assume this method gets the channel name from the user
-        Command joinChannelCommand = new JoinChannelCommand(channelName, refrence.getClientHandler());
-        joinChannelCommand.execute();
-        view.appendChatText("Joined channel: " + channelName);
-    }
-}
 
-     */
+        class JoinChannelButtonListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String channelName = view.getChannelNameInput();
+                String password = view.getPasswordInput();
+                refrence.joinChannel(channelName, password);
+                showChatArea();
+            }
+        }
 
-    private void showChatArea() {
-        view.showChatArea();
-        view.addSendButtonListener(new SendButtonListener());
-        view.addJoinNewChannelButtonListener(new JoinNewChannelButtonListener());
-        view.addLeaveChannelButtonListener(new LeaveChannelButtonListener());
-        view.addCreateNewChannelButtonListener(new CreateNewChannelButtonListener());
-        nicknameset(view.getNickNameFeild());
-    }
-    private void showCreateChannelScreen() {
-        view.showCreateChannelScreen();
-        view.addCreateButtonListener(new CreateButtonListener());
-    }
+        private void showChatArea() {
+            view.showChatArea();
+            view.addSendButtonListener(new SendButtonListener());
+            view.addJoinNewChannelButtonListener(new JoinNewChannelButtonListener());
+            view.addLeaveChannelButtonListener(new LeaveChannelButtonListener());
+            view.addCreateNewChannelButtonListener(new CreateNewChannelButtonListener());
+            nicknameset(view.getNickNameFeild());
+        }
 
-    class SendButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.out.println("send button pressed");
-            String inputText = view.getInputText();
-            try {
+        class SendButtonListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String inputText = view.getInputText();
                 refrence.sendMessage(inputText);
-                System.out.println("sent message");
-            } catch (IOException ex) {
-                System.out.println("ERROR");
+                view.clearInputText();
 
-                throw new RuntimeException(ex);
             }
-            //view.appendChatText("You: " + inputText);
-            view.clearInputText();
-
-
         }
-    }
-    class CreateButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String channelName = view.getChannelName();
-            showChatArea();
-            view.joinChannel(channelName);
-            Message msg = new Message(view.getChannelName(), view.getNickNameFeild(), CommandType.JOIN);
+
+
+
+        private void nicknameset(String name) {
+            refrence.setNickName(name);
+        }
+
+
+        //use this to send message to a view, add in what channel as well
+        public void showTextinView(DisplayMessage msg) {
             try {
-                refrence.setNickName(view.getNickNameFeild());
-                refrence.sendMessage(msg);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                view.appendChatText(msg.getTimestamp().getHour() + "." + msg.getTimestamp().getMinute() + "  " + msg.getMessage() + ": " + msg.getMessage());
+
+            } catch (Exception e) {
+                System.out.println("clients not found");
             }
 
+        }
 
 
+        class JoinNewChannelButtonListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String channelName = view.getChannelNameInput();
+                String password = view.getPasswordInput();
+                refrence.joinChannel(channelName, password);
+                view.appendChatText("Joining new channel...");
 
+                // exempel på hur vi kan skicka request till servern
+                // Hur ska detta fungera? Ska vi låta user skicka join request till Channel
+                // eller är de invite only?
+            }
+
+        }
+
+
+        class LeaveChannelButtonListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //try {
+                refrence.leaveChannel();
+                view.startArea();
+                view.addCreateChannelButtonListener(new CreateChannelButtonListener());
+                view.addJoinChannelButtonListener(new JoinChannelButtonListener());
+                //} catch (IOException ex) {         -Exceptions catchas i client nu, DisplayError skickas via notify() vid errors
+                //    view.appendChatText("Failed to leave channel... Try again later");
+                //    throw new RuntimeException(ex);
+                //}
+            }
+        }
+
+
+        class CreateNewChannelButtonListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String channelName = view.getChannelNameInput();
+                String password = view.getPasswordInput();
+                refrence.createChannel(channelName, password);
+                view.appendChatText("Creating new channel...");
+            }
 
         }
     }
-    public void sendPrivateMessage(Message msg)
-    {
-        view.appendChatText(msg);
-    }
-    private void nicknameset(String name)
-    {
-        refrence.setNickName(name);
-
-    }
-
-    //use this to send message to a view, add in what channel as well
-    public void showTextinView(Message msg)
-    {
-        try
-        {
-            view.appendChatText(msg);
-
-        }catch (Exception e)
-        {
-        e.printStackTrace();
-        }
-    }
-
-    class JoinNewChannelButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Message msg = new Message("Joining new channel...", "INFO", CommandType.MESSAGE);
-            view.appendChatText(msg);
-        }
-    }
-
-
-    class LeaveChannelButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            view.startArea();
-            view.addCreateChannelButtonListener(new CreateChannelButtonListener());
-            view.addJoinChannelButtonListener(new JoinChannelButtonListener());
-        }
-    }
-
-    class CreateNewChannelButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Message msg = new Message("Creating new channel...", "INFO", CommandType.MESSAGE);
-            showCreateChannelScreen();
-            //view.appendChatText(msg);
-        }
-    }
-}

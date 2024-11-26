@@ -6,7 +6,7 @@ import View.TimestampViewFactory;
 import View.ViewFactory;
 import View.IView;
 import Controller.UIController;
-import backend.Message;
+import backend.Messages.UI.DisplayMessage;
 import backend.Server;
 import backend.client_model.Client;
 
@@ -42,20 +42,34 @@ public class ChatApplication {
         ViewFactory viewFactory1 = new DecoderViewFactory();
         IView view1 = viewFactory1.createView();
         client = new Client("localhost", 1234);
-        uiController1 = new UIController(view1, this, client);
-        new Thread(client).start();
+
+         uiController1 = new  UIController( view1, this, client);
+        //new Thread(client).start(); Thread startas i client nu
+
 
         // Create and run the second client with its own view
         ViewFactory viewFactory2 = new DecoderViewFactory ();
         IView view2 = viewFactory2.createView();
         client2 = new Client("localhost", 1234);
-        uiController2 = new UIController(view2, this, client2);
-        new Thread(client2).start();
+
+         uiController2 = new UIController(view2, this, client2);
+        //new Thread(client2).start(); Thread startas i client nu
+
         client.attach(uiController1);
         client.attach(uiController2);
         client2.attach(uiController2);
         client2.attach(uiController1);
     }
 
+
+
+
+
+    public void sendFromClients(String msg, Client ref) throws IOException {
+        //Message message = new Message(msg,ref.getUserName());
+        ref.sendMessage(msg);
+        uiController1.showTextinView(new DisplayMessage(ref.getUserName(),msg));
+        uiController2.showTextinView(new DisplayMessage(ref.getUserName(), msg));
+    }
 
 }

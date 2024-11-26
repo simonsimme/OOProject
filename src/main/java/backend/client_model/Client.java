@@ -1,125 +1,145 @@
 package backend.client_model;
 
-import java.io.*;
-import java.net.Socket;
+import backend.Messages.UI.UIMessage;
+import backend.Messages.UI.UpdateChannels;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observer;
 
-import Controller.UIController;
-import backend.CommandType;
-import backend.Message;
 
 /**
- * The client class handles the logic behind the client communication with the server. This includes sending
- * messages to the server and receiving messages from the server.
- * TODO: Implement client in a way that satisfies: Single Responsibility Principle, Open, Closed Principle
+ * Facade for the client Provides methods for managing channels, send messages,
+ * and notifying observers of updates. Acts as a central interface for client-side operations.
  */
-public class Client implements Runnable, ClientSubject {
-    private Socket socket;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
-    private String host;
-    private int port;
-    private String sender = "Client";
-    private List<ClientObserver> observers = new ArrayList<>();
-    /**
-     * Client's only constructor, requires the adress to connect to and a port.
-     * @param adress The adress that the Socket connects to. (Has to be "localhost" for now)
-     * @param port The port that the Socket connects to. (Has to match with server port)
-     * @throws IOException TODO: Handle exception
-     */
-    public Client(String adress, int port) throws IOException {
-        this.host = adress;
-        this.port = port;
+public class Client implements ClientSubject{
+    private String user;
+    private final ClientChannelGroup channelGroup;
+    private final ClientCommunicationManager cm;
+    private final List<ClientObserver> observers = new ArrayList<>();
 
-        System.out.print("Connecting to server...");
-        socket = new Socket(host, port);
-        out = new ObjectOutputStream(socket.getOutputStream());
-        in = new ObjectInputStream(socket.getInputStream());
+    /**
+     * Client's only constructor, requires the address to connect to and a port.
+     * @param address The address that the Socket connects to. (Has to be "localhost" for now)
+     * @param port The port that the Socket connects to. (Has to match with server port)
+     */
+    public Client(String address, int port) {
+        this.user = "client default user name";
+        this.channelGroup = new ClientChannelGroup();
+        cm = new ClientCommunicationManager(address,port,this.channelGroup,observers);
+        new Thread(cm).start();
 
     }
+    /**
+     * Gets the username of the client.
+     * @return the client's username.
+     */
+    public String getUserName()
+    {
+        return user;
+    }
+    /**
+     * Sets a nickname for the client.
+     * @param name the new nickname for the client.
+     */
     public void setNickName(String name)
     {
-        sender = name;
+        user = name;
     }
-
-
     /**
-     * Send the given String to the server through ObjectOutputStream out.
-     * TODO: Implement functionality for sending messages of different types (ex. send join channel request)
-     * TODO: Handle exception
-     * @param messageString Input string, from interface
-     * @throws IOException
+     * Sets the username for the client.
+     * @param userName the new username for the client.
      */
-    public void sendMessage(String messageString) throws IOException {
-        Message message = new Message(messageString, sender);
-
-        out.writeObject(message);
-        out.flush();
+    public void setUserName(String userName){
+        user = userName;
     }
-
-    public void sendMessage(Message msg) throws IOException {
-        out.writeObject(msg);
-        out.flush();
-    }
-    public String getName()
-    {
-        return sender;
-    }
-
     /**
-     * Client implements the Runnable interface. The run() method continually reads messages from the server.
-     * TODO:Read Messages of different types
+     * Creates a new channel with the given name and password.
+     * @param channelName the name of the channel to create.
+     * @param password    the password for the channel.
      */
-    @Override
-    public void run()
+    public void createChannel(String channelName, String password)
     {
-        Message message;
-        try {
-            while ((message = (Message) in.readObject()) != null)
-            {
-                handleMessage(message);
-                notifyObservers(message);
-
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        cm.createChannel(user,channelName,password);
     }
-
     /**
-     * TODO:
-     * Display message in UI
-     * Handle Different Kind of Messages, Differentiate between Server & User Messages
+     * Joins an existing channel with the given name and password.
+     * @param channelName the name of the channel to join.
+     * @param password    the password for the channel.
+     */
+    public void joinChannel(String channelName, String password){
+        cm.joinChannel(user, channelName, password);
+    }
+    /**
+     * Leaves the current channel the client is in.
+     */
+    public void leaveChannel(){
+        cm.leaveChannel(user,channelGroup.getCurrentChannel().getChannelName());
+    }
+    /**
+     * Switches to a specified channel by its name.
+     * @param channelName the name of the channel to switch to.
+     */
+    public void switchChannel(String channelName){
+        channelGroup.switchToChannel(channelName);
+        notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+    }
+    /**
+     * Switches to the next available channel in the channel group.
+     */
+    public void nextChannel(){
+        channelGroup.switchToNextChannel();
+        notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+
+    }
+    /**
+     * Sends a message to the current channel.
+     * @param message the message to send.
+     */
+    public void sendMessage(String message)
+    {
+        System.out.println("Curr channel: " + channelGroup.getCurrentChannel().getChannelName());
+        cm.sendMessage(user,channelGroup.getCurrentChannel().getChannelName(), message);
+    }
+    /**
+     * Retrieves a list of names of all channels the client is a member of.
      *
-     * @param message The message to display.
-     * @throws IOException TODO: Handle exception
+     * @return a list of channel names.
      */
-    private void handleMessage(Message message) throws IOException {
-        System.out.println(message.getTimestamp() + ". " + message.getSender() + " : " + message.getContent());
-        //uiController.showTextinView(message);
-        //Display message in UI
+    public List<String> getChannelNames(){
+        return channelGroup.getChannelNames();
     }
-
-    @Override
-    public void attach(ClientObserver observer) {
+    /**
+     * Retrieves a list of usernames in the current channel.
+     *
+     * @return a list of usernames in the current channel.
+     */
+    public List<String> getUserNamesInCurrentChannel(){
+        return channelGroup.getCurrentChannel().getUsersInChannel();
+    }
+    /**
+     * Attaches an observer to the client for receiving updates.
+     *
+     * @param observer the observer to attach.
+     */
+    public void attach( ClientObserver observer){
         observers.add(observer);
     }
-
-    @Override
-    public void detach(ClientObserver observer) {
-        observers.remove(observer);
+    /**
+     * Detaches an observer from the client to stop receiving updates.
+     *
+     * @param observer the observer to detach.
+     */
+    public void detach(ClientObserver observer){
+         observers.add(observer);
     }
-
-
-
+    /**
+     * Notifies all attached observers with a given message.
+     *
+     * @param message the message to notify observers with.
+     */
     @Override
-    public void notifyObservers(Message message) {
-        for (ClientObserver observer : observers) {
+    public void notifyObservers(UIMessage message) {
+        for (ClientObserver observer: observers) {
             observer.update(message);
         }
     }
-
-
 }

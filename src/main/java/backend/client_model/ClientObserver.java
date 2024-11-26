@@ -1,7 +1,7 @@
 package backend.client_model;
 
-import backend.Message;
+import backend.Messages.UI.UIMessage;
 
 public interface ClientObserver {
-    void update(Message message);
+    void update(UIMessage message);
 }
