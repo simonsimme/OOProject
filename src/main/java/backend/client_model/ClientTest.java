@@ -8,7 +8,7 @@ public class ClientTest {
     public static void main(String[] args) throws IOException {
         // Start the server in a separate thread
         Thread serverThread = new Thread(() -> {
-            backend.Server server = backend.Server.createServerInstance(1234);
+            backend.Server.Server server = backend.Server.Server.createServerInstance(1234);
         });
         serverThread.start();
 

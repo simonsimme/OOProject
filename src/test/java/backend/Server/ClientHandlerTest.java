@@ -1,13 +1,5 @@
-package backend;
-
-
+package backend.Server;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ClientHandlerTest {
     /*
@@ -22,7 +14,7 @@ public class ClientHandlerTest {
     @BeforeEach
     public void setUp() {
         //setup the server and start listening for the clients
-        server =Server.createServerInstance(8080);
+        server = Server.createServerInstance(8080);
         server.startListening();
     }
 }

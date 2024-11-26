@@ -1,4 +1,4 @@
-package backend;
+package backend.Server;
 
 import backend.Messages.Message;
 
@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class ChatChannel {
     private final String name;
-    private String password;
+    private final String password;
     private final Set<ClientHandler> clients;
 
     public ChatChannel(String name, String password) {

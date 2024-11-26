@@ -1,7 +1,7 @@
-package backend;
+package backend.Messages.Server;
 
-import backend.Messages.Server.*;
-import backend.Server;
+import backend.Server.ClientHandler;
+import backend.Server.Server;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
