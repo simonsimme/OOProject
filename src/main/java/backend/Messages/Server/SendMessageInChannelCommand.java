@@ -3,9 +3,9 @@ package backend.Messages.Server;
 import backend.Messages.Message;
 
 public class SendMessageInChannelCommand extends ServerMessage {
-    private String userName;
-    private String channelName;
-    private String message;
+    private final String userName;
+    private final String channelName;
+    private final String message;
 
 
     public SendMessageInChannelCommand(String userName, String channelName, String message){

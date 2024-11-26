@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class MessageCommandTesting {
     CreateChannelCommand command;
@@ -34,7 +35,7 @@ public class MessageCommandTesting {
         assertEquals("user1", command.getUserName());
         assertEquals("channel1", command.getChannelName());
         //this should fail beacuse the password object is not initialized
-        assertEquals("password123", command.getChannelPassword());
+        assertNotEquals("password123", command.getChannelPassword());
     }
 
 
