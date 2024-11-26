@@ -47,7 +47,7 @@ class ServerTest {
         server.stop();
     }
     @Test
-    void testStopServer() throws IOException {
+    void testStopServer() throws IOException, InterruptedException {
         // Create a client to simulate a connection
         testClientSocket = new Socket("localhost", 12345);
 
@@ -56,6 +56,7 @@ class ServerTest {
 
         // Now, stop the server
         server.stop();
+        Thread.sleep(500);
 
         // Try to create another client connection after the server has been stopped
         Socket anotherClientSocket = null;
