@@ -4,7 +4,6 @@ import Main.ChatApplication;
 
 
 import backend.Messages.UI.*;
-import backend.Messages.*;
 
 import backend.client_model.Client;
 import backend.client_model.ClientObserver;
@@ -12,8 +11,6 @@ import backend.client_model.ClientObserver;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import View.IView;
-import View.View;
-
 
 
 public class UIController implements ClientObserver {
@@ -145,6 +142,5 @@ public class UIController implements ClientObserver {
                 refrence.createChannel(channelName, password);
                 view.appendChatText("Creating new channel...");
             }
-
         }
     }

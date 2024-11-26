@@ -17,14 +17,4 @@ public class TimestampDecorator extends ViewDecorator {
         String timestampedText = LocalDateTime.now().getHour() + "." + LocalDateTime.now().getMinute() + " - " ;//+text.getContent(); //TODO fix this
         super.appendChatText(timestampedText);
     }
-
-    @Override
-    public String getPasswordInput() {
-        return null;
-    }
-
-    @Override
-    public String getChannelNameInput() {
-        return null;
-    }
 }
