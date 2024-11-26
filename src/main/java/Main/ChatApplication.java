@@ -2,12 +2,11 @@
 package Main;
 
 import View.DecoderViewFactory;
-import View.TimestampViewFactory;
 import View.ViewFactory;
 import View.IView;
 import Controller.UIController;
 import backend.Messages.UI.DisplayMessage;
-import backend.Server;
+import backend.Server.Server;
 import backend.client_model.Client;
 
 import java.io.IOException;

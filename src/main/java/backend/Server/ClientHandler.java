@@ -1,4 +1,4 @@
-package backend;
+package backend.Server;
 import backend.Messages.Message;
 import backend.Messages.Server.MessageVisitorServer;
 import backend.Messages.Server.ServerMessageVisitor;
@@ -16,13 +16,13 @@ import java.io.*;
  */
 public class ClientHandler extends Thread {
     //The socket represents the client's connection.
-    private Socket clientSocket;
+    private final Socket clientSocket;
     //Input stream to receive messages from the client.
     private ObjectInputStream input;
     //Output stream to send messages to the client.
     private ObjectOutputStream output;
     //The server instance managing the chat channels.
-    private Server server;
+    private final Server server;
     //Current chat channel the client is joined in.
     private ChatChannel currentChannel;
 
