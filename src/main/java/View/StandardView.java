@@ -45,16 +45,15 @@ public class StandardView implements IView {
             frame.revalidate();
             frame.repaint();
         }
-
-    @Override
-    public String getPasswordInput() {
-        return null;
-    }
-
     @Override
     public String getChannelNameInput() {
-        return channelNameField.getText();
+        return JOptionPane.showInputDialog(frame, "Enter Channel Name:", "Channel Name", JOptionPane.PLAIN_MESSAGE);
     }
+    @Override
+    public String getPasswordInput() {
+        return JOptionPane.showInputDialog(frame, "Enter Password:", "Password", JOptionPane.PLAIN_MESSAGE);
+    }
+
 
     private void createChannelScreen() {
             JPanel panel = new JPanel();

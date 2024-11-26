@@ -32,15 +32,15 @@ public class View {
         }
         startArea();
     }
-    public String getNickNameFeild()
-    {
+
+    public String getNickNameFeild() {
         String name = inputTextField.getText();
-        if (name.isBlank())
-        {
+        if (name.isBlank()) {
             name = "Guest";
         }
         return name;
     }
+
     public void startArea() {
         // Clear the frame content
         if (frame != null) {
@@ -214,8 +214,6 @@ public class View {
     }
 
 
-
-
     public void addSendButtonListener(ActionListener listener) {
         sendButton.addActionListener(listener);
     }
@@ -240,11 +238,4 @@ public class View {
         inputField.setText("");
     }
 
-    public String getChannelNameInput() {
-        return JOptionPane.showInputDialog(frame, "Enter Channel Name:", "Channel Name", JOptionPane.PLAIN_MESSAGE);
-    }
-
-    public String getPasswordInput() {
-        return JOptionPane.showInputDialog(frame, "Enter Password:", "Password", JOptionPane.PLAIN_MESSAGE);
-    }
 }

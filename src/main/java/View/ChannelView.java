@@ -1,7 +1,6 @@
 // ChannelView.java
 package View;
 
-import backend.Message;
 
 import javax.swing.*;
 import java.awt.*;
