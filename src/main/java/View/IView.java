@@ -17,6 +17,7 @@ public interface IView {
     String getInputText();
     void appendChatText(String text);
     void appendChatText(Message text);
+    void joinChannel(String channelName);
 
     void clearInputText();
     String getNickNameFeild();

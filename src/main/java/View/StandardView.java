@@ -233,7 +233,6 @@ public class StandardView implements IView {
         sidebar.setLayout(new BorderLayout());
         sidebar.setBackground(new Color(43, 43, 43));
 
-        listModel.addElement("Channel 1");
         channelList = new JList<>(listModel);
         channelList.setFont(new Font("Arial", Font.PLAIN, 14));
         channelList.setBackground(new Color(60, 63, 65));
@@ -270,6 +269,9 @@ public class StandardView implements IView {
 
         frame.add(panel);
         frame.setVisible(true);
+    }
+    public void joinChannel(String channelName) {
+        listModel.addElement(channelName);
     }
 
     @Override

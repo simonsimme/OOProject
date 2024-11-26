@@ -105,7 +105,7 @@ public class UIController implements ClientObserver {
         public void actionPerformed(ActionEvent e) {
             String channelName = view.getChannelName();
             showChatArea();
-
+            view.joinChannel(channelName);
             Message msg = new Message(view.getChannelName(), view.getNickNameFeild(), CommandType.JOIN);
             try {
                 refrence.setNickName(view.getNickNameFeild());
@@ -165,7 +165,8 @@ public class UIController implements ClientObserver {
         @Override
         public void actionPerformed(ActionEvent e) {
             Message msg = new Message("Creating new channel...", "INFO", CommandType.MESSAGE);
-            view.appendChatText(msg);
+            showCreateChannelScreen();
+            //view.appendChatText(msg);
         }
     }
 }

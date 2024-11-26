@@ -46,7 +46,7 @@ public class ChatApplication {
         new Thread(client).start();
 
         // Create and run the second client with its own view
-        ViewFactory viewFactory2 = new DecoderViewFactory();
+        ViewFactory viewFactory2 = new DecoderViewFactory ();
         IView view2 = viewFactory2.createView();
         client2 = new Client("localhost", 1234);
         uiController2 = new UIController(view2, this, client2);

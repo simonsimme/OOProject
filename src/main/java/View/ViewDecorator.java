@@ -88,4 +88,10 @@ public abstract class ViewDecorator implements IView {
     public void addCreateButtonListener(ActionListener listener) {
         decoratedView.addCreateButtonListener(listener);
     }
+
+    @Override
+    public void joinChannel(String channelName) {
+        decoratedView.joinChannel(channelName);
+    }
+
 }
