@@ -34,4 +34,5 @@ public interface IView {
 
     String getChannelNameInput();
     DefaultListModel<String> getChannelList();
+    void showHistory(StringBuilder history);
 }

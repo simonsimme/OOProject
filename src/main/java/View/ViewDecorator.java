@@ -124,6 +124,10 @@ public  class ViewDecorator implements IView {
     public DefaultListModel<String> getChannelList() {
         return decoratedView.getChannelList();
     }
+    @Override
+    public void showHistory(StringBuilder history) {
+        decoratedView.showHistory(history);
+    }
 
 
 

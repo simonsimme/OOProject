@@ -1,4 +1,4 @@
-// BasicView.java
+// StandardView.java
 package View;
 
 import backend.Messages.*;
@@ -29,92 +29,136 @@ public class StandardView implements IView {
     private JList<String> channelList = new JList<>();
     DefaultListModel<String> listModel = new DefaultListModel<>();
 
-        private JTextField channelNameField;
+    private JTextField channelNameField;
 
+    /**
+     * Updates the channel list in the view.
+     * @param channels the list of channel names.
+     * @param currentChannel the name of the current channel.
+     */
     public void updateChannelList(List<String> channels, String currentChannel) {
         listModel.clear();
         for (String channel : channels) {
             chatArea.append(channel);
-
             listModel.addElement(channel);
         }
         channelList.setSelectedValue(currentChannel, true);
     }
+
+    /**
+     * Returns the list model for the channel list.
+     * @return the list model for the channel list.
+     */
     public DefaultListModel<String> getChannelList() {
         return listModel;
     }
 
+    /**
+     * Displays the chat history in the chat area.
+     * @param history the chat history to display.
+     */
+    @Override
+    public void showHistory(StringBuilder history) {
+        chatArea.setText(history.toString());
+    }
+
+    /**
+     * Changes the current channel in the view.
+     * @param channelName the name of the new channel.
+     */
     @Override
     public void changeChannel(String channelName) {
-        if(chatArea != null) {
-            //save chat history
-            chatArea.setText(""); //clear chat
+        if (chatArea != null) {
+            chatArea.setText(""); // clear chat
             chatArea.append("Switched to channel: " + channelName + "\n");
         }
     }
 
+    /**
+     * Shows the create channel screen.
+     */
     @Override
-        public void showCreateChannelScreen() {
-            frame.getContentPane().removeAll();
-            createChannelScreen();
-            frame.revalidate();
-            frame.repaint();
-        }
+    public void showCreateChannelScreen() {
+        frame.getContentPane().removeAll();
+        createChannelScreen();
+        frame.revalidate();
+        frame.repaint();
+    }
+
+    /**
+     * Gets the channel name input from the user.
+     * @return the channel name input.
+     */
     @Override
     public String getChannelNameInput() {
         return JOptionPane.showInputDialog(frame, "Enter Channel Name:", "Channel Name", JOptionPane.PLAIN_MESSAGE);
     }
+
+    /**
+     * Gets the password input from the user.
+     * @return the password input.
+     */
     @Override
     public String getPasswordInput() {
         return JOptionPane.showInputDialog(frame, "Enter Password:", "Password", JOptionPane.PLAIN_MESSAGE);
     }
 
-
+    /**
+     * Creates the create channel screen.
+     */
     private void createChannelScreen() {
-            JPanel panel = new JPanel();
-            panel.setLayout(new BorderLayout());
-            panel.setBackground(new Color(43, 43, 43));
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.setBackground(new Color(43, 43, 43));
 
-            JPanel createChannelPanel = new JPanel();
-            createChannelPanel.setLayout(new GridBagLayout());
-            createChannelPanel.setBackground(new Color(43, 43, 43));
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.insets = new Insets(10, 10, 10, 10);
+        JPanel createChannelPanel = new JPanel();
+        createChannelPanel.setLayout(new GridBagLayout());
+        createChannelPanel.setBackground(new Color(43, 43, 43));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
 
-            JLabel channelNameLabel = new JLabel("Channel Name:");
-            channelNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
-            channelNameLabel.setForeground(Color.WHITE);
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            createChannelPanel.add(channelNameLabel, gbc);
+        JLabel channelNameLabel = new JLabel("Channel Name:");
+        channelNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        channelNameLabel.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        createChannelPanel.add(channelNameLabel, gbc);
 
-            channelNameField = new JTextField(20);
-            channelNameField.setFont(new Font("Arial", Font.PLAIN, 14));
-            channelNameField.setBackground(new Color(60, 63, 65));
-            channelNameField.setForeground(Color.WHITE);
-            gbc.gridx = 1;
-            gbc.gridy = 0;
-            createChannelPanel.add(channelNameField, gbc);
+        channelNameField = new JTextField(20);
+        channelNameField.setFont(new Font("Arial", Font.PLAIN, 14));
+        channelNameField.setBackground(new Color(60, 63, 65));
+        channelNameField.setForeground(Color.WHITE);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        createChannelPanel.add(channelNameField, gbc);
 
-            createButton = new JButton("Create");
-            createButton.setFont(new Font("Arial", Font.BOLD, 16));
-            createButton.setBackground(new Color(60, 63, 65));
-            createButton.setForeground(Color.WHITE);
-            gbc.gridx = 0;
-            gbc.gridy = 1;
-            gbc.gridwidth = 2;
-            createChannelPanel.add(createButton, gbc);
+        createButton = new JButton("Create");
+        createButton.setFont(new Font("Arial", Font.BOLD, 16));
+        createButton.setBackground(new Color(60, 63, 65));
+        createButton.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        createChannelPanel.add(createButton, gbc);
 
-            panel.add(createChannelPanel, BorderLayout.CENTER);
+        panel.add(createChannelPanel, BorderLayout.CENTER);
 
-            frame.add(panel);
-            frame.setVisible(true);
-        }
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+
+    /**
+     * Adds a listener for the create button.
+     * @param listener the listener to add.
+     */
     @Override
     public void addCreateButtonListener(ActionListener listener) {
         createButton.addActionListener(listener);
     }
 
+    /**
+     * Constructs a new StandardView and sets the look and feel.
+     */
     public StandardView() {
         try {
             UIManager.setLookAndFeel(new FlatDarculaLaf());
@@ -124,6 +168,10 @@ public class StandardView implements IView {
         startArea();
     }
 
+    /**
+     * Gets the nickname field input.
+     * @return the nickname field input.
+     */
     @Override
     public String getNickNameFeild() {
         String name = inputTextField.getText();
@@ -133,6 +181,9 @@ public class StandardView implements IView {
         return name;
     }
 
+    /**
+     * Shows the start area of the application.
+     */
     @Override
     public void startArea() {
         if (frame != null) {
@@ -186,21 +237,36 @@ public class StandardView implements IView {
         frame.setVisible(true);
     }
 
+    /**
+     * Adds a listener for the create channel button.
+     * @param listener the listener to add.
+     */
     @Override
     public void addCreateChannelButtonListener(ActionListener listener) {
         createChannelButton.addActionListener(listener);
     }
 
+    /**
+     * Adds a listener for the join channel button.
+     * @param listener the listener to add.
+     */
     @Override
     public void addJoinChannelButtonListener(ActionListener listener) {
         joinChannelButton.addActionListener(listener);
     }
 
+    /**
+     * Adds a listener for the create new channel button.
+     * @param listener the listener to add.
+     */
     @Override
     public void addCreateNewChannelButtonListener(ActionListener listener) {
         createNewChannelButton.addActionListener(listener);
     }
 
+    /**
+     * Shows the chat area of the application.
+     */
     @Override
     public void showChatArea() {
         frame.getContentPane().removeAll();
@@ -209,6 +275,9 @@ public class StandardView implements IView {
         frame.repaint();
     }
 
+    /**
+     * Creates the chat area.
+     */
     private void chatArea() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
@@ -299,36 +368,65 @@ public class StandardView implements IView {
         frame.add(panel);
         frame.setVisible(true);
     }
+
+    /**
+     * Adds a channel to the channel list.
+     * @param channelName the name of the channel to add.
+     */
     @Override
     public void addChannelToList(String channelName) {
         listModel.addElement(channelName);
     }
 
+    /**
+     * Adds a listener for the send button.
+     * @param listener the listener to add.
+     */
     @Override
     public void addSendButtonListener(ActionListener listener) {
         sendButton.addActionListener(listener);
     }
 
+    /**
+     * Adds a listener for the join new channel button.
+     * @param listener the listener to add.
+     */
     @Override
     public void addJoinNewChannelButtonListener(ActionListener listener) {
         joinNewChannelButton.addActionListener(listener);
     }
+
+    /**
+     * Adds a listener for the channel list selection.
+     * @param listener the listener to add.
+     */
     @Override
     public void addChannelListSelectionListener(ListSelectionListener listener) {
         channelList.addListSelectionListener(listener);
     }
 
+    /**
+     * Adds a listener for the leave channel button.
+     * @param listener the listener to add.
+     */
     @Override
     public void addLeaveChannelButtonListener(ActionListener listener) {
         leaveChannelButton.addActionListener(listener);
     }
 
+    /**
+     * Gets the input text from the input field.
+     * @return the input text.
+     */
     @Override
     public String getInputText() {
         return inputField.getText();
     }
 
-
+    /**
+     * Appends text to the chat area.
+     * @param text the text to append.
+     */
     @Override
     public void appendChatText(String text) {
         if (chatArea != null) {
@@ -336,16 +434,27 @@ public class StandardView implements IView {
         }
     }
 
+    /**
+     * Appends a message to the chat area.
+     * @param text the message to append.
+     */
     @Override
     public void appendChatText(Message text) {
-
+        // Implementation needed
     }
 
+    /**
+     * Removes a channel from the channel list.
+     * @param channelName the name of the channel to remove.
+     */
     @Override
     public void removeChannelFromList(String channelName) {
         listModel.removeElement(channelName);
     }
 
+    /**
+     * Clears the input text field.
+     */
     @Override
     public void clearInputText() {
         inputField.setText("");

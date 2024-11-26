@@ -115,7 +115,7 @@ public class ClientChannel {
      */
     public void saveHistory(){
         /*
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(channelName + "_history.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(channelName + "_history.txt",false))) {
             writer.write(history.toString());
         } catch (IOException e) {
             e.printStackTrace();
