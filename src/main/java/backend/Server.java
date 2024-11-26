@@ -66,6 +66,12 @@ public class Server {
             System.out.println(e.getMessage());
         }
     }
+
+    /**
+     * Stops the server to listening for incoming client connects.
+     * sets {@code isRunning} to false when called
+     * @throws IOException if an I/O error occurs while closing the server socket.
+     */
     public void stop() throws IOException {
         isRunning = false; // Stop accepting new connections
         if (server != null && !server.isClosed()) {
@@ -83,15 +89,27 @@ public class Server {
         return channels.computeIfAbsent(channelName, newChannel -> new ChatChannel(channelName, password));
     }
 
+    /**
+     * Creates a new chat channel with the specific name and password
+     * If a channel with the given name already exist, the method notifies
+     * the user and does not create a new channel.
+     * This method is synchronized to ensure thread-safe access to shared {@code channels} map.
+     * @param channelName the name of the channel to be created. Must be unique.
+     * @param password the password for the channel, used for authentication.
+     */
     public synchronized void createChannel(String channelName, String password) {
         if (channels.containsKey(channelName)) {
             System.out.println("ChannelName taken, Try another one.");
         } else {
             channels.put(channelName, new ChatChannel(channelName, password));
-            ChatChannel channel = getChannel(channelName);
-
         }
     }
+
+    /**
+     * Retrieves the chat channel by its name.
+     * @param channelName the name of the channel to get.
+     * @return the {@code ChatChannel} object associated with the specific name.
+     */
     public synchronized ChatChannel getChannel(String channelName) {
         return channels.get(channelName);
     }
