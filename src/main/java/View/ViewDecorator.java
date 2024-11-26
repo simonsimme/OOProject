@@ -1,11 +1,11 @@
 // ViewDecorator.java
 package View;
 
-import backend.Message;
+import backend.Messages.*;
 
 import java.awt.event.ActionListener;
 
-public abstract class ViewDecorator implements IView {
+public  class ViewDecorator implements IView {
     protected IView decoratedView;
 
     public ViewDecorator(IView decoratedView) {
@@ -84,6 +84,17 @@ public abstract class ViewDecorator implements IView {
     public void showCreateChannelScreen() {
         decoratedView.showCreateChannelScreen();
     }
+
+    @Override
+    public String getPasswordInput() {
+        return null;
+    }
+
+    @Override
+    public String getChannelNameInput() {
+        return null;
+    }
+
     @Override
     public void addCreateButtonListener(ActionListener listener) {
         decoratedView.addCreateButtonListener(listener);
