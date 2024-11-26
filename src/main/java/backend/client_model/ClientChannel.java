@@ -114,11 +114,14 @@ public class ClientChannel {
      * This method is currently a placeholder and needs implementation.
      */
     public void saveHistory(){
+        /*
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(channelName + "_history.txt"))) {
             writer.write(history.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+         */
     }
     /**
      * Loads the channel's history from persistent storage.
