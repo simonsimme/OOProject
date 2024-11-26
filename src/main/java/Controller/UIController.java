@@ -141,6 +141,5 @@ public class UIController implements ClientObserver {
                 refrence.createChannel(channelName, password);
                 view.appendChatText("Creating new channel...");
             }
-
         }
     }

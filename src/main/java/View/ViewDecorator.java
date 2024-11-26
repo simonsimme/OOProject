@@ -3,6 +3,7 @@ package View;
 
 import backend.Messages.*;
 
+import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.List;
 
@@ -85,12 +86,12 @@ public  class ViewDecorator implements IView {
 
     @Override
     public String getPasswordInput() {
-        return null;
+        return decoratedView.getPasswordInput();
     }
 
     @Override
     public String getChannelNameInput() {
-        return null;
+        return decoratedView.getChannelNameInput();
     }
 
     @Override
@@ -106,5 +107,7 @@ public  class ViewDecorator implements IView {
     public void updateChannelList(List<String> channels, String currentChannel) {
         decoratedView.updateChannelList(channels, currentChannel);
     }
+
+
 
 }
