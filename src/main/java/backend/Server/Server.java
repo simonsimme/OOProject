@@ -79,17 +79,6 @@ public class Server {
         }
     }
     /**
-     * Get an existing Chat Channel by its name or creates a new one
-     * if none exist.
-     * @param channelName the name of the chat channel
-     * @return the chat channel with the name
-     */
-    public synchronized ChatChannel getOrCreateChannel(String channelName, String password) {
-        System.out.println("Channel name: " + channelName);
-        return channels.computeIfAbsent(channelName, newChannel -> new ChatChannel(channelName, password));
-    }
-
-    /**
      * Creates a new chat channel with the specific name and password
      * If a channel with the given name already exist, the method notifies
      * the user and does not create a new channel.
