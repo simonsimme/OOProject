@@ -3,6 +3,7 @@ package Controller;
 import Main.ChatApplication;
 import backend.Messages.UI.*;
 import backend.client_model.Client;
+import backend.client_model.ClientChannel;
 import backend.client_model.ClientObserver;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -173,9 +174,8 @@ public class UIController implements ClientObserver {
                 view.addJoinChannelButtonListener(new JoinChannelButtonListener());
             } else {
                 view.removeChannelFromList(refrence.getCurrentChannelName());
-                String name = refrence.getChannelNames().get(0);
-                refrence.switchChannel(name);
-                view.changeChannel(name);
+                ClientChannel c = refrence.switchChannel();
+                view.changeChannel(c.getChannelName());
             }
         }
     }

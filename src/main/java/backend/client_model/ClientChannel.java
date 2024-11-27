@@ -12,7 +12,7 @@ import java.util.List;
  * Tracks the channel's name, users, and message history.
  */
 public class ClientChannel {
-    private final String channelName;
+    private String channelName;
     private List<String> usersInChannel;
     private StringBuilder history;
 
@@ -130,6 +130,9 @@ public class ClientChannel {
      */
     private void loadHistory(){
         //TODO : Implement saving feature
+    }
+    public void setChannelName(String name){
+        channelName = name;
     }
 
 }

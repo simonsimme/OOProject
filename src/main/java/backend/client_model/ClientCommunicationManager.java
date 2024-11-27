@@ -73,6 +73,7 @@ public class ClientCommunicationManager implements Runnable{
 
     public void createChannel(String userName,String channelName, String password)
     {
+        System.out.println("Sending create channel command");
         Message message = new CreateChannelCommand(userName,channelName,password);
         sendMessageToServer(message);
     }

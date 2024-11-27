@@ -27,6 +27,7 @@ public class StandardView implements IView {
     private JButton leaveChannelButton;
     private JButton createNewChannelButton;
     private JList<String> channelList = new JList<>();
+    private HighlightedChannelRenderer channelRenderer;
     DefaultListModel<String> listModel = new DefaultListModel<>();
 
     private JTextField channelNameField;
@@ -43,6 +44,8 @@ public class StandardView implements IView {
             listModel.addElement(channel);
         }
         channelList.setSelectedValue(currentChannel, true);
+        channelRenderer.setCurrentChannel(currentChannel);
+        channelList.repaint();
     }
 
     /**
@@ -71,6 +74,8 @@ public class StandardView implements IView {
         if (chatArea != null) {
             chatArea.setText(""); // clear chat
             chatArea.append("Switched to channel: " + channelName + "\n");
+            channelRenderer.setCurrentChannel(channelName);
+            channelList.repaint();
         }
     }
 
@@ -165,6 +170,8 @@ public class StandardView implements IView {
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
+        channelRenderer = new HighlightedChannelRenderer("None");
+        channelList.setCellRenderer(channelRenderer);
         startArea();
     }
 

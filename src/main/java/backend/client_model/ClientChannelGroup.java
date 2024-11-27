@@ -12,6 +12,9 @@ public class ClientChannelGroup {
         this.channels = new ArrayList<>();
         this.currentChannel = new ClientChannel("empty-channel");
     }
+    public void setNameOfCurrentChannel(String name){
+        currentChannel.setChannelName(name);
+    }
 
     public void switchToChannel(String channelName){
 
@@ -24,10 +27,11 @@ public class ClientChannelGroup {
         }
     }
 
-    public void switchToNextChannel(){
+    public ClientChannel switchToNextChannel(){
         int i = channels.indexOf(currentChannel);
         i = i % channels.size();
         currentChannel = channels.get(i);
+        return currentChannel;
     }
 
     public void sendMessageInChannel(String message, String channelName){
@@ -40,6 +44,7 @@ public class ClientChannelGroup {
     }
 
     public void addNewChannel(String channelName){
+        System.out.println("Adding new channel: " + channelName);
         channels.add(new ClientChannel(channelName));
     }
 
