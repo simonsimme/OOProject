@@ -91,6 +91,9 @@ public class Client implements ClientSubject{
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannel().getChannelName()));
         return c;
     }
+    public StringBuilder getHistory(){
+        return channelRecord.getCurrentChannel().getHistory();
+    }
     /**
      * Switches to the next available channel in the channel record.
      */

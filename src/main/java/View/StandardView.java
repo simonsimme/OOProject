@@ -3,6 +3,8 @@ package View;
 
 import backend.Messages.*;
 import backend.Messages.Message;
+import backend.Messages.UI.DisplayMessage;
+import backend.Messages.UI.UIMessage;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 import javax.swing.*;
@@ -440,14 +442,25 @@ public class StandardView implements IView {
             chatArea.append(text + "\n");
         }
     }
+    @Override
+    public void appendChatText(TextFormat tf) {
+        if (chatArea != null) {
+            for (int i = 0; i < tf.getText().size(); i++) {
+                chatArea.append(tf.getText().get(i));
+            }
+            chatArea.append("\n");
+        }
+    }
 
     /**
      * Appends a message to the chat area.
      * @param text the message to append.
      */
     @Override
-    public void appendChatText(Message text) {
-        // Implementation needed
+    public void appendChatText(DisplayMessage text) {
+        if (chatArea != null) {
+            chatArea.append(text.getMessage());
+        }
     }
 
     /**

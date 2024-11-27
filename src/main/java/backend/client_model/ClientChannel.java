@@ -103,8 +103,9 @@ public class ClientChannel {
      *
      * @return the channel's message history.
      */
-    public String getHistory(){
-        return history.toString();
+    public StringBuilder getHistory(){
+        loadHistory();
+        return history;
     }
     /**
      * Saves the channel's history to persistent storage.

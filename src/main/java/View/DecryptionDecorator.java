@@ -2,6 +2,8 @@
 package View;
 
 import backend.Messages.*;
+import backend.Messages.UI.DisplayMessage;
+import backend.Messages.UI.UIMessage;
 
 
 import java.util.Base64;
@@ -13,7 +15,7 @@ public class DecryptionDecorator extends ViewDecorator {
     }
 
     @Override
-    public void appendChatText(Message text) {
+    public void appendChatText(DisplayMessage text) {
        // String decryptedText = decrypt(text);
         super.appendChatText(text);
     }

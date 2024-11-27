@@ -2,6 +2,8 @@
 package View;
 
 import backend.Messages.*;
+import backend.Messages.UI.DisplayMessage;
+import backend.Messages.UI.UIMessage;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -65,13 +67,17 @@ public  class ViewDecorator implements IView {
         decoratedView.appendChatText(text);
     }
     @Override
-    public void appendChatText(Message text) {
+    public void appendChatText(DisplayMessage text) {
         decoratedView.appendChatText(text);
     }
 
     @Override
     public void clearInputText() {
         decoratedView.clearInputText();
+    }
+    @Override
+    public void appendChatText(TextFormat ft) {
+        decoratedView.appendChatText(ft);
     }
 
     @Override

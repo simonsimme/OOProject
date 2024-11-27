@@ -1,6 +1,8 @@
 package View;
 
 import backend.Messages.*;
+import backend.Messages.UI.DisplayMessage;
+import backend.Messages.UI.UIMessage;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -23,7 +25,8 @@ public interface IView {
     void addChannelToList(String channelName);
     String getInputText();
     void appendChatText(String text);
-    void appendChatText(Message text);
+    void appendChatText(DisplayMessage text);
+    void appendChatText(TextFormat ft);
     void removeChannelFromList(String channelName);
     void clearInputText();
     String getNickNameFeild();

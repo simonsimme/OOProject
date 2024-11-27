@@ -1,6 +1,7 @@
 package Controller;
 
 import Main.ChatApplication;
+import View.ErrormessageDecorater;
 import backend.Messages.UI.*;
 import backend.client_model.Client;
 import backend.client_model.ClientChannel;
@@ -16,7 +17,7 @@ public class UIController implements ClientObserver {
     private IView view;
     private Client refrence;
     private ChatApplication chatApplication;
-    private MessageVisitorUI messageVisitorUI;
+    private ErrormessageDecorater errormessageDecorater;
 
     public UIController(IView view, ChatApplication chatApplication, Client ref) {
         this.view = view;
@@ -24,7 +25,7 @@ public class UIController implements ClientObserver {
         this.chatApplication = chatApplication;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
-        messageVisitorUI = new MessageVisitorUI(view);
+        errormessageDecorater = new ErrormessageDecorater(view);
     }
 
     /**
@@ -33,7 +34,8 @@ public class UIController implements ClientObserver {
      */
     @Override
     public void update(UIMessage message) {
-        message.accept(messageVisitorUI);
+       // view.appendChatText(message);
+        message.accept(errormessageDecorater);
     }
 
     /**
@@ -144,6 +146,7 @@ public class UIController implements ClientObserver {
                 if (selectedChannel != null && !selectedChannel.equals(refrence.getCurrentChannelName())) {
                     refrence.switchChannel(selectedChannel);
                     view.changeChannel(selectedChannel);
+                    view.showHistory(refrence.getHistory());
                 }
             }
         }

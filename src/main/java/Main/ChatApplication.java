@@ -2,6 +2,7 @@
 package Main;
 
 import View.DecoderViewFactory;
+import View.StandardViewFactory;
 import View.ViewFactory;
 import View.IView;
 import Controller.UIController;
@@ -38,7 +39,7 @@ public class ChatApplication {
 
     public void startClients() throws IOException {
         // Create and run the first client with its own view
-        ViewFactory viewFactory1 = new DecoderViewFactory();
+        ViewFactory viewFactory1 = new StandardViewFactory();
         IView view1 = viewFactory1.createView();
         client = new Client("localhost", 1234);
 
@@ -47,7 +48,7 @@ public class ChatApplication {
 
 
         // Create and run the second client with its own view
-        ViewFactory viewFactory2 = new DecoderViewFactory ();
+        ViewFactory viewFactory2 = new StandardViewFactory ();
         IView view2 = viewFactory2.createView();
         client2 = new Client("localhost", 1234);
 
