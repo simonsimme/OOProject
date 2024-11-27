@@ -5,6 +5,11 @@ import org.junit.jupiter.api.Test;
 
 import javax.crypto.SecretKey;
 
+
+/**
+ * Unit test for {@link EncryptionLayer} class
+ * Tests the functionality of the methods in the {@code EncryptionLayer} class
+ */
 public class EncryptionTest {
     EncryptionLayer encryptionLayer = new EncryptionLayer();
     SecretKey key;
