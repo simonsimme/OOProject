@@ -66,15 +66,6 @@ public class ClientVisitor implements ClientMessageVisitor{
     }
 
     /**
-     *
-     * @param m
-     */
-    @Override
-    public void handle(SendMessageInChannelResponseClient m) {
-        //Kanske inte behöver hantera detta...
-    }
-
-    /**
      * Notifies the UI to display the error description
      * @param m
      */
