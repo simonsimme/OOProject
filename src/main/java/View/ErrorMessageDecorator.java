@@ -2,8 +2,8 @@ package View;
 
 import backend.Messages.UI.*;
 
-public class ErrormessageDecorater extends ViewDecorator implements UIMessageVisitor {
-    public ErrormessageDecorater(IView decoratedView) {
+public class ErrorMessageDecorator extends ViewDecorator implements UIMessageVisitor {
+    public ErrorMessageDecorator(IView decoratedView) {
         super(decoratedView);
     }
 

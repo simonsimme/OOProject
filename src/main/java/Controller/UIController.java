@@ -1,7 +1,7 @@
 package Controller;
 
 import Main.ChatApplication;
-import View.ErrormessageDecorater;
+import View.ErrorMessageDecorator;
 import backend.Messages.UI.*;
 import backend.client_model.Client;
 import backend.client_model.ClientChannel;
@@ -17,7 +17,7 @@ public class UIController implements ClientObserver {
     private IView view;
     private Client refrence;
     private ChatApplication chatApplication;
-    private ErrormessageDecorater errormessageDecorater;
+    private ErrorMessageDecorator errorMessageDecorator;
 
     public UIController(IView view, ChatApplication chatApplication, Client ref) {
         this.view = view;
@@ -25,7 +25,7 @@ public class UIController implements ClientObserver {
         this.chatApplication = chatApplication;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
-        errormessageDecorater = new ErrormessageDecorater(view);
+        this.errorMessageDecorator = new ErrorMessageDecorator(view);
     }
 
     /**
@@ -35,7 +35,7 @@ public class UIController implements ClientObserver {
     @Override
     public void update(UIMessage message) {
        // view.appendChatText(message);
-        message.accept(errormessageDecorater);
+        message.accept(errorMessageDecorator);
     }
 
     /**
