@@ -1,7 +1,9 @@
 package backend.Messages.Client;
 
-import backend.Messages.Client.ClientMessageVisitor;
-
+/**
+ * A visitable message that accepts a ClientMessageVisitor
+ * All Client message classes implement this interface, see Visitor pattern.
+ */
 public interface ClientVisitableMessage {
     void accept(ClientMessageVisitor visitor);
 }

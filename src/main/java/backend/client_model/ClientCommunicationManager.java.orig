@@ -99,8 +99,12 @@ public class ClientCommunicationManager implements Runnable{
      */
     public void createChannel(String userName,String channelName, String password)
     {
+<<<<<<< Updated upstream
         System.out.println("Sending create channel command");
+        Message message = new CreateChannelCommand(userName,channelName,password);
+=======
         ServerMessage message = new CreateChannelCommand(userName,channelName,password);
+>>>>>>> Stashed changes
         sendMessageToServer(message);
     }
 
