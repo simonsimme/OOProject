@@ -40,7 +40,7 @@ public class Client implements ClientSubject{
      * Sets a nickname for the client.
      */
     public String getCurrentChannelName(){
-        return channelRecord.getCurrentChannel().getChannelName();
+        return channelRecord.getCurrentChannelName();
     }
     public void setNickName(String name)
     {
@@ -75,7 +75,7 @@ public class Client implements ClientSubject{
      * Leaves the current channel the client is in.
      */
     public void leaveChannel(){
-        cm.leaveChannel(user,channelRecord.getCurrentChannel().getChannelName());
+        cm.leaveChannel(user,channelRecord.getCurrentChannelName());
     }
     /**
      * Switches to a specified channel by its name.
@@ -83,36 +83,34 @@ public class Client implements ClientSubject{
      */
     public void switchChannel(String channelName){
         channelRecord.switchToChannel(channelName);
-        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannel().getChannelName()));
-        //saveChannel();
+        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
     }
-    public ClientChannel switchChannel(){
-        ClientChannel c =channelRecord.switchToNextChannel();
-        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannel().getChannelName()));
-        return c;
-    }
-    public StringBuilder getHistory(){
-        return channelRecord.getCurrentChannel().getHistory();
+    //This should be removed. Use nextChannel() instead and wait on an UpdateChannels message from the client.
+    public String switchChannel(){
+        String newChannelName =channelRecord.switchToNextChannel();
+        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
+        return newChannelName;
     }
     /**
      * Switches to the next available channel in the channel record.
      */
     public void nextChannel(){
         channelRecord.switchToNextChannel();
-        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannel().getChannelName()));
+        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
+    }
 
+    public StringBuilder getHistory(){
+        return channelRecord.getCurrentChannelHistory();
     }
-    public void saveChannel(){
-        channelRecord.getCurrentChannel().saveHistory();
-    }
+
     /**
      * Sends a message to the current channel.
      * @param message the message to send.
      */
     public void sendMessage(String message)
     {
-        System.out.println("Curr channel: " + channelRecord.getCurrentChannel().getChannelName());
-        cm.sendMessage(user,channelRecord.getCurrentChannel().getChannelName(), message);
+        System.out.println("Curr channel: " + channelRecord.getCurrentChannelName());
+        cm.sendMessage(user,channelRecord.getCurrentChannelName(), message);
     }
     /**
      * Retrieves a list of names of all channels the client is a member of.
@@ -128,7 +126,7 @@ public class Client implements ClientSubject{
      * @return a list of usernames in the current channel.
      */
     public List<String> getUserNamesInCurrentChannel(){
-        return channelRecord.getCurrentChannel().getUsersInChannel();
+        return channelRecord.getUsersInCurrentChannel();
     }
     /**
      * Attaches an observer to the client for receiving updates.

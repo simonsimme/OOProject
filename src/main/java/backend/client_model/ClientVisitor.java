@@ -14,10 +14,10 @@ import java.util.List;
  */
 public class ClientVisitor implements ClientMessageVisitor{
     /**
-     * The channelGroup is passed down to the ClientMessageVisitor from the Client class since ClientMessageVisitor
+     * The channelRecord is passed down to the ClientMessageVisitor from the Client class since ClientMessageVisitor
      * needs to manipulate it.
      */
-    private ClientChannelRecord channelGroup;
+    private ClientChannelRecord channelRecord;
     /**
      * The list of observers observing the client is passed down to ClientMessageVisitor since ClientMessageVisitor
      * needs to notify them.
@@ -30,7 +30,7 @@ public class ClientVisitor implements ClientMessageVisitor{
      * @param observers Passed down reference.
      */
     public  ClientVisitor(ClientChannelRecord channelGroup, List<ClientObserver> observers){
-        this.channelGroup = channelGroup;
+        this.channelRecord = channelGroup;
         this.observers = observers;
     }
 
@@ -41,8 +41,8 @@ public class ClientVisitor implements ClientMessageVisitor{
      */
     @Override
     public void handle(JoinChannelResponse m) {
-        channelGroup.addNewChannel(m.getChannelName());
-        notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+        channelRecord.addNewChannel(m.getChannelName());
+        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
     }
 
     /**
@@ -51,8 +51,8 @@ public class ClientVisitor implements ClientMessageVisitor{
      */
     @Override
     public void handle(CreateChannelResponse m) {
-        channelGroup.addNewChannel(m.getChannelName());
-        notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+        channelRecord.addNewChannel(m.getChannelName());
+        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
     }
 
     /**
@@ -61,12 +61,12 @@ public class ClientVisitor implements ClientMessageVisitor{
      */
     @Override
     public void handle(LeaveChannelResponse m) {
-        channelGroup.removeChannel(m.getChannelName());
-        notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+        channelRecord.removeChannel(m.getChannelName());
+        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
     }
 
     /**
-     * Notifies the UI to display the error description
+     * Notifies the UI to display an error description.
      * @param m
      */
     @Override
@@ -82,12 +82,10 @@ public class ClientVisitor implements ClientMessageVisitor{
      * @param m message
      */
     @Override
-    public void handle(MessageInChannel m) { // Denna får vi fixa
-        if(m.getChannelName().equals(channelGroup.getCurrentChannel().getChannelName())){
-            notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));
-        }
-        notifyObservers(new DisplayMessage(m.getUserName(), m.getMessage()));
-        channelGroup.recordMessageInChannel(m.getMessage(),m.getChannelName());
+    public void handle(MessageInChannel m) {
+        if(m.getChannelName().equals(channelRecord.getCurrentChannelName())){
+            notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));}
+        channelRecord.recordMessageInChannel(m.getMessage(),m.getChannelName());
     }
 
     /**

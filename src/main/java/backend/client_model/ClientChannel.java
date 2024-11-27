@@ -1,6 +1,5 @@
 package backend.client_model;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,8 +31,8 @@ public class ClientChannel {
      * @param clientChannel the {@code ClientChannel} to copy.
      */
     public ClientChannel(ClientChannel clientChannel){
-        this.channelName = clientChannel.getChannelName();
-        this.usersInChannel = new ArrayList<>(clientChannel.getUsersInChannel());
+        this.channelName = clientChannel.getName();
+        this.usersInChannel = new ArrayList<>(clientChannel.getUsers());
         this.history = new StringBuilder(clientChannel.getHistory());
     }
 
@@ -62,7 +61,7 @@ public class ClientChannel {
      *
      * @param usersInChannel a list of usernames to set.
      */
-    public void setUsersInChannel(List<String> usersInChannel){
+    public void setUsers(List<String> usersInChannel){
         this.usersInChannel = usersInChannel;
     }
     /**
@@ -70,7 +69,7 @@ public class ClientChannel {
      *
      * @return a list of usernames in the channel.
      */
-    public List<String> getUsersInChannel(){
+    public List<String> getUsers(){
         return new ArrayList<>(usersInChannel);
     }
     /**
@@ -81,12 +80,27 @@ public class ClientChannel {
     public void addUserToChannel(String userName){
         usersInChannel.add(userName);
     }
+
+    /**
+     * Remove user from channel. Does nothing if user is not found.
+     * @param userName Name of the user to be removed.
+     */
+    public void removeUser(String userName) {
+         for (String user : usersInChannel){
+             if(userName.equals(user)){
+                 usersInChannel.remove(user);
+                 return;
+             }
+         }
+         //User not found
+        System.out.println("Error in ClientChannel.java.addUserToChannel() : User not found");
+    }
     /**
      * Retrieves the name of the channel.
      *
      * @return the name of the channel.
      */
-    public String getChannelName(){
+    public String getName(){
         return channelName;
     }
     /**
@@ -104,8 +118,8 @@ public class ClientChannel {
      * @return the channel's message history.
      */
     public StringBuilder getHistory(){
-        loadHistory();
-        return history;
+        //loadHistory();
+        return new StringBuilder(history);
     }
     /**
      * Saves the channel's history to persistent storage.
@@ -141,7 +155,7 @@ public class ClientChannel {
         this.history = loadedHistory;
         */
     }
-    public void setChannelName(String name){
+    public void setName(String name){
         channelName = name;
     }
 

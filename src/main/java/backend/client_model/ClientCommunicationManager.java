@@ -2,6 +2,7 @@ package backend.client_model;
 
 import backend.Messages.Client.ClientMessage;
 import backend.Messages.Server.*;
+import backend.Messages.UI.UpdateChannels;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

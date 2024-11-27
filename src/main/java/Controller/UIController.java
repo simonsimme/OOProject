@@ -177,8 +177,8 @@ public class UIController implements ClientObserver {
                 view.addJoinChannelButtonListener(new JoinChannelButtonListener());
             } else {
                 view.removeChannelFromList(refrence.getCurrentChannelName());
-                ClientChannel c = refrence.switchChannel();
-                view.changeChannel(c.getChannelName());
+                String channelName = refrence.switchChannel();
+                view.changeChannel(channelName);
             }
         }
     }

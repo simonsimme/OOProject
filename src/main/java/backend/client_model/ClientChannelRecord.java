@@ -25,7 +25,7 @@ public class ClientChannelRecord {
         this.currentChannel = new ClientChannel("empty-channel");
     }
     public void setNameOfCurrentChannel(String name){
-        currentChannel.setChannelName(name);
+        currentChannel.setName(name);
     }
 
     /**
@@ -35,19 +35,19 @@ public class ClientChannelRecord {
     public void switchToChannel(String channelName){
 
         for (ClientChannel channel : channels) {
-            System.out.println(channel.getChannelName());
-            if(channel.getChannelName().equals(channelName) ){
+            System.out.println(channel.getName());
+            if(channel.getName().equals(channelName) ){
                 currentChannel = channel;
                 break;
             }
         }
     }
 
-    public ClientChannel switchToNextChannel(){
+    public String switchToNextChannel(){
         int i = channels.indexOf(currentChannel);
-        i = i % channels.size();
-        currentChannel = channels.get(i);
-        return currentChannel;
+        i = (i+1) % channels.size();
+        switchToChannel(channels.get(i).getName());
+        return channels.get(i).getName();
     }
 
     /**
@@ -57,7 +57,7 @@ public class ClientChannelRecord {
      */
     public void recordMessageInChannel(String message, String channelName){
         for (ClientChannel channel: channels) {
-            if( channel.getChannelName() == channelName){
+            if( channel.getName() == channelName){
                 channel.sendMessage(message);
                 break;
             }
@@ -71,7 +71,7 @@ public class ClientChannelRecord {
 
     public void removeChannel(String channelName){
         for (ClientChannel channel:  channels) {
-             if( channel.getChannelName() == channelName){
+             if( channel.getName() == channelName){
                   channels.remove(channel);
              }
         }
@@ -98,18 +98,22 @@ public class ClientChannelRecord {
         this.channels = channels;
     }
 
-    public ClientChannel getCurrentChannel(){
-        return new ClientChannel(currentChannel);
+    public String getCurrentChannelName(){
+        return currentChannel.getName();
+    }
+
+    public StringBuilder getCurrentChannelHistory(){
+        return currentChannel.getHistory();
     }
 
     public List<String> getUsersInCurrentChannel(){
-        return currentChannel.getUsersInChannel();
+        return currentChannel.getUsers();
     }
 
     public List<String> getChannelNames(){
         List<String> result = new ArrayList<>();
         for (ClientChannel channel:channels) {
-             result.add(channel.getChannelName());
+             result.add(channel.getName());
         }
         return result;
     }
