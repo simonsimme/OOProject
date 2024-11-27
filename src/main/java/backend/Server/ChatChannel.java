@@ -37,4 +37,8 @@ public class ChatChannel {
     public Set<ClientHandler> getClients() {
         return clients;
     }
+
+    public String getName() {
+        return name;
+    }
 }
