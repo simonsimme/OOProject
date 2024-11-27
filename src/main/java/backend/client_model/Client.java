@@ -61,7 +61,7 @@ public class Client implements ClientSubject{
     public void createChannel(String channelName, String password)
     {
         cm.createChannel(user,channelName,password);
-        channelGroup.setNameOfCurrentChannel(channelName);
+        channelRecord.setNameOfCurrentChannel(channelName);
     }
     /**
      * Joins an existing channel with the given name and password.
@@ -82,19 +82,14 @@ public class Client implements ClientSubject{
      * @param channelName the name of the channel to switch to.
      */
     public void switchChannel(String channelName){
-<<<<<<< Updated upstream
-        channelGroup.switchToChannel(channelName);
-        notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+        channelRecord.switchToChannel(channelName);
+        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannel().getChannelName()));
         //saveChannel();
     }
     public ClientChannel switchChannel(){
-        ClientChannel c =channelGroup.switchToNextChannel();
-        notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
-        return c;
-=======
-        channelRecord.switchToChannel(channelName);
+        ClientChannel c =channelRecord.switchToNextChannel();
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannel().getChannelName()));
->>>>>>> Stashed changes
+        return c;
     }
     /**
      * Switches to the next available channel in the channel record.
@@ -105,7 +100,7 @@ public class Client implements ClientSubject{
 
     }
     public void saveChannel(){
-        channelGroup.getCurrentChannel().saveHistory();
+        channelRecord.getCurrentChannel().saveHistory();
     }
     /**
      * Sends a message to the current channel.
