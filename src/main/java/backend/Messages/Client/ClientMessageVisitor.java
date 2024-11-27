@@ -1,7 +1,9 @@
 package backend.Messages.Client;
 
-import backend.Messages.Client.*;
-
+/**
+ * An interface for the visitor that handles the different types of messages sent to the client.
+ * ClientVisitor implements this interface, see Visitor pattern.
+ */
 public interface ClientMessageVisitor
 {
     void handle(JoinChannelResponse m);

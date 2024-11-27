@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Client implements ClientSubject{
     private String user;
-    private final ClientChannelGroup channelGroup;
+    private final ClientChannelRecord channelRecord;
     private final ClientCommunicationManager cm;
     private final List<ClientObserver> observers = new ArrayList<>();
 
@@ -23,8 +23,8 @@ public class Client implements ClientSubject{
      */
     public Client(String address, int port) {
         this.user = "client default user name";
-        this.channelGroup = new ClientChannelGroup();
-        cm = new ClientCommunicationManager(address,port,this.channelGroup,observers);
+        this.channelRecord = new ClientChannelRecord();
+        cm = new ClientCommunicationManager(address,port,this.channelRecord,observers);
         new Thread(cm).start();
 
     }
@@ -40,7 +40,7 @@ public class Client implements ClientSubject{
      * Sets a nickname for the client.
      */
     public String getCurrentChannelName(){
-        return channelGroup.getCurrentChannel().getChannelName();
+        return channelRecord.getCurrentChannel().getChannelName();
     }
     public void setNickName(String name)
     {
@@ -61,7 +61,7 @@ public class Client implements ClientSubject{
     public void createChannel(String channelName, String password)
     {
         cm.createChannel(user,channelName,password);
-        channelGroup.setNameOfCurrentChannel(channelName);
+        channelRecord.setNameOfCurrentChannel(channelName);
     }
     /**
      * Joins an existing channel with the given name and password.
@@ -75,32 +75,32 @@ public class Client implements ClientSubject{
      * Leaves the current channel the client is in.
      */
     public void leaveChannel(){
-        cm.leaveChannel(user,channelGroup.getCurrentChannel().getChannelName());
+        cm.leaveChannel(user,channelRecord.getCurrentChannel().getChannelName());
     }
     /**
      * Switches to a specified channel by its name.
      * @param channelName the name of the channel to switch to.
      */
     public void switchChannel(String channelName){
-        channelGroup.switchToChannel(channelName);
-        notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+        channelRecord.switchToChannel(channelName);
+        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannel().getChannelName()));
         //saveChannel();
     }
     public ClientChannel switchChannel(){
-        ClientChannel c =channelGroup.switchToNextChannel();
-        notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+        ClientChannel c =channelRecord.switchToNextChannel();
+        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannel().getChannelName()));
         return c;
     }
     /**
-     * Switches to the next available channel in the channel group.
+     * Switches to the next available channel in the channel record.
      */
     public void nextChannel(){
-        channelGroup.switchToNextChannel();
-        notifyObservers(new UpdateChannels(channelGroup.getChannelNames(),channelGroup.getCurrentChannel().getChannelName()));
+        channelRecord.switchToNextChannel();
+        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannel().getChannelName()));
 
     }
     public void saveChannel(){
-        channelGroup.getCurrentChannel().saveHistory();
+        channelRecord.getCurrentChannel().saveHistory();
     }
     /**
      * Sends a message to the current channel.
@@ -108,8 +108,8 @@ public class Client implements ClientSubject{
      */
     public void sendMessage(String message)
     {
-        System.out.println("Curr channel: " + channelGroup.getCurrentChannel().getChannelName());
-        cm.sendMessage(user,channelGroup.getCurrentChannel().getChannelName(), message);
+        System.out.println("Curr channel: " + channelRecord.getCurrentChannel().getChannelName());
+        cm.sendMessage(user,channelRecord.getCurrentChannel().getChannelName(), message);
     }
     /**
      * Retrieves a list of names of all channels the client is a member of.
@@ -117,7 +117,7 @@ public class Client implements ClientSubject{
      * @return a list of channel names.
      */
     public List<String> getChannelNames(){
-        return channelGroup.getChannelNames();
+        return channelRecord.getChannelNames();
     }
     /**
      * Retrieves a list of usernames in the current channel.
@@ -125,7 +125,7 @@ public class Client implements ClientSubject{
      * @return a list of usernames in the current channel.
      */
     public List<String> getUserNamesInCurrentChannel(){
-        return channelGroup.getCurrentChannel().getUsersInChannel();
+        return channelRecord.getCurrentChannel().getUsersInChannel();
     }
     /**
      * Attaches an observer to the client for receiving updates.

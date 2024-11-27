@@ -2,5 +2,7 @@ package backend.Messages.Client;
 
 import backend.Messages.Message;
 
-public abstract class ClientMessage extends Message implements ClientVisitableMessage {
-}
+/**
+ * All messages that the ClientVisitor can handle should extend this.
+ */
+public abstract class ClientMessage extends Message implements ClientVisitableMessage {}

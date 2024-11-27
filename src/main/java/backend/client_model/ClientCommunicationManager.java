@@ -1,11 +1,7 @@
 package backend.client_model;
 
-import backend.Messages.*;
 import backend.Messages.Client.ClientMessage;
-import backend.Messages.Server.CreateChannelCommand;
-import backend.Messages.Server.JoinChannelCommand;
-import backend.Messages.Server.LeaveChannelCommand;
-import backend.Messages.Server.SendMessageInChannelCommand;
+import backend.Messages.Server.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,15 +14,40 @@ import java.util.List;
  */
 public class ClientCommunicationManager implements Runnable{
 
-
+    /**
+     * Used for communication with the server.
+     */
     private Socket socket;
+    /**
+     * Inputstream, ClientMessages get sent to this stream from the server.
+     */
     private ObjectInputStream in;
+    /**
+     * Outputstream, ServerMessages get sent to this stream, these are the messages that the server receives.
+     */
     private ObjectOutputStream out;
+    /**
+     * Ip adress of the server host.
+     */
     private String host;
+
+    /**
+     * Port that the socket should connect to.
+     */
     private int port;
+    /**
+     * Handler for input messages, see Visitor pattern.
+     */
     private ClientVisitor visitor;
 
-    public ClientCommunicationManager(String adress, int port, ClientChannelGroup channelGroup, List<ClientObserver> observers){
+    /**
+     * Only Constructor
+     * @param adress The adress of the server to connect to.
+     * @param port The port of the server to connect to.
+     * @param channelGroup Passed reference.
+     * @param observers Passed reference.
+     */
+    public ClientCommunicationManager(String adress, int port, ClientChannelRecord channelGroup, List<ClientObserver> observers){
 
         this.visitor = new ClientVisitor(channelGroup,observers);
 
@@ -44,7 +65,8 @@ public class ClientCommunicationManager implements Runnable{
     }
 
     /**
-     * Client implements the Runnable interface. The run() method continually reads messages from the server.
+     * Client implements the Runnable interface. The run() method continually reads messages from the server
+     * and run handleMessage() on them.
      */
     @Override
     public void run()
@@ -66,36 +88,62 @@ public class ClientCommunicationManager implements Runnable{
      * @param message The message to send to the ui.
      */
     public void handleMessage(ClientMessage message) {
-       // notifyObservers(message);
         message.accept(visitor);
     }
 
-
+    /**
+     * Sends a request to the server to create a new channel.
+     * @param userName Name of the user that sent the request. (current user)
+     * @param channelName Name of the new channel.
+     * @param password The password of the new channel.
+     */
     public void createChannel(String userName,String channelName, String password)
     {
         System.out.println("Sending create channel command");
-        Message message = new CreateChannelCommand(userName,channelName,password);
+        ServerMessage message = new CreateChannelCommand(userName,channelName,password);
         sendMessageToServer(message);
     }
 
+    /**
+     * Sends a request to the server that the given user wants to send a string message in the given channel.
+     * @param user Name of the user that sent the request. (current user)
+     * @param channel Name of the channel that the message is to be sent in.
+     * @param messageString Actual message string.
+     */
     public void sendMessage(String user, String channel, String messageString)
     {
-        Message message =
+        ServerMessage message =
                 new SendMessageInChannelCommand(user, channel, messageString);
         sendMessageToServer(message);
     }
 
+    /**
+     * Sends a request to the server that the given user wants to join a channel. This request may be denied by
+     * the server if the password supplied is incorrect.
+     * @param userName Name of the user that sent the request (currentUser).
+     * @param channelName Name of the channel that is attempted to be joined.
+     * @param password Password, this has to match with the server's record of the password for the channel for
+     *                 the request to be accepted.
+     */
     public void joinChannel(String userName,String channelName,String password){
-        Message message = new JoinChannelCommand(userName,channelName,password);
+        ServerMessage message = new JoinChannelCommand(userName,channelName,password);
         sendMessageToServer(message);
     }
+    /**
+     * Sends a request to the server that the given user wants to leave a channel.
+     * @param userName Name of the user that sent the request (currentUser).
+     * @param channelName Name of the channel that is attempted to be left.
+     */
     public void leaveChannel(String userName, String channelName){
-        Message message = new LeaveChannelCommand(userName, channelName);
+        ServerMessage message = new LeaveChannelCommand(userName, channelName);
         sendMessageToServer(message);
     }
 
-
-    private void sendMessageToServer(Message message){
+    /**
+     * Helper method, sends given message to the server's socket's inputStream.
+     * @param message
+     */
+    private void sendMessageToServer(ServerMessage message){
         try{
             out.writeObject(message);
             out.flush();

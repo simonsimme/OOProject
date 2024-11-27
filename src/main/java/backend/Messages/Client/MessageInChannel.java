@@ -1,11 +1,6 @@
 package backend.Messages.Client;
-
-import backend.Messages.Message;
-import backend.Messages.Server.ServerMessageVisitor;
-import backend.Messages.Server.ServerVisitableMessage;
-
 /**
- * Message to client : Display the given message in the given channel.
+ * Message to client : Send a message in a channel to a client
  */
 public class MessageInChannel extends ClientMessage implements ClientVisitableMessage {
     /**
@@ -34,13 +29,14 @@ public class MessageInChannel extends ClientMessage implements ClientVisitableMe
         this.message = message;
     }
 
+    //Getters
     public String getChannelName() {return channelName;}
     public String getMessage(){return message;}
     public String getUserName() {return userName;}
 
     /**
      * Visitor pattern method.
-     * @param serverMessageVisitor
+     * @param visitor
      */
     @Override
     public void accept(ClientMessageVisitor visitor) {
