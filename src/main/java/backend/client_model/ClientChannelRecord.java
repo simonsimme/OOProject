@@ -4,11 +4,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ClientChannelGroup {
+/**
+ * A record of the channels that a client is connected to.
+ */
+public class ClientChannelRecord {
+    /**
+     * All channels that the local client has a record of.
+     */
     private List<ClientChannel> channels;
+    /**
+     * Reference to the element of "channels" that is the currently open channel in the UI.
+     */
     private ClientChannel currentChannel;
 
-    public ClientChannelGroup(){
+    /**
+     * Constructor
+     */
+    public ClientChannelRecord(){
         this.channels = new ArrayList<>();
         this.currentChannel = new ClientChannel("empty-channel");
     }
@@ -16,6 +28,10 @@ public class ClientChannelGroup {
         currentChannel.setChannelName(name);
     }
 
+    /**
+     * Manipulates currentChannel.
+     * @param channelName The name of the channel to switch to.
+     */
     public void switchToChannel(String channelName){
 
         for (ClientChannel channel : channels) {
@@ -34,7 +50,12 @@ public class ClientChannelGroup {
         return currentChannel;
     }
 
-    public void sendMessageInChannel(String message, String channelName){
+    /**
+     * Saves a record of the given message in the given channel
+     * @param message
+     * @param channelName
+     */
+    public void recordMessageInChannel(String message, String channelName){
         for (ClientChannel channel: channels) {
             if( channel.getChannelName() == channelName){
                 channel.sendMessage(message);

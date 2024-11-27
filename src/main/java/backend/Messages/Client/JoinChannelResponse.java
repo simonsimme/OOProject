@@ -17,6 +17,7 @@ public class JoinChannelResponse extends ClientMessage {
         this.channelName = channelName;
     }
 
+    //Getter
     public String getChannelName() {
         return channelName;
     }

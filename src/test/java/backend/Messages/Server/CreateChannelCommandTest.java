@@ -6,6 +6,10 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+/**
+ * Unit test for {@link CreateChannelCommand} class
+ * Tests the functionality of the methods in the {@code CreateChannelCommand} class
+ */
 public class CreateChannelCommandTest {
     CreateChannelCommand command;
 
