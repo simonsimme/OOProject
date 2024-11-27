@@ -36,3 +36,11 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/out/backend/Client$1.class
+/out/backend/Client.class
+/out/backend/ClientHandler.class
+/out/backend/Message.class
+/out/backend/Server.class
+/out/backend/ServerMain.class
+/out/backend/ServerState.class
+/out/backend/User.class
