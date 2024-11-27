@@ -1,7 +1,6 @@
 package backend.Server;
 
 import backend.Messages.Message;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,5 +32,9 @@ public class ChatChannel {
                 client.sendMessage(message);
             }
         }
+    }
+
+    public Set<ClientHandler> getClients() {
+        return clients;
     }
 }

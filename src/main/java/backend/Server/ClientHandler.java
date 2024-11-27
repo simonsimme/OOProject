@@ -27,7 +27,7 @@ public class ClientHandler extends Thread {
     private ChatChannel currentChannel;
 
     /**
-     * Constructor for a {@code Clienthandler} for a given client socket and server instance.
+     * Constructor for a {@code ClientHandler} for a given client socket and server instance.
      * @param socket the client's socket connection.
      * @param server the server instance manging chat channels.
      */
@@ -49,16 +49,27 @@ public class ClientHandler extends Thread {
     @Override
     public void run() {
         try {
-            Message message;
-            ServerMessageVisitor handler = new MessageVisitorServer(this);
-            while (input != null && (message = (Message) input.readObject()) != null) {
-                message.accept(handler);
+            while (input != null) {
+                Message message = readMessage();
+                if (message != null) {
+                    processMessage(message);
+                }
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Client handler exception: " + e.getMessage());
+            handleError(e);
         } finally {
             closeConnections();
         }
+    }
+    private void handleError(Exception e) {
+        System.out.println("Client handler exception: " + e.getMessage());
+    }
+    Message readMessage() throws IOException, ClassNotFoundException {
+        return (Message) input.readObject();
+    }
+    private void processMessage(Message message) {
+        ServerMessageVisitor handler = new MessageVisitorServer(this);
+        message.accept(handler);
     }
     public void closeConnections() {
         // Ensure the input/output streams are closed properly
