@@ -88,33 +88,4 @@ class ServerTest {
         assertNotNull(server2);
         assertSame(server, server2);
     }
-
-    /**
-     * Test the {@code getOrCreateChannel} method of the {@code Server} class.
-     * This test verifies that:
-     * <ul>
-     *     <li>a new {@code ChatChannel} is created when the channel name does not exist</li>
-     *     <li>The same {@code ChatChannel} instance is returned when call with an existing name</li>
-     *     <li>A new {@code ChatChannel} is created for a different channel name</li>
-     * </ul>
-     */
-    @Test
-    void getOrCreateChannelTest() {
-        /*String channelName = "test";
-        //ChatChannel firstChannel = server.getOrCreateChannel(channelName);
-
-        assertNotNull(firstChannel);
-        assertEquals(channelName, firstChannel.getName());
-
-        ChatChannel secondChannel = server.getOrCreateChannel(channelName);
-        assertSame(firstChannel, secondChannel);
-
-        String anotherChannel = "AnotherChannel";
-        ChatChannel newChannel = server.getOrCreateChannel(anotherChannel);
-
-        assertNotNull(newChannel);
-        assertEquals(anotherChannel, newChannel.getName());
-        assertNotSame(firstChannel, newChannel);
-    } */
-}
 }

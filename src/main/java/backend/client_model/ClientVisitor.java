@@ -66,15 +66,6 @@ public class ClientVisitor implements ClientMessageVisitor{
     }
 
     /**
-     *
-     * @param m
-     */
-    @Override
-    public void handle(SendMessageInChannelResponseClient m) {
-        //Kanske inte behöver hantera detta...
-    }
-
-    /**
      * Notifies the UI to display the error description
      * @param m
      */
@@ -92,7 +83,7 @@ public class ClientVisitor implements ClientMessageVisitor{
      */
     @Override
     public void handle(MessageInChannel m) { // Denna får vi fixa
-        if(m.getChannelName() == channelGroup.getCurrentChannel().getChannelName()){
+        if(m.getChannelName().equals(channelGroup.getCurrentChannel().getChannelName())){
             notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));
         }
         notifyObservers(new DisplayMessage(m.getUserName(), m.getMessage()));

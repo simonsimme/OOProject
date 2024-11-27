@@ -96,10 +96,9 @@ public class ClientHandler extends Thread {
         ChatChannel channel = getChannel(channelName);
         if(channel.validatePassword(password))
         {
-            currentChannel = server.getOrCreateChannel(channelName, password);
+            currentChannel = getChannel(channelName);
             currentChannel.addClient(this);
         }
-
     }
     public void leaveChannel() {
         if (currentChannel != null) {
@@ -126,7 +125,7 @@ public class ClientHandler extends Thread {
     public void createChannel(String channelName, String password) {
         server.createChannel(channelName, password);
         currentChannel = getChannel(channelName);
-        getChannel(channelName).addClient(this);
+        currentChannel.addClient(this);
     }
     public ChatChannel getChannel(String channelName) {
         ChatChannel channel = server.getChannel(channelName);
@@ -136,5 +135,4 @@ public class ClientHandler extends Thread {
             throw new IllegalArgumentException("Channel does not exist");
         }
     }
-
 }
