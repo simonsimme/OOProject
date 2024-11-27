@@ -16,13 +16,11 @@ import javax.swing.event.ListSelectionListener;
 public class UIController implements ClientObserver {
     private IView view;
     private Client refrence;
-    private ChatApplication chatApplication;
     private ErrorMessageDecorator errorMessageDecorator;
 
-    public UIController(IView view, ChatApplication chatApplication, Client ref) {
+    public UIController(IView view, Client ref) {
         this.view = view;
         this.refrence = ref;
-        this.chatApplication = chatApplication;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
         this.errorMessageDecorator = new ErrorMessageDecorator(view);

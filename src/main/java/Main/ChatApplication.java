@@ -43,7 +43,7 @@ public class ChatApplication {
         IView view1 = viewFactory1.createView();
         client = new Client("localhost", 1234);
 
-         uiController1 = new  UIController( view1, this, client);
+         uiController1 = new  UIController( view1, client);
         //new Thread(client).start(); Thread startas i client nu
 
 
@@ -52,7 +52,7 @@ public class ChatApplication {
         IView view2 = viewFactory2.createView();
         client2 = new Client("localhost", 1234);
 
-         uiController2 = new UIController(view2, this, client2);
+         uiController2 = new UIController(view2, client2);
         //new Thread(client2).start(); Thread startas i client nu
         //TODO: Add so the client only attaches its own uicontroller the client should be the one who recives messages
         client.attach(uiController1);
