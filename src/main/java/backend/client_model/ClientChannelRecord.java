@@ -24,6 +24,7 @@ public class ClientChannelRecord {
         this.channels = new ArrayList<>();
         this.currentChannel = new ClientChannel("empty-channel");
     }
+
     public void setNameOfCurrentChannel(String name){
         currentChannel.setName(name);
     }
@@ -58,7 +59,7 @@ public class ClientChannelRecord {
     public void recordMessageInChannel(String message, String channelName){
         for (ClientChannel channel: channels) {
             if( channel.getName() == channelName){
-                channel.sendMessage(message);
+                channel.recordMessage(message);
                 break;
             }
         }

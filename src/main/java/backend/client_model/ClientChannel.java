@@ -53,7 +53,7 @@ public class ClientChannel {
      *
      * @param message the message to add to the history.
      */
-    public void sendMessage(String message){
+    public void recordMessage(String message){
         history.append(message);
     }
     /**

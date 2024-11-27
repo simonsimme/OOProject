@@ -61,7 +61,6 @@ public class Client implements ClientSubject{
     public void createChannel(String channelName, String password)
     {
         cm.createChannel(user,channelName,password);
-        channelRecord.setNameOfCurrentChannel(channelName);
     }
     /**
      * Joins an existing channel with the given name and password.
@@ -76,6 +75,9 @@ public class Client implements ClientSubject{
      */
     public void leaveChannel(){
         cm.leaveChannel(user,channelRecord.getCurrentChannelName());
+    }
+    public void leaveChannel(String channelName){
+        cm.leaveChannel(user,channelName);
     }
     /**
      * Switches to a specified channel by its name.
@@ -109,7 +111,6 @@ public class Client implements ClientSubject{
      */
     public void sendMessage(String message)
     {
-        System.out.println("Curr channel: " + channelRecord.getCurrentChannelName());
         cm.sendMessage(user,channelRecord.getCurrentChannelName(), message);
     }
     /**

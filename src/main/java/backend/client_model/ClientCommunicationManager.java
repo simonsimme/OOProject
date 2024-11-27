@@ -74,9 +74,10 @@ public class ClientCommunicationManager implements Runnable{
     {
         Object message;
         try {
-            while ((message = in.readObject()) != null)
+
+            while (true)
             {
-                System.out.println(message.getClass());
+                message = in.readObject();
                 if(message instanceof ClientMessage) handleMessage((ClientMessage) message);
             }
         } catch (IOException | ClassNotFoundException e) {
