@@ -96,7 +96,7 @@ public class ClientHandler extends Thread {
         ChatChannel channel = getChannel(channelName);
         if(channel.validatePassword(password))
         {
-            currentChannel = getChannel(channelName);
+            currentChannel = channel;
             currentChannel.addClient(this);
         }
     }
