@@ -28,6 +28,6 @@ public class JoinChannelResponse extends ClientMessage {
      */
     @Override
     public void accept(ClientMessageVisitor visitor) {
-
+         visitor.handle(this);
     }
 }
