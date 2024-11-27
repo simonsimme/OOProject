@@ -38,7 +38,6 @@ public class Server {
     private Server(int port) {
         isRunning = true;
         channels = new HashMap<>();
-        channels.put("yes", new ChatChannel("yes", "yes"));
         try {
             this.server = new ServerSocket(port);
         } catch (IOException e) {

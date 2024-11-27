@@ -93,7 +93,7 @@ public class ClientVisitor implements ClientMessageVisitor{
      * @param message
      */
     public void notifyObservers(UIMessage message) {
-        for (ClientObserver observer:observers) {
+        for (ClientObserver observer: observers) {
             observer.update(message);
         }
     }

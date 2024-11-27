@@ -25,10 +25,9 @@ public class MessageVisitorServer implements ServerMessageVisitor {
         if (currentChannel == null) {
             clientHandler.sendMessage(new ErrorResponse("You are not in a channel"));
             System.out.println("You are not in a channel");
-        } else {
-            clientHandler.getCurrentChannel().broadcast((new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage())), clientHandler); // send message to all users in the channel
-
-            //clientHandler.sendMessage(new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage()));
+        }
+        else {
+            currentChannel.broadcast((new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage())), clientHandler); // send message to all users in the channel
         }
     }
     @Override
