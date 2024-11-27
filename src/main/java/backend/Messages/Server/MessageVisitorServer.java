@@ -1,11 +1,8 @@
 package backend.Messages.Server;
 
+import backend.Messages.Client.*;
 import backend.Server.ChatChannel;
 import backend.Server.ClientHandler;
-import backend.Messages.Client.JoinChannelResponse;
-import backend.Messages.Client.LeaveChannelResponse;
-import backend.Messages.Client.MessageInChannel;
-import backend.Messages.Client.SendMessageInChannelResponseClient;
 
 public class MessageVisitorServer implements ServerMessageVisitor {
     private final ClientHandler clientHandler;
@@ -43,5 +40,6 @@ public class MessageVisitorServer implements ServerMessageVisitor {
     @Override
     public void handle(CreateChannelCommand createChannelCommand) {
         clientHandler.createChannel(createChannelCommand.getChannelName(), createChannelCommand.getChannelPassword());
+        clientHandler.sendMessage(new CreateChannelResponse(createChannelCommand.getChannelName()));
     }
 }
