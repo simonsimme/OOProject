@@ -1,8 +1,6 @@
 package backend.client_model;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -120,8 +118,8 @@ public class ClientChannel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
 
-         */
     }
     /**
      * Loads the channel's history from persistent storage.
@@ -129,7 +127,18 @@ public class ClientChannel {
      * This method is currently a placeholder and needs implementation.
      */
     private void loadHistory(){
-        //TODO : Implement saving feature
+        /*
+        StringBuilder loadedHistory = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(channelName + "_history.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                loadedHistory.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.history = loadedHistory;
+        */
     }
     public void setChannelName(String name){
         channelName = name;
