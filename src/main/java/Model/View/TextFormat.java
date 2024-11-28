@@ -1,4 +1,4 @@
-package View;
+package Model.View;
 
 import java.awt.*;
 import java.util.List;

@@ -1,14 +1,15 @@
 // StandardView.java
 package View;
 
-import backend.Messages.*;
-import backend.Messages.Message;
+import Model.View.HighlightedChannelRenderer;
+import Model.View.IView;
+import Model.View.TextFormat;
 import backend.Messages.UI.DisplayMessage;
-import backend.Messages.UI.UIMessage;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class StandardView implements IView {
     private JFrame frame;
-    private JTextArea chatArea;
+    private JTextPane chatArea;
     private JTextArea inputField;
     private JTextField inputTextField = new JTextField(20);
     private JButton sendButton;
@@ -35,14 +36,14 @@ public class StandardView implements IView {
     private JTextField channelNameField;
 
     /**
-     * Updates the channel list in the view.
-     * @param channels the list of channel names.
-     * @param currentChannel the name of the current channel.
+     * Updates the channel list with the given channels and sets the current channel.
+     * @param channels List of channel names.
+     * @param currentChannel The name of the current channel.
      */
     public void updateChannelList(List<String> channels, String currentChannel) {
         listModel.clear();
         for (String channel : channels) {
-            chatArea.append(channel);
+            chatArea.setText(chatArea.getText() + channel);
             listModel.addElement(channel);
         }
         channelList.setSelectedValue(currentChannel, true);
@@ -51,8 +52,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Returns the list model for the channel list.
-     * @return the list model for the channel list.
+     * Returns the channel list model.
+     * @return The DefaultListModel containing the channel names.
      */
     public DefaultListModel<String> getChannelList() {
         return listModel;
@@ -60,7 +61,7 @@ public class StandardView implements IView {
 
     /**
      * Displays the chat history in the chat area.
-     * @param history the chat history to display.
+     * @param history The chat history to display.
      */
     @Override
     public void showHistory(StringBuilder history) {
@@ -68,14 +69,14 @@ public class StandardView implements IView {
     }
 
     /**
-     * Changes the current channel in the view.
-     * @param channelName the name of the new channel.
+     * Changes the current channel and updates the chat area.
+     * @param channelName The name of the new channel.
      */
     @Override
     public void changeChannel(String channelName) {
         if (chatArea != null) {
             chatArea.setText(""); // clear chat
-            chatArea.append("Switched to channel: " + channelName + "\n");
+            appendChatText("Switched to channel: " + channelName + "\n");
             channelRenderer.setCurrentChannel(channelName);
             channelList.repaint();
         }
@@ -93,8 +94,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Gets the channel name input from the user.
-     * @return the channel name input.
+     * Prompts the user to enter a channel name.
+     * @return The entered channel name.
      */
     @Override
     public String getChannelNameInput() {
@@ -102,8 +103,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Gets the password input from the user.
-     * @return the password input.
+     * Prompts the user to enter a password.
+     * @return The entered password.
      */
     @Override
     public String getPasswordInput() {
@@ -111,7 +112,7 @@ public class StandardView implements IView {
     }
 
     /**
-     * Creates the create channel screen.
+     * Creates the create channel screen UI.
      */
     private void createChannelScreen() {
         JPanel panel = new JPanel();
@@ -155,8 +156,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Adds a listener for the create button.
-     * @param listener the listener to add.
+     * Adds an ActionListener to the create button.
+     * @param listener The ActionListener to add.
      */
     @Override
     public void addCreateButtonListener(ActionListener listener) {
@@ -164,7 +165,7 @@ public class StandardView implements IView {
     }
 
     /**
-     * Constructs a new StandardView and sets the look and feel.
+     * Constructor for StandardView. Initializes the UI components.
      */
     public StandardView() {
         try {
@@ -178,8 +179,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Gets the nickname field input.
-     * @return the nickname field input.
+     * Returns the nickname entered in the input text field.
+     * @return The entered nickname or "Guest" if the field is empty.
      */
     @Override
     public String getNickNameFeild() {
@@ -191,7 +192,7 @@ public class StandardView implements IView {
     }
 
     /**
-     * Shows the start area of the application.
+     * Initializes and displays the start area UI.
      */
     @Override
     public void startArea() {
@@ -247,8 +248,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Adds a listener for the create channel button.
-     * @param listener the listener to add.
+     * Adds an ActionListener to the create channel button.
+     * @param listener The ActionListener to add.
      */
     @Override
     public void addCreateChannelButtonListener(ActionListener listener) {
@@ -256,8 +257,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Adds a listener for the join channel button.
-     * @param listener the listener to add.
+     * Adds an ActionListener to the join channel button.
+     * @param listener The ActionListener to add.
      */
     @Override
     public void addJoinChannelButtonListener(ActionListener listener) {
@@ -265,8 +266,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Adds a listener for the create new channel button.
-     * @param listener the listener to add.
+     * Adds an ActionListener to the create new channel button.
+     * @param listener The ActionListener to add.
      */
     @Override
     public void addCreateNewChannelButtonListener(ActionListener listener) {
@@ -274,7 +275,7 @@ public class StandardView implements IView {
     }
 
     /**
-     * Shows the chat area of the application.
+     * Shows the chat area UI.
      */
     @Override
     public void showChatArea() {
@@ -285,20 +286,19 @@ public class StandardView implements IView {
     }
 
     /**
-     * Creates the chat area.
+     * Initializes and displays the chat area UI.
      */
     private void chatArea() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBackground(new Color(43, 43, 43));
 
-        chatArea = new JTextArea();
+        chatArea = new JTextPane();
         chatArea.setEditable(false);
         chatArea.setFont(new Font("Arial", Font.PLAIN, 14));
         chatArea.setBackground(new Color(60, 63, 65));
         chatArea.setForeground(Color.WHITE);
-        chatArea.setLineWrap(true);
-        chatArea.setWrapStyleWord(true);
+        chatArea.setContentType("text/html");
         JScrollPane chatScrollPane = new JScrollPane(chatArea);
         chatScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         chatScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -380,7 +380,7 @@ public class StandardView implements IView {
 
     /**
      * Adds a channel to the channel list.
-     * @param channelName the name of the channel to add.
+     * @param channelName The name of the channel to add.
      */
     @Override
     public void addChannelToList(String channelName) {
@@ -388,8 +388,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Adds a listener for the send button.
-     * @param listener the listener to add.
+     * Adds an ActionListener to the send button.
+     * @param listener The ActionListener to add.
      */
     @Override
     public void addSendButtonListener(ActionListener listener) {
@@ -397,8 +397,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Adds a listener for the join new channel button.
-     * @param listener the listener to add.
+     * Adds an ActionListener to the join new channel button.
+     * @param listener The ActionListener to add.
      */
     @Override
     public void addJoinNewChannelButtonListener(ActionListener listener) {
@@ -406,8 +406,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Adds a listener for the channel list selection.
-     * @param listener the listener to add.
+     * Adds a ListSelectionListener to the channel list.
+     * @param listener The ListSelectionListener to add.
      */
     @Override
     public void addChannelListSelectionListener(ListSelectionListener listener) {
@@ -415,8 +415,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Adds a listener for the leave channel button.
-     * @param listener the listener to add.
+     * Adds an ActionListener to the leave channel button.
+     * @param listener The ActionListener to add.
      */
     @Override
     public void addLeaveChannelButtonListener(ActionListener listener) {
@@ -424,8 +424,8 @@ public class StandardView implements IView {
     }
 
     /**
-     * Gets the input text from the input field.
-     * @return the input text.
+     * Returns the text entered in the input field.
+     * @return The entered text.
      */
     @Override
     public String getInputText() {
@@ -434,38 +434,64 @@ public class StandardView implements IView {
 
     /**
      * Appends text to the chat area.
-     * @param text the text to append.
+     * @param text The text to append.
      */
     @Override
     public void appendChatText(String text) {
         if (chatArea != null) {
-            chatArea.append(text + "\n");
-        }
-    }
-    @Override
-    public void appendChatText(TextFormat tf) {
-        if (chatArea != null) {
-            for (int i = 0; i < tf.getText().size(); i++) {
-                chatArea.append(tf.getText().get(i));
+            try {
+                StyledDocument doc = chatArea.getStyledDocument();
+                doc.insertString(doc.getLength(), text + "\n", null);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
             }
-            chatArea.append("\n");
         }
     }
 
     /**
-     * Appends a message to the chat area.
-     * @param text the message to append.
+     * Appends formatted text to the chat area.
+     * @param tf The TextFormat object containing the text and colors.
+     */
+    @Override
+    public void appendChatText(TextFormat tf) {
+        if (chatArea != null) {
+            StyledDocument doc = chatArea.getStyledDocument();
+            for (int i = 0; i < tf.getText().size(); i++) {
+                Style style = chatArea.addStyle("ColorStyle", null);
+                StyleConstants.setForeground(style, tf.getColors().get(i));
+                try {
+                    doc.insertString(doc.getLength(), tf.getText().get(i), style);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                doc.insertString(doc.getLength(), "\n", null);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Appends a DisplayMessage to the chat area.
+     * @param text The DisplayMessage object containing the message.
      */
     @Override
     public void appendChatText(DisplayMessage text) {
         if (chatArea != null) {
-            chatArea.append(text.getMessage());
+            try {
+                StyledDocument doc = chatArea.getStyledDocument();
+                doc.insertString(doc.getLength(), text.getMessage(), null);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     /**
      * Removes a channel from the channel list.
-     * @param channelName the name of the channel to remove.
+     * @param channelName The name of the channel to remove.
      */
     @Override
     public void removeChannelFromList(String channelName) {
@@ -473,7 +499,7 @@ public class StandardView implements IView {
     }
 
     /**
-     * Clears the input text field.
+     * Clears the text in the input field.
      */
     @Override
     public void clearInputText() {

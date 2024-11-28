@@ -1,14 +1,12 @@
 package Controller;
 
-import Main.ChatApplication;
-import View.ErrorMessageDecorator;
+import Model.View.Decoraters.HandleMessageDecorator;
 import backend.Messages.UI.*;
 import backend.client_model.Client;
-import backend.client_model.ClientChannel;
 import backend.client_model.ClientObserver;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import View.IView;
+import Model.View.IView;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -16,14 +14,14 @@ import javax.swing.event.ListSelectionListener;
 public class UIController implements ClientObserver {
     private IView view;
     private Client refrence;
-    private ErrorMessageDecorator errorMessageDecorator;
+    private HandleMessageDecorator handleMessageDecorator;
 
     public UIController(IView view, Client ref) {
         this.view = view;
         this.refrence = ref;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
-        this.errorMessageDecorator = new ErrorMessageDecorator(view);
+        this.handleMessageDecorator = new HandleMessageDecorator(view);
     }
 
     /**
@@ -33,7 +31,7 @@ public class UIController implements ClientObserver {
     @Override
     public void update(UIMessage message) {
        // view.appendChatText(message);
-        message.accept(errorMessageDecorator);
+        message.accept(handleMessageDecorator);
     }
 
     /**

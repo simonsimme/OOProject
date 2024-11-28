@@ -1,9 +1,9 @@
 // ViewDecorator.java
-package View;
+package Model.View.Decoraters;
 
-import backend.Messages.*;
+import Model.View.IView;
+import Model.View.TextFormat;
 import backend.Messages.UI.DisplayMessage;
-import backend.Messages.UI.UIMessage;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;

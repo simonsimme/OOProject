@@ -1,8 +1,6 @@
-package View;
+package Model.View;
 
-import backend.Messages.*;
 import backend.Messages.UI.DisplayMessage;
-import backend.Messages.UI.UIMessage;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;

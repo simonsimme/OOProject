@@ -1,9 +1,9 @@
 // ChatApplication.java
 package Main;
 
-import View.StandardViewFactory;
-import View.ViewFactory;
-import View.IView;
+import Model.View.Factorys.StandardViewFactory;
+import Model.View.Factorys.ViewFactory;
+import Model.View.IView;
 import Controller.UIController;
 import backend.Server.Server;
 import backend.client_model.Client;

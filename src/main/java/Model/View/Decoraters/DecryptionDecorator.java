@@ -1,9 +1,8 @@
 // DecryptionDecorator.java
-package View;
+package Model.View.Decoraters;
 
-import backend.Messages.*;
+import Model.View.IView;
 import backend.Messages.UI.DisplayMessage;
-import backend.Messages.UI.UIMessage;
 
 
 import java.util.Base64;

@@ -1,5 +1,5 @@
 // HighlightedChannelRenderer.java
-package View;
+package Model.View;
 
 import javax.swing.*;
 import java.awt.*;
