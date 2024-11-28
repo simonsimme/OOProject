@@ -138,11 +138,12 @@ public class UIController implements ClientObserver {
         public void valueChanged(ListSelectionEvent e) {
             if (!e.getValueIsAdjusting()) {
                 String selectedChannel = ((JList<String>) e.getSource()).getSelectedValue();
-                System.out.println(refrence.getCurrentChannelName());
                 if (selectedChannel != null && !selectedChannel.equals(refrence.getCurrentChannelName())) {
                     refrence.switchChannel(selectedChannel);
                     view.changeChannel(selectedChannel);
-                    view.showHistory(refrence.getHistory());
+                    UIMessage message = new DisplayMessage("SYSTEM", "Switched to channel: " + selectedChannel);
+                    message.accept(handleMessageDecorator);
+                    //view.showHistory(refrence.getHistory());
                 }
             }
         }

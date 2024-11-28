@@ -76,7 +76,6 @@ public class StandardView implements IView {
     public void changeChannel(String channelName) {
         if (chatArea != null) {
             chatArea.setText(""); // clear chat
-            appendChatText("Switched to channel: " + channelName + "\n");
             channelRenderer.setCurrentChannel(channelName);
             channelList.repaint();
         }
