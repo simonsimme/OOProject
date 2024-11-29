@@ -74,7 +74,6 @@ public class ClientCommunicationManager implements Runnable{
     {
         Object message;
         try {
-
             while (true)
             {
                 message = in.readObject();

@@ -87,7 +87,6 @@ public class ClientVisitor implements ClientMessageVisitor{
         if(m.getChannelName().equals(channelRecord.getCurrentChannelName())){
             notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));}
         channelRecord.recordMessageInChannel(m.getMessage(),m.getChannelName());
-        notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));
     }
 
     /**

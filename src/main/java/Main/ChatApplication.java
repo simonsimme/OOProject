@@ -51,8 +51,11 @@ public class ChatApplication {
 
          uiController2 = new UIController(view2, client2);
         //new Thread(client2).start(); Thread startas i client nu
+
         //TODO: Add so the client only attaches its own uicontroller the client should be the one who recives messages
         client.attach(uiController1);
+      //  client.attach(uiController2);
         client2.attach(uiController2);
+       //    client2.attach(uiController1);
     }
 }
