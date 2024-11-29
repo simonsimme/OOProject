@@ -33,6 +33,7 @@ public class MessageVisitorServer implements ServerMessageVisitor {
     }
     @Override
     public void handle(JoinChannelCommand joinChannelCommand) {
+        //System.out.println("password: " + joinChannelCommand.getPassword());
         clientHandler.joinChannel(joinChannelCommand.getChannelName(), joinChannelCommand.getPassword());
         clientHandler.sendMessage(new JoinChannelResponse(joinChannelCommand.getChannelName()));
     }

@@ -16,7 +16,8 @@ public class ChatChannel {
         this.clients = new HashSet<>();
     }
 
-    public boolean validatePassword(String password) {
+    public synchronized boolean validatePassword(String password) {
+
         return this.password.equals(password);
     }
     public synchronized void addClient(ClientHandler client) {
