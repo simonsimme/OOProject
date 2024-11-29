@@ -91,7 +91,7 @@ public class Server {
      */
     public synchronized void createChannel(String channelName, String password) {
         if (channels.containsKey(channelName)) {
-            System.out.println("ChannelName taken, Try another one.");
+            throw new OperationException("Error when create channel: That channel name already exist");
         } else {
             channels.put(channelName, new ChatChannel(channelName, password));
         }

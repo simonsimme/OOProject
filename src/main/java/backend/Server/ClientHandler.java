@@ -1,6 +1,6 @@
 package backend.Server;
+import backend.Messages.Client.ErrorResponse;
 import backend.Messages.Message;
-import backend.Messages.Server.ServerMessageVisitor;
 
 import java.net.*;
 import java.io.*;
@@ -98,27 +98,25 @@ public class ClientHandler extends Thread {
      * @param channelName the name of the channel to join
      */
     public void joinChannel(String channelName, String password) {
-
+        //TODO Add check for if the channelNamn exist
         ChatChannel channel = getChannel(channelName);
-
         if(channel.validatePassword(password))
         {
             currentChannel = channel;
             currentChannel.addClient(this);
         }
-        else{
-           throw new IllegalArgumentException("Invalid password");
+        else if (!channel.validatePassword(password)){
+           throw new OperationException("Error when attempting to join channel. Invalid password");
         }
     }
+    //TODO Comment
     public void leaveChannel() {
         if (currentChannel != null) {
             currentChannel.removeClient(this);
-            // if we leave a channel then we set the current channel to null
             currentChannel = null;
         }
-        else{
-            //TODO meybe also send a message to the client that you
-            // canot leave a channel if you are not in one
+        else {
+            throw new OperationException("Error when attempting to leave channel. You are not in a channel.");
         }
     }
 
@@ -127,6 +125,9 @@ public class ClientHandler extends Thread {
      * @param message the {@code Message} object to send
      */
     public void sendMessage(Message message) {
+        if (currentChannel == null) {
+            throw new OperationException("Error: Cannot send message. You are not in a channel.");
+        }
         try {
             output.writeObject(message);
             output.flush();
@@ -137,7 +138,6 @@ public class ClientHandler extends Thread {
     public ChatChannel getCurrentChannel() {
         return currentChannel;
     }
-
 
     public void createChannel(String channelName, String password) {
         server.createChannel(channelName, password);
