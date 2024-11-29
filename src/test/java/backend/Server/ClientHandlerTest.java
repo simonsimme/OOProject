@@ -15,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ClientHandlerTest {
     private Server Server;
     private ClientHandler clientHandler;
+
+    private ClientHandler clientHandler2;
     private String channelName;
     private String password;
     /**
@@ -26,6 +28,7 @@ public class ClientHandlerTest {
         //Set up the server and start listening for the clients
         Server = Server.createServerInstance(8080);
         clientHandler = new ClientHandler(new Socket(), Server);
+        clientHandler2 = new ClientHandler(new Socket(), Server);
         channelName = "testChannel";
         password = "password";
     }
@@ -38,6 +41,7 @@ public class ClientHandlerTest {
         }
         Server = null;
         clientHandler = null;
+        channelName = null;
     }
     /**
      * Tests the {@code joinChannel} method of {@code ClientHandler}.
@@ -58,6 +62,21 @@ public class ClientHandlerTest {
 
         // Verify that the client has been added to the correct channel
         assertTrue(channel.getClients().contains(clientHandler), "Client should be in the channel.");
+    }
+    @Test
+    void testJoinChannelWithTwoHandlers() {
+        clientHandler.createChannel(channelName, password); // Creating a channel on the server
+        // Assuming the password is correct
+        clientHandler.joinChannel(channelName, password);
+        //the second client joins the channel
+        clientHandler2.joinChannel(channelName, password);
+
+        // Retrieve the channel from the server to verify
+        ChatChannel channel = Server.getChannel(channelName);
+
+        // Verify that the client has been added to the correct channel
+        assertTrue(channel.getClients().contains(clientHandler), "Client should be in the channel.");
+        assertTrue(channel.getClients().contains(clientHandler2), "Client should be in the channel.");
     }
 
     /**

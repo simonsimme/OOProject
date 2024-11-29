@@ -18,17 +18,19 @@ public class MessageVisitorServer implements ServerMessageVisitor {
         clientHandler.leaveChannel();
         clientHandler.sendMessage(new LeaveChannelResponse(leaveChannelCommand.getChannelName()));
     }
-
+    /**
+     * Handles the SendMessageInChannelCommand, sending a message to the current chat channel if the user is in one.
+     *
+     * @param message the {@link SendMessageInChannelCommand} containing the details of the message, including
+     *                the sender's username, the channel name, and the message content.
+     */
     @Override
     public void handle(SendMessageInChannelCommand message) {
         ChatChannel currentChannel = clientHandler.getCurrentChannel();
         if (currentChannel == null) {
             clientHandler.sendMessage(new ErrorResponse("You are not in a channel"));
-            System.out.println("You are not in a channel");
         } else {
-            clientHandler.getCurrentChannel().broadcast((new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage())), clientHandler); // send message to all users in the channel
-
-            //clientHandler.sendMessage(new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage()));
+            currentChannel.broadcast(new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage()));
         }
     }
     @Override

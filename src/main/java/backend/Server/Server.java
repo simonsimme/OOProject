@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Server {
     //ServerSocket will listen for incoming connections.
-    private ServerSocket server = null;
+    private  ServerSocket server = null;
     //Singleton instance of server.
     private static Server thisServer = null;
     //A map of active chat channels, identified by their names.
@@ -38,7 +38,7 @@ public class Server {
     private Server(int port) {
         isRunning = true;
         channels = new HashMap<>();
-        channels.put("yes", new ChatChannel("yes", "yes"));
+        System.out.println("Started new server:");
         try {
             this.server = new ServerSocket(port);
         } catch (IOException e) {
@@ -55,9 +55,11 @@ public class Server {
             while (isRunning) {
                 System.out.println("Waiting for clients...");
                 Socket clientSocket = server.accept();
+
                 if(!isRunning) {
                     break;
                 }
+
                 System.out.println("New client connected: " + clientSocket.getLocalAddress());
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
                 clientHandler.start();
@@ -76,6 +78,7 @@ public class Server {
         isRunning = false; // Stop accepting new connections
         if (server != null && !server.isClosed()) {
             server.close(); // Close the server socket to break the accept() call
+            thisServer = null;
         }
     }
     /**
