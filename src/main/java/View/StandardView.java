@@ -412,7 +412,7 @@ public class StandardView implements IView {
      */
     @Override
     public void addChannelToList(String channelName) {
-        listModel.addElement(channelName);
+       listModel.addElement(channelName);
     }
 
     /**

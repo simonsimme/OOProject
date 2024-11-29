@@ -54,6 +54,7 @@ public class UIController implements ClientObserver {
             }
             String channelName = channelNameAndPassword[0];
             String password = channelNameAndPassword[1];
+            System.out.println(password);
             if(channelName.isEmpty()){
                 throw new Exception("Channel name cannot be empty");
             }
@@ -61,7 +62,6 @@ public class UIController implements ClientObserver {
             view.addChannelToList(channelName);
             view.changeChannel(channelName);
         }catch (Exception e){
-
             throw new RuntimeException(e.getMessage());
         }
 

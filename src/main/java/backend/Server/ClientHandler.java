@@ -1,7 +1,10 @@
 package backend.Server;
+import backend.Messages.Client.ErrorResponse;
+import backend.Messages.Client.MessageInChannel;
 import backend.Messages.Message;
 import backend.Messages.Server.MessageVisitorServer;
 import backend.Messages.Server.ServerMessageVisitor;
+import backend.Messages.UI.DisplayMessage;
 
 import java.net.*;
 import java.io.*;
@@ -55,7 +58,7 @@ public class ClientHandler extends Thread {
                     processMessage(message);
                 }
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | IllegalArgumentException e) {
             handleError(e);
         } finally {
             closeConnections();
@@ -68,8 +71,13 @@ public class ClientHandler extends Thread {
         return (Message) input.readObject();
     }
     private void processMessage(Message message) {
-        ServerMessageVisitor handler = new MessageVisitorServer(this);
-        message.accept(handler);
+        try{
+            ServerMessageVisitor handler = new MessageVisitorServer(this);
+            message.accept(handler);
+        }catch (IllegalArgumentException e){
+            throw new IllegalArgumentException(e.getMessage());
+        }
+
     }
     public void closeConnections() {
         // Ensure the input/output streams are closed properly
@@ -101,8 +109,7 @@ public class ClientHandler extends Thread {
             currentChannel.addClient(this);
         }
         else{
-            //TODO here also send a message to the client that the password is wrong
-            throw new IllegalArgumentException("Invalid password");
+           throw new IllegalArgumentException("Invalid password");
         }
     }
     public void leaveChannel() {

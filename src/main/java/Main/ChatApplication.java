@@ -45,6 +45,7 @@ public class ChatApplication {
 
 
         // Create and run the second client with its own view
+
         ViewFactory viewFactory2 = new StandardViewFactory ();
         IView view2 = viewFactory2.createView();
         client2 = new Client("localhost", 1234);
@@ -55,7 +56,7 @@ public class ChatApplication {
         //TODO: Add so the client only attaches its own uicontroller the client should be the one who recives messages
         client.attach(uiController1);
       //  client.attach(uiController2);
-        client2.attach(uiController2);
+       // client2.attach(uiController2);
        //    client2.attach(uiController1);
     }
 }

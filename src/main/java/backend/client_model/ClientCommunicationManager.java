@@ -1,6 +1,7 @@
 package backend.client_model;
 
 import backend.Messages.Client.ClientMessage;
+import backend.Messages.Client.ErrorResponse;
 import backend.Messages.Server.*;
 import backend.Messages.UI.UpdateChannels;
 
@@ -61,7 +62,6 @@ public class ClientCommunicationManager implements Runnable{
             in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
-            //TODO : Handle exception
         }
     }
 
@@ -79,7 +79,8 @@ public class ClientCommunicationManager implements Runnable{
                 message = in.readObject();
                 if(message instanceof ClientMessage) handleMessage((ClientMessage) message);
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | IllegalArgumentException e) {
+
             e.printStackTrace();
         }
     }
@@ -127,8 +128,13 @@ public class ClientCommunicationManager implements Runnable{
      *                 the request to be accepted.
      */
     public void joinChannel(String userName,String channelName,String password){
-        ServerMessage message = new JoinChannelCommand(userName,channelName,password);
-        sendMessageToServer(message);
+        try{
+            ServerMessage message = new JoinChannelCommand(userName,channelName,password);
+            sendMessageToServer(message);
+        }catch (Exception e){
+            throw new IllegalArgumentException(e.getMessage());
+        }
+
     }
     /**
      * Sends a request to the server that the given user wants to leave a channel.
@@ -150,7 +156,7 @@ public class ClientCommunicationManager implements Runnable{
             out.flush();
         } catch(IOException e){
             e.printStackTrace();
-            //TODO : Handle exception
+            throw new IllegalArgumentException("Error sending message: " + e.getMessage());
         }
     }
 }

@@ -33,9 +33,14 @@ public class MessageVisitorServer implements ServerMessageVisitor {
     }
     @Override
     public void handle(JoinChannelCommand joinChannelCommand) {
-        clientHandler.joinChannel(joinChannelCommand.getChannelName(), joinChannelCommand.getPassword());
-        clientHandler.sendMessage(new JoinChannelResponse(joinChannelCommand.getChannelName()));
-    }
+        try {
+            clientHandler.joinChannel(joinChannelCommand.getChannelName(), joinChannelCommand.getPassword());
+            clientHandler.sendMessage(new JoinChannelResponse(joinChannelCommand.getChannelName()));
+
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+      }
 
     @Override
     public void handle(CreateChannelCommand createChannelCommand) {
