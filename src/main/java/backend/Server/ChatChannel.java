@@ -23,12 +23,15 @@ public class ChatChannel {
     }
 
     public synchronized void removeClient(ClientHandler client) {
-        clients.remove(client);
+        boolean removed = clients.remove(client);
+        if(!removed){
+            //TODO: throw exception or something like that to notify the client that he is not in the channel
+        }
     }
 
     public synchronized void broadcast(Message message, ClientHandler sender) {
         for (ClientHandler client : clients) {
-            if(client.equals(sender)) {
+            if(!client.equals(sender)) {
                 client.sendMessage(message);
             }
         }
