@@ -25,19 +25,20 @@ public class ChatChannel {
     }
 
     public synchronized void removeClient(ClientHandler client) {
+        clients.remove(client);
         boolean removed = clients.remove(client);
         if(!removed){
             //TODO: throw exception or something like that to notify the client that he is not in the channel
         }
     }
 
-    public synchronized void broadcast(Message message, ClientHandler sender) {
-        //TODO fix here is to the view implementation that append the message to text area.
-
+    /**
+     * Broadcast Message to all Clients in the ChatChannel
+     * @param message The message to be sent
+     */
+    public synchronized void broadcast(Message message) {
         for (ClientHandler client : clients) {
-            if(!client.equals(sender)) {
                 client.sendMessage(message);
-            }
         }
     }
 
