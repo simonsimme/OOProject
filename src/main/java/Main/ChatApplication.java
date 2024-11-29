@@ -57,5 +57,5 @@ public class ChatApplication {
       //  client.attach(uiController2);
         client2.attach(uiController2);
        //    client2.attach(uiController1);
-    }
+    }//e
 }
