@@ -94,10 +94,15 @@ public class ClientHandler extends Thread {
      */
     public void joinChannel(String channelName, String password) {
         ChatChannel channel = getChannel(channelName);
+
         if(channel.validatePassword(password))
         {
             currentChannel = channel;
             currentChannel.addClient(this);
+        }
+        else{
+            //TODO here also send a message to the client that the password is wrong
+            throw new IllegalArgumentException("Invalid password");
         }
     }
     public void leaveChannel() {
