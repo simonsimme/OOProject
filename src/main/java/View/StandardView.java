@@ -18,7 +18,7 @@ import java.util.List;
 
 public class StandardView implements IView {
     private static JFrame frame;
-    private JTextPane chatArea;
+    private JTextPane chatArea = new JTextPane();
     private JTextArea inputField;
     private JTextField inputTextField = new JTextField(20);
     private JButton sendButton;
@@ -415,7 +415,7 @@ public class StandardView implements IView {
      */
     @Override
     public void addChannelToList(String channelName) {
-       listModel.addElement(channelName);
+       //listModel.addElement(channelName);
     }
 
     /**

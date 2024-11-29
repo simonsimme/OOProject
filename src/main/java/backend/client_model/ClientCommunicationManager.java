@@ -83,6 +83,7 @@ public class ClientCommunicationManager implements Runnable{
         } catch (IOException | ClassNotFoundException | IllegalArgumentException e) {
 
             e.printStackTrace();
+
         }
     }
 
@@ -117,6 +118,7 @@ public class ClientCommunicationManager implements Runnable{
     {
         ServerMessage message =
                 new SendMessageInChannelCommand(user, channel, messageString);
+
         sendMessageToServer(message);
     }
 

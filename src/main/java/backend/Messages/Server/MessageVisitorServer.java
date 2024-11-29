@@ -15,7 +15,7 @@ public class MessageVisitorServer implements ServerMessageVisitor {
     @Override
     public void handle(LeaveChannelCommand leaveChannelCommand)
     {
-        clientHandler.leaveChannel();
+        if(clientHandler.leaveChannel())
         clientHandler.sendMessage(new LeaveChannelResponse(leaveChannelCommand.getChannelName()));
     }
     /**
@@ -36,7 +36,8 @@ public class MessageVisitorServer implements ServerMessageVisitor {
     @Override
     public void handle(JoinChannelCommand joinChannelCommand) {
         try {
-            clientHandler.joinChannel(joinChannelCommand.getChannelName(), joinChannelCommand.getPassword());
+
+            if (clientHandler.joinChannel(joinChannelCommand.getChannelName(), joinChannelCommand.getPassword()))
             clientHandler.sendMessage(new JoinChannelResponse(joinChannelCommand.getChannelName()));
 
         } catch (IllegalArgumentException e) {
@@ -46,7 +47,7 @@ public class MessageVisitorServer implements ServerMessageVisitor {
 
     @Override
     public void handle(CreateChannelCommand createChannelCommand) {
-        clientHandler.createChannel(createChannelCommand.getChannelName(), createChannelCommand.getChannelPassword());
+        if(clientHandler.createChannel(createChannelCommand.getChannelName(), createChannelCommand.getChannelPassword()))
         clientHandler.sendMessage(new CreateChannelResponse(createChannelCommand.getChannelName()));
     }
 }

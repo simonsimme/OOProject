@@ -10,7 +10,6 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
 
     @Override
     public void handle(DisplayError e) {
-        System.out.println("DisplayError----------------------: " + e.getErrorMessage());
     decoratedView.displayErrorMessage(e.getErrorMessage());
     }
 

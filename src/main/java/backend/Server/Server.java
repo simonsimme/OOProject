@@ -105,4 +105,8 @@ public class Server {
     public synchronized ChatChannel getChannel(String channelName) {
         return channels.get(channelName);
     }
+
+    public synchronized Map<String, ChatChannel> getChannels() {
+        return channels;
+    }
 }

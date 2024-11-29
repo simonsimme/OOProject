@@ -58,9 +58,9 @@ public class UIController implements ClientObserver {
             if(channelName.isEmpty()){
                 throw new Exception("Channel name cannot be empty");
             }
-            refrence.joinChannel(channelName, password);
-            view.addChannelToList(channelName);
-            view.changeChannel(channelName);
+            refrence.joinChannel(channelName, password); //TODO fix so if wrong pass not continue
+
+
         }catch (Exception e){
             throw new RuntimeException(e.getMessage());
         }
@@ -83,8 +83,7 @@ public class UIController implements ClientObserver {
             throw new Exception("Channel name cannot be empty");
         }
         refrence.createChannel(channelName, password);
-        view.addChannelToList(channelName);
-        view.changeChannel(channelName);
+
 
         }catch (Exception e){
             throw new RuntimeException(e.getMessage());

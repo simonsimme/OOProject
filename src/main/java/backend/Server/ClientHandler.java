@@ -101,29 +101,47 @@ public class ClientHandler extends Thread {
      * channel, they are removed from it before joining a new chat channel.
      * @param channelName the name of the channel to join
      */
-    public void joinChannel(String channelName, String password) {
+    public boolean joinChannel(String channelName, String password) {
 
         ChatChannel channel = getChannel(channelName);
-
+        boolean result = false;
+        if (channel == null) {
+            ErrorResponse error = new ErrorResponse("Channel does not exist--");
+            sendMessage(error);
+        }
+        else
         if(channel.validatePassword(password))
         {
-            currentChannel = channel;
-            currentChannel.addClient(this);
+            if(channel.getClients().contains(this)){
+                ErrorResponse error = new ErrorResponse("You are already in this channel");
+                sendMessage(error);
+                result = false;
+            }else {
+                currentChannel = channel;
+                currentChannel.addClient(this);
+                result = true;
+            }
+
         }
         else{
-           throw new IllegalArgumentException("Invalid password");
+            ErrorResponse error = new ErrorResponse("Invalid password");
+            sendMessage(error);
         }
+        return result;
     }
-    public void leaveChannel() {
+    public boolean leaveChannel() {
+        boolean result = false;
         if (currentChannel != null) {
             currentChannel.removeClient(this);
             // if we leave a channel then we set the current channel to null
             currentChannel = null;
+            result = true;
         }
         else{
             //TODO meybe also send a message to the client that you
             // canot leave a channel if you are not in one
         }
+        return result;
     }
 
     /**
@@ -143,10 +161,20 @@ public class ClientHandler extends Thread {
     }
 
 
-    public void createChannel(String channelName, String password) {
+    public boolean createChannel(String channelName, String password) {
+        boolean result = false;
+        if (server.getChannel(channelName) == null) {
+            server.createChannel(channelName, password);
+            result = true;
+
         server.createChannel(channelName, password);
         currentChannel = getChannel(channelName);
         currentChannel.addClient(this);
+        } else {
+            ErrorResponse error = new ErrorResponse("Channel name already taken");
+            sendMessage(error);
+        }
+        return result;
     }
     public ChatChannel getChannel(String channelName) {
         ChatChannel channel = server.getChannel(channelName);
