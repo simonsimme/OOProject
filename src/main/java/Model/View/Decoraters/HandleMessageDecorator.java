@@ -15,7 +15,6 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
 
     @Override
     public void handle(DisplayMessage m) {
-        System.out.println("DisplayMessage: " + m.getUserName() + " ----" + m.getMessage());
     decoratedView.appendChatText(m);
     }
 

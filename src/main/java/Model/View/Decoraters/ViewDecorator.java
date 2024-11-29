@@ -86,20 +86,20 @@ public  class ViewDecorator implements IView {
     }
 
 
-    @Override
-    public void showCreateChannelScreen() {
-        decoratedView.showCreateChannelScreen();
-    }
 
     @Override
-    public String getPasswordInput() {
-        return decoratedView.getPasswordInput();
+    public String[] getChannelNameAndPasswordInput(String type) {
+        return decoratedView.getChannelNameAndPasswordInput(type);
+    }
+    @Override
+    public void displayErrorMessage(String message) {
+        decoratedView.displayErrorMessage(message);
+    }
+    @Override
+    public void showNotification(String message) {
+        decoratedView.showNotification(message);
     }
 
-    @Override
-    public String getChannelNameInput() {
-        return decoratedView.getChannelNameInput();
-    }
 
     @Override
     public void addCreateButtonListener(ActionListener listener) {

@@ -25,15 +25,17 @@ public interface IView {
     void appendChatText(String text);
     void appendChatText(DisplayMessage text);
     void appendChatText(TextFormat ft);
+    String[] getChannelNameAndPasswordInput(String type);
     void removeChannelFromList(String channelName);
     void clearInputText();
     String getNickNameFeild();
+    void displayErrorMessage(String message);
 
-    void showCreateChannelScreen();
+     void showNotification(String message) ;
 
-    String getPasswordInput();
 
-    String getChannelNameInput();
+
+
     DefaultListModel<String> getChannelList();
     void showHistory(StringBuilder history);
 }

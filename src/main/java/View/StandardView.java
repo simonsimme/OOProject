@@ -17,7 +17,7 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class StandardView implements IView {
-    private JFrame frame;
+    private static JFrame frame;
     private JTextPane chatArea;
     private JTextArea inputField;
     private JTextField inputTextField = new JTextField(20);
@@ -34,6 +34,7 @@ public class StandardView implements IView {
     DefaultListModel<String> listModel = new DefaultListModel<>();
 
     private JTextField channelNameField;
+    private JTextField passwordField;
 
     /**
      * Updates the channel list with the given channels and sets the current channel.
@@ -80,79 +81,98 @@ public class StandardView implements IView {
             channelList.repaint();
         }
     }
-
     /**
-     * Shows the create channel screen.
+     * Displays an error message in a dialog.
+     * @param errorMessage The error message to display.
+     */
+
+    @Override
+    public void displayErrorMessage(String errorMessage) {
+        JOptionPane.showMessageDialog(frame, errorMessage, "Message", JOptionPane.ERROR_MESSAGE);
+    }
+    /**
+     * Displays an notification of info to the user.
+     * @param message notification message.
      */
     @Override
-    public void showCreateChannelScreen() {
-        frame.getContentPane().removeAll();
-        createChannelScreen();
-        frame.revalidate();
-        frame.repaint();
-    }
+    public void showNotification(String message) {
+        JWindow window = new JWindow(frame);
+        window.setLayout(new BorderLayout());
+        window.setSize(250, 100);
+        window.setBackground(new Color(0, 0, 0, 0)); // Set the background to be transparent
 
-    /**
-     * Prompts the user to enter a channel name.
-     * @return The entered channel name.
-     */
-    @Override
-    public String getChannelNameInput() {
-        return JOptionPane.showInputDialog(frame, "Enter Channel Name:", "Channel Name", JOptionPane.PLAIN_MESSAGE);
-    }
-
-    /**
-     * Prompts the user to enter a password.
-     * @return The entered password.
-     */
-    @Override
-    public String getPasswordInput() {
-        return JOptionPane.showInputDialog(frame, "Enter Password:", "Password", JOptionPane.PLAIN_MESSAGE);
-    }
-
-    /**
-     * Creates the create channel screen UI.
-     */
-    private void createChannelScreen() {
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setColor(new Color(45, 45, 45));
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                g2d.setColor(Color.GRAY);
+                g2d.setStroke(new BasicStroke(2));
+                g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
+            }
+        };
+        panel.setOpaque(false);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setLayout(new BorderLayout());
-        panel.setBackground(new Color(43, 43, 43));
 
-        JPanel createChannelPanel = new JPanel();
-        createChannelPanel.setLayout(new GridBagLayout());
-        createChannelPanel.setBackground(new Color(43, 43, 43));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        JLabel label = new JLabel(message, SwingConstants.CENTER);
+        int fontSize = 20; // Starting font size
+        Font font = new Font("Arial", Font.BOLD, fontSize);
+        label.setFont(font);
+        while (label.getPreferredSize().width > window.getWidth() - 20 && fontSize > 10) {
+            fontSize--;
+            font = new Font("Arial", Font.BOLD, fontSize);
+            label.setFont(font);
+        }
+        label.setForeground(Color.WHITE);
+        panel.add(label, BorderLayout.CENTER);
 
-        JLabel channelNameLabel = new JLabel("Channel Name:");
-        channelNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        channelNameLabel.setForeground(Color.WHITE);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        createChannelPanel.add(channelNameLabel, gbc);
+        window.add(panel);
+        window.setAlwaysOnTop(true);
 
-        channelNameField = new JTextField(20);
-        channelNameField.setFont(new Font("Arial", Font.PLAIN, 14));
-        channelNameField.setBackground(new Color(60, 63, 65));
-        channelNameField.setForeground(Color.WHITE);
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        createChannelPanel.add(channelNameField, gbc);
+        int x = frame.getX() + frame.getWidth() - window.getWidth() - 10;
+        int y = frame.getY() + frame.getHeight() - window.getHeight() - 10;
+        window.setLocation(x, y);
 
-        createButton = new JButton("Create");
-        createButton.setFont(new Font("Arial", Font.BOLD, 16));
-        createButton.setBackground(new Color(60, 63, 65));
-        createButton.setForeground(Color.WHITE);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        createChannelPanel.add(createButton, gbc);
+        window.setVisible(true);
 
-        panel.add(createChannelPanel, BorderLayout.CENTER);
-
-        frame.add(panel);
-        frame.setVisible(true);
+        Timer timer = new Timer(3000, e -> window.dispose());
+        timer.setRepeats(false);
+        timer.start();
     }
+
+
+
+
+
+    /**
+     * Prompts the user to enter a channel name and password.
+     * @return An array containing the entered channel name and password.
+     */
+    @Override
+    public String[] getChannelNameAndPasswordInput(String type) {
+        JPanel panel = new JPanel(new GridLayout(2, 2));
+        JLabel channelNameLabel = new JLabel("Channel Name:");
+        JLabel passwordLabel = new JLabel("Password:");
+        JTextField channelNameField = new JTextField(20);
+        JPasswordField passwordField = new JPasswordField(20);
+
+        panel.add(channelNameLabel);
+        panel.add(channelNameField);
+        panel.add(passwordLabel);
+        panel.add(passwordField);
+
+        int result = JOptionPane.showConfirmDialog(frame, panel, "Channel " + type, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            return new String[]{channelNameField.getText(), new String(passwordField.getPassword())};
+        } else {
+            return null;
+        }
+    }
+
 
     /**
      * Adds an ActionListener to the create button.
@@ -175,6 +195,8 @@ public class StandardView implements IView {
         channelRenderer = new HighlightedChannelRenderer("None");
         channelList.setCellRenderer(channelRenderer);
         startArea();
+        showNotification("Welcome to the Chat Application!");
+
     }
 
     /**
@@ -232,12 +254,19 @@ public class StandardView implements IView {
         gbc.gridy = 1;
         startPanel.add(joinChannelButton, gbc);
 
+        JLabel inputLabel = new JLabel("Enter your nickname:");
+        inputLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        inputLabel.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        startPanel.add(inputLabel, gbc);
+
         inputTextField.setFont(new Font("Arial", Font.PLAIN, 14));
         inputTextField.setBackground(new Color(60, 63, 65));
         inputTextField.setForeground(Color.WHITE);
         inputTextField.setToolTipText("Nickname");
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         startPanel.add(inputTextField, gbc);
 
         panel.add(startPanel, BorderLayout.CENTER);
