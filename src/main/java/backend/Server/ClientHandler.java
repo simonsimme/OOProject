@@ -102,14 +102,19 @@ public class ClientHandler extends Thread {
      * @param channelName the name of the channel to join
      */
     public boolean joinChannel(String channelName, String password) {
+        ChatChannel channel = null;
+        try{
+             channel = getChannel(channelName);
 
-        ChatChannel channel = getChannel(channelName);
-        boolean result = false;
-        if (channel == null) {
-            ErrorResponse error = new ErrorResponse("Channel does not exist--");
+        }catch (IllegalArgumentException e){
+            ErrorResponse error = new ErrorResponse(e.getMessage());
             sendMessage(error);
+            return false;
         }
-        else
+
+        boolean result = false;
+
+
         if(channel.validatePassword(password))
         {
             if(channel.getClients().contains(this)){

@@ -69,6 +69,7 @@ public class Client implements ClientSubject{
      */
     public void joinChannel(String channelName, String password){
         try{
+
             cm.joinChannel(user, channelName, password);
         }catch (Exception e){
             throw new IllegalArgumentException(e.getMessage() );
