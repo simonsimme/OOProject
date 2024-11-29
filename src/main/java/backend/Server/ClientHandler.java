@@ -1,10 +1,6 @@
 package backend.Server;
-import backend.Messages.Client.ErrorResponse;
-import backend.Messages.Client.MessageInChannel;
 import backend.Messages.Message;
-import backend.Messages.Server.MessageVisitorServer;
 import backend.Messages.Server.ServerMessageVisitor;
-import backend.Messages.UI.DisplayMessage;
 
 import java.net.*;
 import java.io.*;
@@ -73,7 +69,7 @@ public class ClientHandler extends Thread {
     }
     private void processMessage(Message message) {
         try{
-            ServerMessageVisitor handler = new MessageVisitorServer(this);
+            ServerVisitor handler = new ServerVisitor(this);
             message.accept(handler);
         }catch (IllegalArgumentException e){
             throw new IllegalArgumentException(e.getMessage());

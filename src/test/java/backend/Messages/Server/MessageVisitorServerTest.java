@@ -1,9 +1,9 @@
 package backend.Messages.Server;
 
 import backend.Server.ClientHandler;
+import backend.Server.ServerVisitor;
 import backend.Server.Server;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.net.Socket;
 
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class MessageVisitorServerTest {
         ClientHandler clientHandler;
-        MessageVisitorServer messageVisitorServer;
+        ServerVisitor serverVisitor;
          LeaveChannelCommand leaveChannelCommand;
          Server server;
          Socket testClientSocket;
@@ -27,7 +27,7 @@ public class MessageVisitorServerTest {
             testClientSocket = new Socket();
             //this is not correct but it is just for testing purposes
             clientHandler = new ClientHandler(testClientSocket, server);
-            messageVisitorServer = new MessageVisitorServer(clientHandler);
+            serverVisitor = new ServerVisitor(clientHandler);
 
             //also just for testing purposes
 
