@@ -55,9 +55,11 @@ public class Server {
             while (isRunning) {
                 System.out.println("Waiting for clients...");
                 Socket clientSocket = server.accept();
+
                 if(!isRunning) {
                     break;
                 }
+
                 System.out.println("New client connected: " + clientSocket.getLocalAddress());
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
                 clientHandler.start();
@@ -77,7 +79,6 @@ public class Server {
         if (server != null && !server.isClosed()) {
             server.close(); // Close the server socket to break the accept() call
             thisServer = null;
-
         }
     }
     /**
