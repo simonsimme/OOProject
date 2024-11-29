@@ -42,7 +42,7 @@ public class StandardView implements IView {
      * @param currentChannel The name of the current channel.
      */
     public void updateChannelList(List<String> channels, String currentChannel) {
-        if(chatArea == null){
+        if(chatArea == null){ //TODO fix this
             return;
         }
         listModel.clear();
