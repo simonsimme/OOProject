@@ -9,6 +9,7 @@ public class ChatChannel {
     private final String password;
     private final Set<ClientHandler> clients;
 
+
     public ChatChannel(String name, String password) {
         this.name = name;
         this.password = password;
@@ -30,6 +31,8 @@ public class ChatChannel {
     }
 
     public synchronized void broadcast(Message message, ClientHandler sender) {
+        //TODO fix here is to the view implementation that append the message to text area.
+
         for (ClientHandler client : clients) {
             if(!client.equals(sender)) {
                 client.sendMessage(message);

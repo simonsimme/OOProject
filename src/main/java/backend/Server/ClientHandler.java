@@ -34,6 +34,7 @@ public class ClientHandler extends Thread {
     public ClientHandler(Socket socket, Server server) {
         this.server = server;
         this.clientSocket = socket;
+
         try {
             this.input = new ObjectInputStream(clientSocket.getInputStream());
             this.output = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -93,6 +94,7 @@ public class ClientHandler extends Thread {
      * @param channelName the name of the channel to join
      */
     public void joinChannel(String channelName, String password) {
+
         ChatChannel channel = getChannel(channelName);
 
         if(channel.validatePassword(password))
@@ -108,6 +110,12 @@ public class ClientHandler extends Thread {
     public void leaveChannel() {
         if (currentChannel != null) {
             currentChannel.removeClient(this);
+            // if we leave a channel then we set the current channel to null
+            currentChannel = null;
+        }
+        else{
+            //TODO meybe also send a message to the client that you
+            // canot leave a channel if you are not in one
         }
     }
 
@@ -126,6 +134,7 @@ public class ClientHandler extends Thread {
     public ChatChannel getCurrentChannel() {
         return currentChannel;
     }
+
 
     public void createChannel(String channelName, String password) {
         server.createChannel(channelName, password);
