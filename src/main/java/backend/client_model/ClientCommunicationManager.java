@@ -1,10 +1,7 @@
 package backend.client_model;
 
 import backend.Messages.Client.ClientMessage;
-import backend.Messages.Client.ErrorResponse;
 import backend.Messages.Server.*;
-import backend.Messages.UI.UpdateChannels;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -31,31 +28,31 @@ public class ClientCommunicationManager implements Runnable{
     /**
      * Ip adress of the server host.
      */
-    private String host;
+    private final String host;
 
     /**
      * Port that the socket should connect to.
      */
-    private int port;
+    private final int port;
     /**
      * Handler for input messages, see Visitor pattern.
      */
-    private ClientVisitor visitor;
+    private final ClientVisitor visitor;
 
     /**
      * Only Constructor
-     * @param adress The adress of the server to connect to.
+     * @param address The adress of the server to connect to.
      * @param port The port of the server to connect to.
      * @param channelGroup Passed reference.
      * @param observers Passed reference.
      */
-    public ClientCommunicationManager(String adress, int port, ClientChannelRecord channelGroup, List<ClientObserver> observers){
+    public ClientCommunicationManager(String address, int port, ClientChannelRecord channelGroup, List<ClientObserver> observers){
 
         this.visitor = new ClientVisitor(channelGroup,observers);
 
-        this.host = adress;
+        this.host = address;
         this.port = port;
-        System.out.println("Connecting to server" + adress);
+        System.out.println("Connecting to server" + address);
 
         try {
             socket = new Socket(host, port);
@@ -150,8 +147,22 @@ public class ClientCommunicationManager implements Runnable{
     }
 
     /**
+     * Sends a message to the server that the user is disconnected.
+     * Sends a {@code LeaveChannelCommand} to notify the server to remove the username from channel
+     * @param userName The user to be disconnected.
+     * @param channelName The channel name that user gets disconnected from.
+     */
+    public void disconnect(String userName, String channelName) {
+        String disconnected = "has disconnected from the channel";
+        ServerMessage disconnect = new SendMessageInChannelCommand(userName, channelName, disconnected);
+        sendMessageToServer(disconnect);
+
+        ServerMessage message = new LeaveChannelCommand(userName, channelName);
+        sendMessageToServer(message);
+    }
+    /**
      * Helper method, sends given message to the server's socket's inputStream.
-     * @param message
+     * @param message being sent to the server
      */
     private void sendMessageToServer(ServerMessage message){
         try{

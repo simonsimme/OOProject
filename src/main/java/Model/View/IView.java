@@ -5,6 +5,7 @@ import backend.Messages.UI.DisplayMessage;
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.util.List;
 
 public interface IView {
@@ -31,11 +32,10 @@ public interface IView {
     String getNickNameFeild();
     void displayErrorMessage(String message);
 
-     void showNotification(String message) ;
-
-
-
+    void showNotification(String message) ;
 
     DefaultListModel<String> getChannelList();
     void showHistory(StringBuilder history);
+    void addWindowExitListener(WindowListener listener);
+    void closeWindow();
 }

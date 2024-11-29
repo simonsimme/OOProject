@@ -6,24 +6,50 @@ import backend.client_model.Client;
 import backend.client_model.ClientObserver;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import Model.View.IView;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class UIController implements ClientObserver {
-    private IView view;
-    private Client refrence;
-    private HandleMessageDecorator handleMessageDecorator;
+    private final IView view;
+    private final Client reference;
+    private final HandleMessageDecorator handleMessageDecorator;
 
     public UIController(IView view, Client ref) {
         this.view = view;
-        this.refrence = ref;
+        this.reference = ref;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
+        this.view.addWindowExitListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                handleWindowClosing();
+            }
+        });
         this.handleMessageDecorator = new HandleMessageDecorator(view);
     }
+    private void handleWindowClosing() {
+        int confirm = JOptionPane.showOptionDialog(
+                null,
+                "Are You Sure to Close the Application?",
+                "Exit Confirmation",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                null,
+                null
+        );
 
+        if (confirm == JOptionPane.YES_OPTION) {
+            view.closeWindow();
+            reference.disconnect();
+            System.exit(0);
+        }
+    }
     /**
      * Updates the UI based on the received UIMessage.
      * @param message the UIMessage to process.
@@ -58,7 +84,7 @@ public class UIController implements ClientObserver {
             if(channelName.isEmpty()){
                 throw new Exception("Channel name cannot be empty");
             }
-            refrence.joinChannel(channelName, password); //TODO fix so if wrong pass not continue
+            reference.joinChannel(channelName, password); //TODO fix so if wrong pass not continue
 
 
         }catch (Exception e){
@@ -82,7 +108,7 @@ public class UIController implements ClientObserver {
         if(channelName.isEmpty()){
             throw new Exception("Channel name cannot be empty");
         }
-        refrence.createChannel(channelName, password);
+        reference.createChannel(channelName, password);
 
 
         }catch (Exception e){
@@ -110,18 +136,9 @@ public class UIController implements ClientObserver {
      * @param name the nickname to set.
      */
     private void nicknameset(String name) {
-        refrence.setNickName(name);
+        reference.setNickName(name);
     }
 
-    /**
-     * Displays a message in the chat view.
-     * @param msg the message to display.
-     */
-
-
-    /**
-     * Listener for the create channel button.
-     */
     class CreateChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -167,7 +184,7 @@ public class UIController implements ClientObserver {
         @Override
         public void actionPerformed(ActionEvent e) {
             String inputText = view.getInputText();
-            refrence.sendMessage(inputText);
+            reference.sendMessage(inputText);
             view.clearInputText();
         }
     }
@@ -180,8 +197,8 @@ public class UIController implements ClientObserver {
         public void valueChanged(ListSelectionEvent e) {
             if (!e.getValueIsAdjusting()) {
                 String selectedChannel = ((JList<String>) e.getSource()).getSelectedValue();
-                if (selectedChannel != null && !selectedChannel.equals(refrence.getCurrentChannelName())) {
-                    refrence.switchChannel(selectedChannel);
+                if (selectedChannel != null && !selectedChannel.equals(reference.getCurrentChannelName())) {
+                    reference.switchChannel(selectedChannel);
                     view.changeChannel(selectedChannel);
                     UIMessage message = new DisplayMessage("SYSTEM", "Switched to channel: " + selectedChannel);
                     message.accept(handleMessageDecorator);
@@ -216,15 +233,15 @@ public class UIController implements ClientObserver {
     class LeaveChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            refrence.leaveChannel();
-            view.removeChannelFromList(refrence.getCurrentChannelName());
+            reference.leaveChannel();
+            view.removeChannelFromList(reference.getCurrentChannelName());
             if (view.getChannelList().size() == 0) {
                 view.startArea();
                 view.addCreateChannelButtonListener(new CreateChannelButtonListener());
                 view.addJoinChannelButtonListener(new JoinChannelButtonListener());
             } else {
-                view.removeChannelFromList(refrence.getCurrentChannelName());
-                String channelName = refrence.switchChannel();
+                view.removeChannelFromList(reference.getCurrentChannelName());
+                String channelName = reference.switchChannel();
                 view.changeChannel(channelName);
             }
         }
