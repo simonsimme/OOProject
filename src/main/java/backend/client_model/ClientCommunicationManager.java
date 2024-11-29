@@ -54,6 +54,7 @@ public class ClientCommunicationManager implements Runnable{
 
         this.host = adress;
         this.port = port;
+        System.out.println("Connecting to server" + adress);
 
         try {
             socket = new Socket(host, port);
