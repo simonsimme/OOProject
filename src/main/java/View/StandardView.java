@@ -24,6 +24,7 @@ public class StandardView implements IView {
     private final JTextField inputTextField = new JTextField(20);
     private JButton sendButton;
     private JButton createChannelButton;
+    private JButton createButton;
     private JButton joinChannelButton;
     private JButton joinNewChannelButton;
     private JButton leaveChannelButton;
