@@ -79,7 +79,6 @@ public class Client implements ClientSubject{
      */
     public void leaveChannel(){
         cm.leaveChannel(user, channelRecord.getCurrentChannelName());
-        System.out.println("ref.leaveChannel(): " + channelRecord.getCurrentChannelName());
     }
     public void leaveChannel(String channelName){
         cm.leaveChannel(user,channelName);

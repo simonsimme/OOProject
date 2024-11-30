@@ -74,6 +74,14 @@ public class ClientChannelRecord {
         currentChannel = channels.get(channels.size()-1);
     }
 
+    /**
+     * Removes the channel with the given name from the list of channels.
+     * @param channelName The name of the channel to remove.
+     *
+     * If the channel to be removed is the current channel, the next channel in the list is switched to.
+     * If there are no more channels left, the current channel is set to an empty channel.
+     *
+     * */
     public void removeChannel(String channelName)
     {
         for (ClientChannel channel:  channels)
@@ -81,11 +89,12 @@ public class ClientChannelRecord {
              if(Objects.equals(channel.getName(), channelName))
              {
                   channels.remove(channel);
-                  System.out.println("Channel removed (channelRecord): " + channelName);
-                 if (!channels.isEmpty())
+
+                 if (!channels.isEmpty()) // If there are still channels left
                  {
                      switchToNextChannel();
-                 } else
+                 }
+                 else
                  {
                      currentChannel = new ClientChannel("empty-channel");
                  }

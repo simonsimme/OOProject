@@ -133,6 +133,13 @@ public class ClientHandler extends Thread {
         }
         return result;
     }
+
+    /**
+     * Leaves the chat channel if the client is in that one.
+     * If the client is not in the channel, nothing happens.
+     * Uses booleam to indicate if the client was removed from the channel
+     * @param channelName the name of the channel to leave
+     */
     public boolean leaveChannel(String channelName) {
         ChatChannel channel = getChannel(channelName);
         boolean result = false;
@@ -162,11 +169,25 @@ public class ClientHandler extends Thread {
             System.out.println("Error sending message: " + e.getMessage());
         }
     }
+
+    /**
+     * returns the chatChannel thats in the last index of the list of channels
+     * if the list is empty it returns null
+     * @return the chatChannel that is in the last index of the list of channels
+     *
+     * Look into the function, currently only used in testing might be Removed
+     * */
     public ChatChannel getCurrentChannel() {
         return channels.isEmpty() ? null : channels.get(channels.size() - 1);
     }
 
-
+    /**
+     * Creates a new chat channel with the given name and password.
+     * Adds the client to the new channel.
+     * returns true if the channel was created successfully
+     * @param channelName the name of the new channel
+     * @param password the password for the new channel
+     */
     public boolean createChannel(String channelName, String password) {
         boolean result = false;
 
@@ -185,6 +206,12 @@ public class ClientHandler extends Thread {
         }
         return result;
     }
+
+    /**
+     * Returns the chat channel with the given name.
+     * @param channelName the name of the channel to get
+     * @return the chat channel with the given name
+     */
     public ChatChannel getChannel(String channelName) {
         ChatChannel channel = server.getChannel(channelName);
         if(channel != null){

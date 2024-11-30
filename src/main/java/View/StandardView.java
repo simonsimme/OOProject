@@ -527,7 +527,6 @@ public class StandardView implements IView {
      */
     @Override
     public void removeChannelFromList(String channelName) {
-        System.out.println("removeChannelFromList: " + channelName);
         listModel.removeElement(channelName);
     }
 
