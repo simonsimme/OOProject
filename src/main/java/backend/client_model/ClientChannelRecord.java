@@ -5,6 +5,7 @@ import backend.Server.ChatChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A record of the channels that a client is connected to.
@@ -70,15 +71,27 @@ public class ClientChannelRecord {
     public void addNewChannel(String channelName){
         System.out.println("Adding new channel: " + channelName);
         channels.add(new ClientChannel(channelName));
+        currentChannel = channels.get(channels.size()-1);
     }
 
-    public void removeChannel(String channelName){
-        for (ClientChannel channel:  channels) {
-             if( channel.getName() == channelName){
+    public void removeChannel(String channelName)
+    {
+        for (ClientChannel channel:  channels)
+        {
+             if(Objects.equals(channel.getName(), channelName))
+             {
                   channels.remove(channel);
+                  System.out.println("Channel removed (channelRecord): " + channelName);
+                 if (!channels.isEmpty())
+                 {
+                     switchToNextChannel();
+                 } else
+                 {
+                     currentChannel = new ClientChannel("empty-channel");
+                 }
+                 break;
              }
         }
-
     }
 
     public void loadChannels(){

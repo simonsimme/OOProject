@@ -62,12 +62,8 @@ public class ClientVisitor implements ClientMessageVisitor{
     @Override
     public void handle(LeaveChannelResponse m) {
         channelRecord.removeChannel(m.getChannelName());
-
-        if(channelRecord.getCurrentChannelName().equals(m.getChannelName())){
-            String channel = channelRecord.switchToNextChannel();
-            notifyObservers(new UpdateChannels(channelRecord.getChannelNames(), channel));
-        }
-        else notifyObservers(new UpdateChannels(channelRecord.getChannelNames(), channelRecord.getCurrentChannelName()));
+        System.out.println("Channel removed: " + m.getChannelName() + " and this is currChannel" + channelRecord.getCurrentChannelName());
+        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(), channelRecord.getCurrentChannelName()));
     }
 
     /**

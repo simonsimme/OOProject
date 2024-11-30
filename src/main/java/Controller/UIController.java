@@ -222,15 +222,16 @@ public class UIController implements ClientObserver {
     class LeaveChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            refrence.leaveChannel();
-            view.removeChannelFromList(refrence.getCurrentChannelName());
+
             if (view.getChannelList().size() == 0) {
                 view.startArea();
                 view.addCreateChannelButtonListener(new CreateChannelButtonListener());
                 view.addJoinChannelButtonListener(new JoinChannelButtonListener());
             } else {
                 view.removeChannelFromList(refrence.getCurrentChannelName());
-                String channelName = refrence.switchChannel();
+                refrence.leaveChannel();
+                String channelName = refrence.getCurrentChannelName();
+                System.out.println("switch after removal" + channelName);
                 view.changeChannel(channelName);
             }
         }

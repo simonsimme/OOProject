@@ -47,6 +47,7 @@ public class StandardView implements IView {
         }
         listModel.clear();
         for (String channel : channels) {
+            System.out.println("From updateChannel: " + channel);
             chatArea.setText(chatArea.getText() + channel);
             listModel.addElement(channel);
         }
@@ -526,6 +527,7 @@ public class StandardView implements IView {
      */
     @Override
     public void removeChannelFromList(String channelName) {
+        System.out.println("removeChannelFromList: " + channelName);
         listModel.removeElement(channelName);
     }
 
