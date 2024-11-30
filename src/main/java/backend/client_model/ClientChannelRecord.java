@@ -1,5 +1,7 @@
 package backend.client_model;
 
+import backend.Server.ChatChannel;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +60,7 @@ public class ClientChannelRecord {
      */
     public void recordMessageInChannel(String message, String channelName){
         for (ClientChannel channel: channels) {
-            if( channel.getName() == channelName){
+            if(channel.getName() == channelName){
                 channel.recordMessage(message);
                 break;
             }

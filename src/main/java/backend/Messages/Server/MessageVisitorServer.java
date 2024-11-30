@@ -15,7 +15,7 @@ public class MessageVisitorServer implements ServerMessageVisitor {
     @Override
     public void handle(LeaveChannelCommand leaveChannelCommand)
     {
-        if(clientHandler.leaveChannel())
+        if(clientHandler.leaveChannel(leaveChannelCommand.getChannelName()))
         clientHandler.sendMessage(new LeaveChannelResponse(leaveChannelCommand.getChannelName()));
     }
     /**
@@ -26,11 +26,11 @@ public class MessageVisitorServer implements ServerMessageVisitor {
      */
     @Override
     public void handle(SendMessageInChannelCommand message) {
-        ChatChannel currentChannel = clientHandler.getCurrentChannel();
-        if (currentChannel == null) {
+        ChatChannel channelToSendIn = clientHandler.getChannel(message.getChannelName());
+        if (channelToSendIn == null) {
             clientHandler.sendMessage(new ErrorResponse("You are not in a channel"));
         } else {
-            currentChannel.broadcast(new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage()));
+            channelToSendIn.broadcast(new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage()));
         }
     }
     @Override

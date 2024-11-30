@@ -153,7 +153,7 @@ public class ClientCommunicationManager implements Runnable{
      * Helper method, sends given message to the server's socket's inputStream.
      * @param message
      */
-    private void sendMessageToServer(ServerMessage message){
+    public void sendMessageToServer(ServerMessage message){
         try{
             out.writeObject(message);
             out.flush();

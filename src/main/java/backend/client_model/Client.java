@@ -93,7 +93,7 @@ public class Client implements ClientSubject{
     }
     //This should be removed. Use nextChannel() instead and wait on an UpdateChannels message from the client.
     public String switchChannel(){
-        String newChannelName =channelRecord.switchToNextChannel();
+        String newChannelName = channelRecord.switchToNextChannel();
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
         return newChannelName;
     }

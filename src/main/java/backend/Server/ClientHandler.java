@@ -8,6 +8,8 @@ import backend.Messages.UI.DisplayMessage;
 
 import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class handles communication with a single client connected to the server.
@@ -27,7 +29,7 @@ public class ClientHandler extends Thread {
     //The server instance managing the chat channels.
     private final Server server;
     //Current chat channel the client is joined in.
-    private ChatChannel currentChannel;
+    private List<ChatChannel> channels;
 
     /**
      * Constructor for a {@code ClientHandler} for a given client socket and server instance.
@@ -37,6 +39,7 @@ public class ClientHandler extends Thread {
     public ClientHandler(Socket socket, Server server) {
         this.server = server;
         this.clientSocket = socket;
+        this.channels = new ArrayList<>();
 
         try {
             this.input = new ObjectInputStream(clientSocket.getInputStream());
@@ -105,6 +108,7 @@ public class ClientHandler extends Thread {
 
         ChatChannel channel = getChannel(channelName);
         boolean result = false;
+
         if (channel == null) {
             ErrorResponse error = new ErrorResponse("Channel does not exist--");
             sendMessage(error);
@@ -117,8 +121,8 @@ public class ClientHandler extends Thread {
                 sendMessage(error);
                 result = false;
             }else {
-                currentChannel = channel;
-                currentChannel.addClient(this);
+                channels.add(channel);
+                channel.addClient(this);
                 result = true;
             }
 
@@ -129,15 +133,17 @@ public class ClientHandler extends Thread {
         }
         return result;
     }
-    public boolean leaveChannel() {
+    public boolean leaveChannel(String channelName) {
+        ChatChannel channel = getChannel(channelName);
         boolean result = false;
-        if (currentChannel != null) {
-            currentChannel.removeClient(this);
-            // if we leave a channel then we set the current channel to null
-            currentChannel = null;
+
+        if (channel != null && channels.contains(channel))
+        {
+            channel.removeClient(this);
             result = true;
         }
-        else{
+        else
+        {
             //TODO meybe also send a message to the client that you
             // canot leave a channel if you are not in one
         }
@@ -157,20 +163,23 @@ public class ClientHandler extends Thread {
         }
     }
     public ChatChannel getCurrentChannel() {
-        return currentChannel;
+        return channels.isEmpty() ? null : channels.get(channels.size() - 1);
     }
 
 
     public boolean createChannel(String channelName, String password) {
         boolean result = false;
-        if (server.getChannel(channelName) == null) {
+
+        if (server.getChannel(channelName) == null)
+        {
             server.createChannel(channelName, password);
             result = true;
-
-        server.createChannel(channelName, password);
-        currentChannel = getChannel(channelName);
-        currentChannel.addClient(this);
-        } else {
+            ChatChannel newChannel = server.getChannel(channelName);
+            channels.add(newChannel);
+            newChannel.addClient(this);
+        }
+        else
+        {
             ErrorResponse error = new ErrorResponse("Channel name already taken");
             sendMessage(error);
         }
