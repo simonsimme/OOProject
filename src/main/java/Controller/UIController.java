@@ -206,7 +206,6 @@ public class UIController implements ClientObserver {
                 view.displayErrorMessage(ex.getMessage());
                 return;
             }
-            view.showNotification("Joined channel successfully");
         }
     }
 
@@ -245,7 +244,6 @@ public class UIController implements ClientObserver {
                 view.displayErrorMessage(ex.getMessage());
                 return;
             }
-            view.showNotification("Channel created successfully");
         }
     }
 }
