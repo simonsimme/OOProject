@@ -104,17 +104,18 @@ public class ClientHandler extends Thread {
      * channel, they are removed from it before joining a new chat channel.
      * @param channelName the name of the channel to join
      */
-    public boolean joinChannel(String channelName, String password) {
-
+    public boolean joinChannel(String channelName, String password) {       
         ChatChannel channel = getChannel(channelName);
         boolean result = false;
 
         if (channel == null) {
             ErrorResponse error = new ErrorResponse("Channel does not exist--");
+
             sendMessage(error);
+            return false;
         }
-        else
-        if(channel.validatePassword(password))
+        
+        else if(channel.validatePassword(password))
         {
             if(channel.getClients().contains(this)){
                 ErrorResponse error = new ErrorResponse("You are already in this channel");
@@ -125,9 +126,9 @@ public class ClientHandler extends Thread {
                 channel.addClient(this);
                 result = true;
             }
-
         }
-        else{
+        else
+        {
             ErrorResponse error = new ErrorResponse("Invalid password");
             sendMessage(error);
         }

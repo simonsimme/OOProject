@@ -117,13 +117,7 @@ public class UIController implements ClientObserver {
      * Displays a message in the chat view.
      * @param msg the message to display.
      */
-    public void showTextinView(DisplayMessage msg) {
-        try {
-            view.appendChatText(msg.getTimestamp().getHour() + "." + msg.getTimestamp().getMinute() + "  " + msg.getMessage() + ": " + msg.getMessage());
-        } catch (Exception e) {
-            System.out.println("clients not found");
-        }
-    }
+
 
     /**
      * Listener for the create channel button.
@@ -212,7 +206,6 @@ public class UIController implements ClientObserver {
                 view.displayErrorMessage(ex.getMessage());
                 return;
             }
-            view.showNotification("Joined channel successfully");
         }
     }
 
@@ -253,7 +246,6 @@ public class UIController implements ClientObserver {
                 view.displayErrorMessage(ex.getMessage());
                 return;
             }
-            view.showNotification("Channel created successfully");
         }
     }
 }
