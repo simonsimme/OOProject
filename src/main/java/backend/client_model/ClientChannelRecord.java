@@ -1,8 +1,11 @@
 package backend.client_model;
 
+import backend.Server.ChatChannel;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A record of the channels that a client is connected to.
@@ -58,7 +61,7 @@ public class ClientChannelRecord {
      */
     public void recordMessageInChannel(String message, String channelName){
         for (ClientChannel channel: channels) {
-            if( channel.getName() == channelName){
+            if(channel.getName() == channelName){
                 channel.recordMessage(message);
                 break;
             }
@@ -68,15 +71,36 @@ public class ClientChannelRecord {
     public void addNewChannel(String channelName){
         System.out.println("Adding new channel: " + channelName);
         channels.add(new ClientChannel(channelName));
+        currentChannel = channels.get(channels.size()-1);
     }
 
-    public void removeChannel(String channelName){
-        for (ClientChannel channel:  channels) {
-             if( channel.getName() == channelName){
+    /**
+     * Removes the channel with the given name from the list of channels.
+     * @param channelName The name of the channel to remove.
+     *
+     * If the channel to be removed is the current channel, the next channel in the list is switched to.
+     * If there are no more channels left, the current channel is set to an empty channel.
+     *
+     * */
+    public void removeChannel(String channelName)
+    {
+        for (ClientChannel channel:  channels)
+        {
+             if(Objects.equals(channel.getName(), channelName))
+             {
                   channels.remove(channel);
+
+                 if (!channels.isEmpty()) // If there are still channels left
+                 {
+                     switchToNextChannel();
+                 }
+                 else
+                 {
+                     currentChannel = new ClientChannel("empty-channel");
+                 }
+                 break;
              }
         }
-
     }
 
     public void loadChannels(){

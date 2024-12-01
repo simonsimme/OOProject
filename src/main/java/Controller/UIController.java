@@ -211,19 +211,21 @@ public class UIController implements ClientObserver {
 
     /**
      * Listener for the leave channel button.
+     * Removes the current channel from the channel list and leaves the channel.
+     * If there are no more channels, the start area is displayed.
      */
     class LeaveChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            refrence.leaveChannel();
-            view.removeChannelFromList(refrence.getCurrentChannelName());
+
             if (view.getChannelList().size() == 0) {
                 view.startArea();
                 view.addCreateChannelButtonListener(new CreateChannelButtonListener());
                 view.addJoinChannelButtonListener(new JoinChannelButtonListener());
             } else {
                 view.removeChannelFromList(refrence.getCurrentChannelName());
-                String channelName = refrence.switchChannel();
+                refrence.leaveChannel();
+                String channelName = refrence.getCurrentChannelName();
                 view.changeChannel(channelName);
             }
         }

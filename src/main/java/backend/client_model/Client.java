@@ -79,7 +79,7 @@ public class Client implements ClientSubject{
      * Leaves the current channel the client is in.
      */
     public void leaveChannel(){
-        cm.leaveChannel(user,channelRecord.getCurrentChannelName());
+        cm.leaveChannel(user, channelRecord.getCurrentChannelName());
     }
     public void leaveChannel(String channelName){
         cm.leaveChannel(user,channelName);
@@ -94,7 +94,7 @@ public class Client implements ClientSubject{
     }
     //This should be removed. Use nextChannel() instead and wait on an UpdateChannels message from the client.
     public String switchChannel(){
-        String newChannelName =channelRecord.switchToNextChannel();
+        String newChannelName = channelRecord.switchToNextChannel();
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
         return newChannelName;
     }

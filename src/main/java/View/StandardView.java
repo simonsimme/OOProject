@@ -45,7 +45,7 @@ public class StandardView implements IView {
         }
         listModel.clear();
         for (String channel : channels) {
-           // chatArea.setText(chatArea.getText() + channel);
+            chatArea.setText(chatArea.getText() + channel);
             listModel.addElement(channel);
         }
         channelList.setSelectedValue(currentChannel, true);

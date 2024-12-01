@@ -8,6 +8,8 @@ import backend.Messages.UI.DisplayMessage;
 
 import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class handles communication with a single client connected to the server.
@@ -27,7 +29,7 @@ public class ClientHandler extends Thread {
     //The server instance managing the chat channels.
     private final Server server;
     //Current chat channel the client is joined in.
-    private ChatChannel currentChannel;
+    private List<ChatChannel> channels;
 
     /**
      * Constructor for a {@code ClientHandler} for a given client socket and server instance.
@@ -37,6 +39,7 @@ public class ClientHandler extends Thread {
     public ClientHandler(Socket socket, Server server) {
         this.server = server;
         this.clientSocket = socket;
+        this.channels = new ArrayList<>();
 
         try {
             this.input = new ObjectInputStream(clientSocket.getInputStream());
@@ -101,48 +104,54 @@ public class ClientHandler extends Thread {
      * channel, they are removed from it before joining a new chat channel.
      * @param channelName the name of the channel to join
      */
-    public boolean joinChannel(String channelName, String password) {
-        ChatChannel channel = null;
-        try{
-             channel = getChannel(channelName);
+    public boolean joinChannel(String channelName, String password) {       
+        ChatChannel channel = getChannel(channelName);
+        boolean result = false;
 
-        }catch (IllegalArgumentException e){
-            ErrorResponse error = new ErrorResponse(e.getMessage());
+        if (channel == null) {
+            ErrorResponse error = new ErrorResponse("Channel does not exist--");
+
             sendMessage(error);
             return false;
         }
-
-        boolean result = false;
-
-
-        if(channel.validatePassword(password))
+        
+        else if(channel.validatePassword(password))
         {
             if(channel.getClients().contains(this)){
                 ErrorResponse error = new ErrorResponse("You are already in this channel");
                 sendMessage(error);
                 result = false;
             }else {
-                currentChannel = channel;
-                currentChannel.addClient(this);
+                channels.add(channel);
+                channel.addClient(this);
                 result = true;
             }
-
         }
-        else{
+        else
+        {
             ErrorResponse error = new ErrorResponse("Invalid password");
             sendMessage(error);
         }
         return result;
     }
-    public boolean leaveChannel() {
+
+    /**
+     * Leaves the chat channel if the client is in that one.
+     * If the client is not in the channel, nothing happens.
+     * Uses booleam to indicate if the client was removed from the channel
+     * @param channelName the name of the channel to leave
+     */
+    public boolean leaveChannel(String channelName) {
+        ChatChannel channel = getChannel(channelName);
         boolean result = false;
-        if (currentChannel != null) {
-            currentChannel.removeClient(this);
-            // if we leave a channel then we set the current channel to null
-            currentChannel = null;
+
+        if (channel != null && channels.contains(channel))
+        {
+            channel.removeClient(this);
             result = true;
         }
-        else{
+        else
+        {
             //TODO meybe also send a message to the client that you
             // canot leave a channel if you are not in one
         }
@@ -161,26 +170,49 @@ public class ClientHandler extends Thread {
             System.out.println("Error sending message: " + e.getMessage());
         }
     }
+
+    /**
+     * returns the chatChannel thats in the last index of the list of channels
+     * if the list is empty it returns null
+     * @return the chatChannel that is in the last index of the list of channels
+     *
+     * Look into the function, currently only used in testing might be Removed
+     * */
     public ChatChannel getCurrentChannel() {
-        return currentChannel;
+        return channels.isEmpty() ? null : channels.get(channels.size() - 1);
     }
 
-
+    /**
+     * Creates a new chat channel with the given name and password.
+     * Adds the client to the new channel.
+     * returns true if the channel was created successfully
+     * @param channelName the name of the new channel
+     * @param password the password for the new channel
+     */
     public boolean createChannel(String channelName, String password) {
         boolean result = false;
-        if (server.getChannel(channelName) == null) {
+
+        if (server.getChannel(channelName) == null)
+        {
             server.createChannel(channelName, password);
             result = true;
-
-        server.createChannel(channelName, password);
-        currentChannel = getChannel(channelName);
-        currentChannel.addClient(this);
-        } else {
+            ChatChannel newChannel = server.getChannel(channelName);
+            channels.add(newChannel);
+            newChannel.addClient(this);
+        }
+        else
+        {
             ErrorResponse error = new ErrorResponse("Channel name already taken");
             sendMessage(error);
         }
         return result;
     }
+
+    /**
+     * Returns the chat channel with the given name.
+     * @param channelName the name of the channel to get
+     * @return the chat channel with the given name
+     */
     public ChatChannel getChannel(String channelName) {
         ChatChannel channel = server.getChannel(channelName);
         if(channel != null){

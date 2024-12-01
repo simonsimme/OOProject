@@ -51,7 +51,6 @@ public class ClientVisitor implements ClientMessageVisitor{
      */
     @Override
     public void handle(CreateChannelResponse m) {
-        System.out.println("HEEEEELLLLLLLPPP");
         channelRecord.addNewChannel(m.getChannelName());
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
     }
@@ -63,7 +62,8 @@ public class ClientVisitor implements ClientMessageVisitor{
     @Override
     public void handle(LeaveChannelResponse m) {
         channelRecord.removeChannel(m.getChannelName());
-        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
+        System.out.println("Channel removed: " + m.getChannelName() + " and this is currChannel" + channelRecord.getCurrentChannelName());
+        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(), channelRecord.getCurrentChannelName()));
     }
 
     /**
