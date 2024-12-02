@@ -43,8 +43,9 @@ public class ClientTest {
         serverThread = null;
     }
 
-
-
+    /**
+     * Test the client's ability to join a channel
+     * */
     @Test
     void joinChannelTest() throws InterruptedException {
         String channelName = "testChannel";
@@ -57,6 +58,9 @@ public class ClientTest {
         // check the client has joined the channel
         assertEquals(channelName, client.getCurrentChannelName());
     }
+    /**
+     * Ensures that the client cannot join a channel with the wrong password
+     * */
     @Test
     void joinChannelWrongPasswordTest() throws InterruptedException {
         String channelName = "testChannel";
@@ -72,6 +76,9 @@ public class ClientTest {
         assertEquals("empty-channel", client.getCurrentChannelName());
     }
 
+    /**
+     * Test the client's ability to leave a channel
+     * */
     @Test
     void leaveChannelTest() {
         String channelName = "testChannel";
@@ -87,6 +94,10 @@ public class ClientTest {
         assertEquals("empty-channel", client.getCurrentChannelName());
     }
 
+    /**
+     * Ensures the client cant leave a channel they are not in
+     * No action/exception should be thrown
+     * */
     @Test
     void leaveChannelNotInChannelTest() {
         String channelName = "testChannel";
@@ -100,7 +111,9 @@ public class ClientTest {
     }
 
 
-
+    /**
+     * Test the client's ability to switch channels
+     * */
     @Test
     void switchChannelTest() throws InterruptedException {
         String channelName1 = "testChannel1";
@@ -120,6 +133,9 @@ public class ClientTest {
         assertEquals(channelName1, client.getCurrentChannelName());
     }
 
+    /**
+     * Ensures the client cannot switch to a channel they are not in
+     * */
     @Test
     void switchChannelNotInChannelTest() {
         String channelName = "testChannel";
@@ -133,6 +149,9 @@ public class ClientTest {
         assertEquals("empty-channel", client.getCurrentChannelName());
     }
 
+    /**
+     * Tests the createChannel method of the client
+     * */
     @Test
     void createChannelTest() throws InterruptedException {
         String channelName = "testChannel";
@@ -145,6 +164,9 @@ public class ClientTest {
         assertEquals(channelName, client.getCurrentChannelName());
     }
 
+    /**
+     * Ensures the client cannot create a channel with the same name as an existing channel
+     * */
     @Test
     void createChannelDuplicateNameTest() throws InterruptedException {
         String channelName = "testChannel";
@@ -158,6 +180,9 @@ public class ClientTest {
         assertEquals(1, client.getChannelNames().size());
     }
 
+    /**
+     * Testing client during stress, 50 create/join/leave requests gets handled to check for bugs, None found
+     * */
     @Test
     void stressTest() throws InterruptedException {
         int amountOfChannels = 50;

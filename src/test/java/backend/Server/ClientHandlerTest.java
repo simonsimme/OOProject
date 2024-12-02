@@ -90,7 +90,7 @@ public class ClientHandlerTest {
         Server.createChannel(channelName, password);
         clientHandler.joinChannel(channelName, password);
 
-        clientHandler.leaveChannel();
+        clientHandler.leaveChannel(channelName);
         ChatChannel channels = Server.getChannel(channelName);
 
         assertFalse(channels.getClients().contains(clientHandler));
