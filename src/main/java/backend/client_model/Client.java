@@ -134,6 +134,13 @@ public class Client implements ClientSubject{
     public List<String> getUserNamesInCurrentChannel(){
         return channelRecord.getUsersInCurrentChannel();
     }
+
+    /**
+     * Disconnect the user from channel and server
+     */
+    public void disconnect() {
+        cm.disconnect(user, channelRecord.getCurrentChannelName());
+    }
     /**
      * Attaches an observer to the client for receiving updates.
      *

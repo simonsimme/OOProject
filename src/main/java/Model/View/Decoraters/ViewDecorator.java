@@ -8,6 +8,7 @@ import backend.Messages.UI.DisplayMessage;
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.util.List;
 
 public  class ViewDecorator implements IView {
@@ -135,6 +136,11 @@ public  class ViewDecorator implements IView {
         decoratedView.showHistory(history);
     }
 
-
-
+    @Override
+    public void addWindowExitListener(WindowListener listener) {
+        decoratedView.addWindowExitListener(listener);
+    }
+    public void closeWindow() {
+        decoratedView.closeWindow();
+    }
 }

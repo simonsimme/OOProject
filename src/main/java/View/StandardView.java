@@ -1,6 +1,7 @@
 // StandardView.java
 package View;
 
+import Model.View.HighlightedChannelRenderer;
 import Model.View.IView;
 import Model.View.TextFormat;
 import backend.Messages.UI.DisplayMessage;
@@ -13,26 +14,24 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
 
 public class StandardView implements IView {
     private static JFrame frame;
     private JTextPane chatArea = new JTextPane();
     private JTextArea inputField;
-    private JTextField inputTextField = new JTextField(20);
+    private final JTextField inputTextField = new JTextField(20);
     private JButton sendButton;
     private JButton createChannelButton;
-    private JButton createChannelButtonItem;
     private JButton createButton;
     private JButton joinChannelButton;
     private JButton joinNewChannelButton;
     private JButton leaveChannelButton;
     private JButton createNewChannelButton;
     private JList<String> channelList = new JList<>();
+    private final HighlightedChannelRenderer channelRenderer;
     DefaultListModel<String> listModel = new DefaultListModel<>();
-
-    private JTextField channelNameField;
-    private JTextField passwordField;
 
     /**
      * Updates the channel list with the given channels and sets the current channel.
@@ -49,6 +48,7 @@ public class StandardView implements IView {
             listModel.addElement(channel);
         }
         channelList.setSelectedValue(currentChannel, true);
+        channelRenderer.setCurrentChannel(currentChannel);
         channelList.repaint();
     }
 
@@ -77,6 +77,7 @@ public class StandardView implements IView {
     public void changeChannel(String channelName) {
         if (chatArea != null) {
             chatArea.setText(""); // clear chat
+            channelRenderer.setCurrentChannel(channelName);
             channelList.repaint();
         }
     }
@@ -191,7 +192,10 @@ public class StandardView implements IView {
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
+        channelRenderer = new HighlightedChannelRenderer("None");
+        channelList.setCellRenderer(channelRenderer);
         startArea();
+        showNotification("Welcome to the Chat Application!");
 
     }
 
@@ -219,7 +223,7 @@ public class StandardView implements IView {
             frame.repaint();
         } else {
             frame = new JFrame("Chat Application");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.setSize(800, 600);
             frame.setLocationRelativeTo(null);
         }
@@ -528,5 +532,13 @@ public class StandardView implements IView {
     @Override
     public void clearInputText() {
         inputField.setText("");
+    }
+
+    @Override
+    public void addWindowExitListener(WindowListener listener) {
+        frame.addWindowListener(listener);
+    }
+    public void closeWindow() {
+        frame.dispose();
     }
 }
