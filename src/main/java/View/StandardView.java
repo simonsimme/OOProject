@@ -1,7 +1,6 @@
 // StandardView.java
 package View;
 
-import Model.View.HighlightedChannelRenderer;
 import Model.View.IView;
 import Model.View.TextFormat;
 import backend.Messages.UI.DisplayMessage;
@@ -30,7 +29,6 @@ public class StandardView implements IView {
     private JButton leaveChannelButton;
     private JButton createNewChannelButton;
     private JList<String> channelList = new JList<>();
-    private final HighlightedChannelRenderer channelRenderer;
     DefaultListModel<String> listModel = new DefaultListModel<>();
 
     /**
@@ -48,7 +46,6 @@ public class StandardView implements IView {
             listModel.addElement(channel);
         }
         channelList.setSelectedValue(currentChannel, true);
-        channelRenderer.setCurrentChannel(currentChannel);
         channelList.repaint();
     }
 
@@ -77,7 +74,6 @@ public class StandardView implements IView {
     public void changeChannel(String channelName) {
         if (chatArea != null) {
             chatArea.setText(""); // clear chat
-            channelRenderer.setCurrentChannel(channelName);
             channelList.repaint();
         }
     }
@@ -192,8 +188,6 @@ public class StandardView implements IView {
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-        channelRenderer = new HighlightedChannelRenderer("None");
-        channelList.setCellRenderer(channelRenderer);
         startArea();
         showNotification("Welcome to the Chat Application!");
 
