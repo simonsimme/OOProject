@@ -2,7 +2,7 @@ package Model.Messages.Client;
 /**
  * Message to client : Send a message in a channel to a client
  */
-public class MessageInChannel extends ClientMessage implements ClientVisitableMessage {
+public class MessageInChannel extends ClientMessage {
     /**
      * The user name of the sender of the message. This string is displayed before the message in the UI.
      */
