@@ -18,15 +18,15 @@ public class ClientCommunicationManager implements Runnable{
      */
     private Socket socket;
     /**
-     * Inputstream, ClientMessages get sent to this stream from the server.
+     * Input stream, ClientMessages get sent to this stream from the server.
      */
     private ObjectInputStream in;
     /**
-     * Outputstream, ServerMessages get sent to this stream, these are the messages that the server receives.
+     * Output stream, ServerMessages get sent to this stream, these are the messages that the server receives.
      */
     private ObjectOutputStream out;
     /**
-     * Ip adress of the server host.
+     * Ip address of the server host.
      */
     private final String host;
 
@@ -41,7 +41,7 @@ public class ClientCommunicationManager implements Runnable{
 
     /**
      * Only Constructor
-     * @param address The adress of the server to connect to.
+     * @param address The address of the server to connect to.
      * @param port The port of the server to connect to.
      * @param channelGroup Passed reference.
      * @param observers Passed reference.

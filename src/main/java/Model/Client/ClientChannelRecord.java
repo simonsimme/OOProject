@@ -59,7 +59,7 @@ public class ClientChannelRecord {
      */
     public void recordMessageInChannel(String message, String channelName){
         for (ClientChannel channel: channels) {
-            if(channel.getName() == channelName){
+            if(Objects.equals(channel.getName(), channelName)){
                 channel.recordMessage(message);
                 break;
             }
