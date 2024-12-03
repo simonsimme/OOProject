@@ -59,7 +59,6 @@ public class UIController implements ClientObserver {
      */
     @Override
     public void update(UIMessage message) {
-       // view.appendChatText(message);
         message.accept(handleMessageDecorator);
     }
 
@@ -79,7 +78,7 @@ public class UIController implements ClientObserver {
         try{
             String[] channelNameAndPassword = view.getChannelNameAndPasswordInput("Join");
             if (channelNameAndPassword == null) {
-                throw new Exception("STOPED");
+                throw new Exception("STOPPED");
             }
             String channelName = channelNameAndPassword[0];
             String password = channelNameAndPassword[1];
@@ -104,7 +103,7 @@ public class UIController implements ClientObserver {
         try{
         String[] channelNameAndPassword = view.getChannelNameAndPasswordInput("Create");
         if (channelNameAndPassword == null) {
-            throw new Exception("STOPED");
+            throw new Exception("STOPPED");
         }
         String channelName = channelNameAndPassword[0];
         String password = channelNameAndPassword[1];
@@ -130,20 +129,18 @@ public class UIController implements ClientObserver {
         view.addLeaveChannelButtonListener(new LeaveChannelButtonListener());
         view.addCreateNewChannelButtonListener(new CreateNewChannelButtonListener());
         view.addChannelListSelectionListener(new ChannelListSelectionListener());
-        nicknameset(view.getNickNameFeild());
-
-
+        setNickName(view.getNickNameFeild());
     }
 
     /**
      * Sets the nickname for the client.
      * @param name the nickname to set.
      */
-    private void nicknameset(String name) {
+    private void setNickName(String name) {
         reference.setNickName(name);
         //we want to show the user that he is changed his/here name
         view.showNotification("Your nickname is now: " + name);
-        System.out.println("clientNamme is" + name);
+        System.out.println("clientName is" + name);
 
     }
 
@@ -154,15 +151,13 @@ public class UIController implements ClientObserver {
                 createChannel();
             } catch (Exception ex) {
                 // Handle the exception and do not proceed to the chat area
-                if(ex.getMessage().equals("STOPED")){
+                if(ex.getMessage().equals("STOPPED")){
                     return;
                 }
                 view.displayErrorMessage(ex.getMessage());
                 return;
             }
             showChatArea();
-
-
         }
     }
 
@@ -175,7 +170,7 @@ public class UIController implements ClientObserver {
             try {
                 joinChannel();
             } catch (Exception ex) {
-                if(ex.getMessage().equals("STOPED")){
+                if(ex.getMessage().equals("STOPPED")){
                     return;
                 }
                 view.displayErrorMessage(ex.getMessage());
@@ -210,7 +205,6 @@ public class UIController implements ClientObserver {
                     view.changeChannel(selectedChannel);
                     UIMessage message = new DisplayMessage("SYSTEM", "Switched to channel: " + selectedChannel);
                     message.accept(handleMessageDecorator);
-                    //view.showHistory(refrence.getHistory());
                 }
             }
         }
@@ -225,7 +219,7 @@ public class UIController implements ClientObserver {
             try {
                 joinChannel();
             } catch (Exception ex) {
-                if(ex.getMessage().equals("STOPED")){
+                if(ex.getMessage().equals("STOPPED")){
                     return;
                 }
                 view.displayErrorMessage(ex.getMessage());
@@ -243,7 +237,7 @@ public class UIController implements ClientObserver {
         public void actionPerformed(ActionEvent e) {
             reference.leaveChannel();
             view.removeChannelFromList(reference.getCurrentChannelName());
-            if (view.getChannelList().size() == 0) {
+            if (view.getChannelList().isEmpty()) {
                 view.startArea();
                 view.addCreateChannelButtonListener(new CreateChannelButtonListener());
                 view.addJoinChannelButtonListener(new JoinChannelButtonListener());
@@ -264,7 +258,7 @@ public class UIController implements ClientObserver {
             try {
                 createChannel();
             } catch (Exception ex) {
-                if(ex.getMessage().equals("STOPED")){
+                if(ex.getMessage().equals("STOPPED")){
                     return;
                 }
                 view.displayErrorMessage(ex.getMessage());

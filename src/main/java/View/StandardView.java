@@ -5,7 +5,6 @@ import Move.IView;
 import Move.TextFormat;
 import Model.Messages.UI.DisplayMessage;
 import com.formdev.flatlaf.FlatDarculaLaf;
-
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.*;
@@ -34,7 +33,7 @@ public class StandardView implements IView {
     private JList<String> channelList = new JList<>();
     DefaultListModel<String> listModel = new DefaultListModel<>();
 
-    //static initializer to see the the Guest user;
+    //static initializer to see the Guest user;
     private  static  int guestUser = 0;
 
     /**
@@ -93,7 +92,7 @@ public class StandardView implements IView {
         JOptionPane.showMessageDialog(frame, errorMessage, "Message", JOptionPane.ERROR_MESSAGE);
     }
     /**
-     * Displays an notification of info to the user.
+     * Displays a notification of info to the user.
      * @param message notification message.
      */
     @Override
@@ -206,7 +205,7 @@ public class StandardView implements IView {
     @Override
     public String getNickNameFeild() {
         String name = inputTextField.getText();
-        if (name.isEmpty() || name.equals("")) {
+        if (name.isEmpty()) {
             return ("Guest +" + guestUser);
         }
         //replace all white spaces with empty string
@@ -454,7 +453,7 @@ public class StandardView implements IView {
     }
 
     /**
-     * Returns the text entered in the input field.
+     * Returns the text entered the input field.
      * @return The entered text.
      */
     @Override
