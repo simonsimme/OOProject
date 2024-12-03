@@ -69,6 +69,7 @@ public class ClientHandler extends Thread {
                 }
             }
         } catch (IOException | ClassNotFoundException | IllegalArgumentException e) {
+            //client disconnected
             handleError(e);
         } finally {
             closeConnections();

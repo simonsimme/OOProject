@@ -195,9 +195,8 @@ public class StandardView implements IView {
             e.printStackTrace();
         }
         startArea();
-        showNotification("Welcome to the Chat Application!");
-        guestUser ++; //increment the guest user
-
+        StandardView.guestUser ++; //increment the guest user depending on the number of objects created
+        showNotification("Welcome "+  "Guest" + guestUser + "!");
     }
 
     /**
@@ -257,7 +256,7 @@ public class StandardView implements IView {
         gbc.gridy = 1;
         startPanel.add(joinChannelButton, gbc);
 
-        JLabel inputLabel = new JLabel("Enter your nickname:");
+        JLabel inputLabel = new JLabel("Change Your Nickname:");
         inputLabel.setFont(new Font("Arial", Font.BOLD, 16));
         inputLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
