@@ -79,7 +79,8 @@ public class ClientCommunicationManager implements Runnable{
                     handleMessage((ClientMessage) message);
                 }
                 else{
-                    throw new IllegalArgumentException("Invalid message type");
+                    throw new IllegalArgumentException("Yousef & Gunnar are unsure about this");
+
                 }
             }
         } catch (IOException | ClassNotFoundException | IllegalArgumentException e) {

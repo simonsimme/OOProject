@@ -132,6 +132,7 @@ public class UIController implements ClientObserver {
         view.addChannelListSelectionListener(new ChannelListSelectionListener());
         nicknameset(view.getNickNameFeild());
 
+
     }
 
     /**
@@ -140,6 +141,10 @@ public class UIController implements ClientObserver {
      */
     private void nicknameset(String name) {
         reference.setNickName(name);
+        //we want to show the user that he is changed his/here name
+        view.showNotification("Your nickname is now: " + name);
+        System.out.println("clientNamme is" + name);
+
     }
 
     class CreateChannelButtonListener implements ActionListener {
