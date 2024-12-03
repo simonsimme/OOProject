@@ -71,7 +71,7 @@ public class ClientHandler extends Thread {
     private void handleError(Exception e) {
         System.out.println("Client handler exception: " + e.getMessage());
     }
-    Message readMessage() throws IOException, ClassNotFoundException {
+    private Message readMessage() throws IOException, ClassNotFoundException {
         return (Message) input.readObject();
     }
     private void processMessage(Message message) {

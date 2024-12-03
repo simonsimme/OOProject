@@ -1,3 +1,5 @@
+package client;
+
 import backend.Server.Server;
 import backend.client_model.Client;
 import org.junit.jupiter.api.AfterEach;
