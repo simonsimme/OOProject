@@ -41,6 +41,7 @@ public class ClientHandlerTest {
         }
         Server = null;
         clientHandler = null;
+        clientHandler2 = null;
         channelName = null;
     }
     /**

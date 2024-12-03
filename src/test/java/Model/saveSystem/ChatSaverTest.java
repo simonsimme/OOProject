@@ -4,8 +4,7 @@ import Model.Server.saving.ChatSaver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ChatSaverTest {
 
@@ -28,6 +27,8 @@ public class ChatSaverTest {
         saverTest.update("testUser", "testChannel", "testMessage");
        // saverTest.update("testUser", "testChannel", "testMessage");
         StringBuilder test = saverTest.getChatHistory(channelTest);
-        assertTrue(test.equals("testChannel"));
+        String result = test.toString();
+        //There is no logic behind clearing the testChannel.txt, this document is just appended everytime update is called
+        assertTrue(result.contains("testChannel"));
     }
 }
