@@ -16,6 +16,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
 
+/**
+ * The StandardView class is responsible for displaying the chat application UI.
+ */
 public class StandardView implements IView {
     private static JFrame frame;
     private JTextPane chatArea = new JTextPane();

@@ -14,6 +14,9 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+/**
+ * The UIController class is responsible for handling user input and updating the view based on the received messages.
+ */
 public class UIController implements ClientObserver {
     private final IView view;
     private final Client reference;

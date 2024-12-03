@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Server {
     //ServerSocket will listen for incoming connections.
-    private  ServerSocket server = null;
+    private ServerSocket server = null;
     //Singleton instance of server.
     private static Server thisServer = null;
     //A map of active chat channels, identified by their names.
