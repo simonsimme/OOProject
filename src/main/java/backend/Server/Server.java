@@ -121,6 +121,7 @@ public class Server {
             logger.log(Level.FINER, "ChannelName taken, Try another one.");
         } else {
             channels.put(channelName, new ChatChannel(channelName, password));
+            logger.log(Level.FINE, "Channel created: " + channelName);
         }
     }
 

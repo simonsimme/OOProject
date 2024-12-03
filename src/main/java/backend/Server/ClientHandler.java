@@ -10,6 +10,10 @@ import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  * This class handles communication with a single client connected to the server.
@@ -31,6 +35,10 @@ public class ClientHandler extends Thread {
     //Current chat channel the client is joined in.
     private List<ChatChannel> channels;
 
+
+
+
+
     /**
      * Constructor for a {@code ClientHandler} for a given client socket and server instance.
      * @param socket the client's socket connection.
@@ -40,6 +48,8 @@ public class ClientHandler extends Thread {
         this.server = server;
         this.clientSocket = socket;
         this.channels = new ArrayList<>();
+
+
 
         try {
             this.input = new ObjectInputStream(clientSocket.getInputStream());
@@ -110,6 +120,7 @@ public class ClientHandler extends Thread {
             if (clientSocket != null && !clientSocket.isClosed()) {
                 clientSocket.close();
             }
+
         } catch (IOException e) {
             System.out.println("Error closing connections: " + e.getMessage());
         }
