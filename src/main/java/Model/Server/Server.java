@@ -28,7 +28,7 @@ public class Server {
     static {
         try {
             // Create a FileHandler that writes log messages to a file
-            FileHandler fileHandler = new FileHandler("./src/main/java/Model/Server/server.log", true);
+            FileHandler fileHandler = new FileHandler("./src/main/java/Model/Server/server.log", false);
             fileHandler.setFormatter(new SimpleFormatter());
             logger.addHandler(fileHandler);
             logger.setLevel(Level.ALL);
@@ -68,6 +68,16 @@ public class Server {
             logger.log(Level.SEVERE, e.getMessage());
 
         }
+        Runtime.getRuntime().addShutdownHook(new Thread(() ->
+        {
+            System.out.println("Shutting down server...");
+
+            try {
+                this.stop();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }));
     }
 
     /**
