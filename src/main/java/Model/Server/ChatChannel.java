@@ -1,6 +1,6 @@
 package Model.Server;
 
-import Model.Messages.Message;
+import Model.Message;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;

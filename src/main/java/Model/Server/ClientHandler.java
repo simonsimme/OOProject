@@ -1,6 +1,6 @@
 package Model.Server;
 import Model.Messages.Client.ErrorResponse;
-import Model.Messages.Message;
+import Model.Message;
 import Model.Messages.Server.MessageVisitorServer;
 import Model.Messages.Server.ServerMessageVisitor;
 
@@ -28,6 +28,8 @@ public class ClientHandler extends Thread {
     private final Server server;
     //Current chat channel the client is joined in.
     private List<ChatChannel> channels;
+    //we rewrite and create only one error object to lowe the dependecy between the classes
+    private ErrorResponse error;
 
 
 
@@ -129,7 +131,7 @@ public class ClientHandler extends Thread {
         boolean result = false;
 
         if (channel == null) {
-            ErrorResponse error = new ErrorResponse("Channel does not exist--");
+            this.error = new ErrorResponse("Channel does not exist--");
 
             sendMessage(error);
             return false;
@@ -138,7 +140,7 @@ public class ClientHandler extends Thread {
         else if(channel.validatePassword(password))
         {
             if(channel.getClients().contains(this)){
-                ErrorResponse error = new ErrorResponse("You are already in this channel");
+                this.error = new ErrorResponse("You are already in this channel");
                 sendMessage(error);
                 result = false;
             }else {
@@ -149,7 +151,7 @@ public class ClientHandler extends Thread {
         }
         else
         {
-            ErrorResponse error = new ErrorResponse("Invalid password");
+            this.error = new ErrorResponse("Invalid password");
             sendMessage(error);
         }
         return result;
@@ -222,7 +224,7 @@ public class ClientHandler extends Thread {
         }
         else
         {
-            ErrorResponse error = new ErrorResponse("Channel name already taken");
+            this.error = new ErrorResponse("Channel name already taken");
             sendMessage(error);
         }
         return result;
