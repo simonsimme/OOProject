@@ -4,7 +4,7 @@ import Controller.UIController;
 import Move.Factorys.StandardViewFactory;
 import Move.Factorys.ViewFactory;
 import Move.IView;
-import Model.client_model.Client;
+import Model.Client.Client;
 public class ClientApplication {
 
 

@@ -1,4 +1,4 @@
-package Model.client_model;
+package Model.Client;
 
 public class ClientTest {
     /*

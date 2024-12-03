@@ -1,7 +1,7 @@
 package client;
 
 import Model.Server.Server;
-import Model.client_model.Client;
+import Model.Client.Client;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

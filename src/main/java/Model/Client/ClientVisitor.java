@@ -1,4 +1,4 @@
-package Model.client_model;
+package Model.Client;
 
 import Model.Messages.Client.*;
 import Model.Messages.UI.DisplayError;

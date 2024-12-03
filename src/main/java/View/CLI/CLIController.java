@@ -1,6 +1,6 @@
 package View.CLI;
 
-import Model.client_model.Client;
+import Model.Client.Client;
 
 import java.io.InputStream;
 import java.util.Scanner;

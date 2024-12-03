@@ -6,7 +6,7 @@ import Move.Factorys.ViewFactory;
 import Move.IView;
 import Controller.UIController;
 import Model.Server.Server;
-import Model.client_model.Client;
+import Model.Client.Client;
 
 import java.io.IOException;
 

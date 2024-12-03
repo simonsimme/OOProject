@@ -2,8 +2,8 @@ package Controller;
 
 import Move.Decoraters.HandleMessageDecorator;
 import Model.Messages.UI.*;
-import Model.client_model.Client;
-import Model.client_model.ClientObserver;
+import Model.Client.Client;
+import Model.Client.ClientObserver;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;

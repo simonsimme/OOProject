@@ -2,7 +2,7 @@ package View.CLI.Debug;
 
 import View.CLI.CLIController;
 import View.CLI.CLIView;
-import Model.client_model.Client;
+import Model.Client.Client;
 
 /**
  * Run this to start a client
