@@ -1,9 +1,9 @@
 package View.CLI;
 
-import backend.Messages.UI.DisplayError;
-import backend.Messages.UI.DisplayMessage;
-import backend.Messages.UI.UIMessageVisitor;
-import backend.Messages.UI.UpdateChannels;
+import Model.Messages.UI.DisplayError;
+import Model.Messages.UI.DisplayMessage;
+import Model.Messages.UI.UIMessageVisitor;
+import Model.Messages.UI.UpdateChannels;
 
 import java.io.PrintStream;
 import java.util.List;

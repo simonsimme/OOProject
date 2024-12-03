@@ -1,9 +1,9 @@
 // StandardView.java
 package View;
 
-import Model.View.IView;
-import Model.View.TextFormat;
-import backend.Messages.UI.DisplayMessage;
+import Move.IView;
+import Move.TextFormat;
+import Model.Messages.UI.DisplayMessage;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 import javax.swing.*;

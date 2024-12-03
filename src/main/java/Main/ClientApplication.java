@@ -1,10 +1,10 @@
 package Main;
 
 import Controller.UIController;
-import Model.View.Factorys.StandardViewFactory;
-import Model.View.Factorys.ViewFactory;
-import Model.View.IView;
-import backend.client_model.Client;
+import Move.Factorys.StandardViewFactory;
+import Move.Factorys.ViewFactory;
+import Move.IView;
+import Model.client_model.Client;
 public class ClientApplication {
 
 

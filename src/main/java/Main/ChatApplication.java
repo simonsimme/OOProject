@@ -1,12 +1,12 @@
 // ChatApplication.java
 package Main;
 
-import Model.View.Factorys.StandardViewFactory;
-import Model.View.Factorys.ViewFactory;
-import Model.View.IView;
+import Move.Factorys.StandardViewFactory;
+import Move.Factorys.ViewFactory;
+import Move.IView;
 import Controller.UIController;
-import backend.Server.Server;
-import backend.client_model.Client;
+import Model.Server.Server;
+import Model.client_model.Client;
 
 import java.io.IOException;
 

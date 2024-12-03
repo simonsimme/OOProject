@@ -1,8 +1,8 @@
 package View.CLI;
 
-import backend.Messages.UI.UIMessage;
-import backend.Messages.UI.UIMessageVisitor;
-import backend.client_model.ClientObserver;
+import Model.Messages.UI.UIMessage;
+import Model.Messages.UI.UIMessageVisitor;
+import Model.client_model.ClientObserver;
 
 import java.io.PrintStream;
 

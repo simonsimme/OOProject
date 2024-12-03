@@ -1,15 +1,15 @@
 package Controller;
 
-import Model.View.Decoraters.HandleMessageDecorator;
-import backend.Messages.UI.*;
-import backend.client_model.Client;
-import backend.client_model.ClientObserver;
+import Move.Decoraters.HandleMessageDecorator;
+import Model.Messages.UI.*;
+import Model.client_model.Client;
+import Model.client_model.ClientObserver;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import Model.View.IView;
+import Move.IView;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;

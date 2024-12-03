@@ -1,8 +1,6 @@
 package View.CLI;
 
-import backend.Messages.UI.UIMessage;
-import backend.client_model.Client;
-import backend.client_model.ClientObserver;
+import Model.client_model.Client;
 
 import java.io.InputStream;
 import java.util.Scanner;

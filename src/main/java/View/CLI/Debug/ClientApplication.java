@@ -2,11 +2,7 @@ package View.CLI.Debug;
 
 import View.CLI.CLIController;
 import View.CLI.CLIView;
-import backend.Server.Server;
-import backend.client_model.Client;
-
-import java.io.IOException;
-import java.io.PrintStream;
+import Model.client_model.Client;
 
 /**
  * Run this to start a client

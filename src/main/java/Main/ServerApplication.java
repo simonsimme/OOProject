@@ -1,6 +1,6 @@
 package Main;
 
-import backend.Server.Server;
+import Model.Server.Server;
 public class ServerApplication {
     public static void main(String[] args) {
             Server server = Server.createServerInstance(1234);

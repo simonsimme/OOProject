@@ -1,6 +1,6 @@
 package View.CLI.Debug;
 
-import backend.Server.Server;
+import Model.Server.Server;
 
 import java.io.IOException;
 import java.util.Scanner;
