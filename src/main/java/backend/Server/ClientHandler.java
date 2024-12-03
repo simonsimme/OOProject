@@ -68,12 +68,24 @@ public class ClientHandler extends Thread {
             closeConnections();
         }
     }
+    /**
+     * Handles exceptions that occur during message processing. At this time its only printing the error message
+     * @param e the exception that occurred.
+     */
     private void handleError(Exception e) {
         System.out.println("Client handler exception: " + e.getMessage());
     }
+    /**
+     * Reads a message from the client.
+     * @return the message received from the client.
+     */
     private Message readMessage() throws IOException, ClassNotFoundException {
         return (Message) input.readObject();
     }
+    /**
+     * Processes a message received from the client.
+     * @param message the message to process.
+     */
     private void processMessage(Message message) {
         try{
             ServerMessageVisitor handler = new MessageVisitorServer(this);
@@ -83,6 +95,9 @@ public class ClientHandler extends Thread {
         }
 
     }
+    /**
+     * Closes the input/output streams and the client socket connection.
+     */
     public void closeConnections() {
         // Ensure the input/output streams are closed properly
         try {
