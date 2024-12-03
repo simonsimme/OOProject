@@ -114,7 +114,7 @@ public class Server {
         if (server != null && !server.isClosed()) {
             server.close(); // Close the server socket to break the accept() call
             thisServer = null; // Reset the server instance
-            logger = null; // Reset the logger
+            //logger = null; // Reset the logger
         }
     }
     /**
