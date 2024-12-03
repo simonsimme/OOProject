@@ -1,42 +1,44 @@
 package Model;
 import Model.Messages.Server.ServerMessageVisitor;
-
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * The {@code Message} class represents a message sent in a chat system.
- * This abstract class serves as the base for different types of messages
- * that can be sent between clients and the server.
- * <p>
- * Each message includes the following:
+ * The {@code Message} class represents an abstract base for messages exchanged
+ * within a chat system. Messages encapsulate a timestamp indicating when they
+ * were created and are designed to be extended by subclasses to support various
+ * types of communication.
+ *
+ * <p>Each {@code Message} contains:</p>
  * <ul>
- *   <li>The content of the message</li>
- *   <li>The sender of the message</li>
- *   <li>The timestamp indicating when the message was created</li>
+ *   <li>A timestamp representing the creation time of the message.</li>
+ *   <li>Abstract methods to represent the message content and sender,
+ *       which must be implemented by subclasses.</li>
  * </ul>
- * Subclasses can extend this class to implement specific types of messages,
- * each corresponding to a particular command or operation in the chat system.
- * </p>
  *
  * <p>Key responsibilities of this class:</p>
  * <ul>
- *   <li>Provide access to the message's content, sender, and timestamp.</li>
- *   <li>Define a common structure for all message types in the system.</li>
- *   <li>Offer a default string representation of the message for logging or display purposes.</li>
+ *   <li>Provide a base structure for all types of messages in the chat system.</li>
+ *   <li>Offer methods to retrieve message metadata, such as the creation timestamp.</li>
+ *   <li>Include a default implementation for string representation,
+ *       which can be overridden by subclasses.</li>
+ *   <li>Allow the message to accept a visitor for processing,
+ *       as part of the visitor design pattern.</li>
  * </ul>
  */
 public abstract class Message implements Serializable {
-    //The serialVersionUID is a unique identifier for each class that implements the Serializable interface
-    private static final long serialVersionUID = 1L;
-    private LocalDateTime timestamp;
-
     /**
-     * Constructs a new Message with the specified content and sender.
-     * The timestamp is set to the current time.
-     * By default, sets the commandType to MESSAGE
-     *
-     *
+     * Unique identifier for the {@code Message} class to support serialization.
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+    /**
+     * The timestamp indicating when the message was created.
+     */
+    private final LocalDateTime timestamp;
+    /**
+     * Constructs a new {@code Message} instance with the current time as the timestamp.
      */
     public Message() {
         this.timestamp = LocalDateTime.now();
@@ -50,13 +52,9 @@ public abstract class Message implements Serializable {
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
-
     /**
-     * Returns a CommandType representation of the type of command the message should preform
-     * @return CommandType of the message
-     */
-    /**
-     * Returns a string representation of the message.
+     * Provides a string representation of the message, including the content, sender,
+     * and timestamp. Subclasses may override this method to customize the output.
      *
      * @return a string representation of the message
      */
@@ -64,13 +62,28 @@ public abstract class Message implements Serializable {
     public String toString() {
         return getMessageAsString() + " from " + getSenderAsString() + " at " + timestamp;
     }
-
+    /**
+     * Returns a string representation of the message content.
+     * Subclasses must override this method to provide specific content.
+     *
+     * @return the message content as a string
+     */
     protected String getMessageAsString(){
         return "Undefined message";
     }
-
-    protected String getSenderAsString(){return "Undefined sender";}
-
+    /**
+     * Returns a string representation of the message sender.
+     * Subclasses must override this method to provide sender information.
+     *
+     * @return the sender as a string
+     */
+    protected String getSenderAsString() { return "Undefined sender";}
+    /**
+     * Accepts a visitor for processing this message.
+     * Subclasses may override this method to implement specific visitor logic.
+     *
+     * @param handler the {@link ServerMessageVisitor} to handle this message
+     */
     public void accept(ServerMessageVisitor handler) {
         System.out.println("Message accept method missing for " + this.getClass().getName());
     }
