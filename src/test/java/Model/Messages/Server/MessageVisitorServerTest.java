@@ -22,7 +22,7 @@ public class MessageVisitorServerTest {
 
     @BeforeEach
         public void setUp() {
-            Server.createServerInstance(8080);
+            server = Server.createServerInstance(8080);
             testClientSocket = new Socket();
             //this is not correct but it is just for testing purposes
             clientHandler = new ClientHandler(testClientSocket, server);

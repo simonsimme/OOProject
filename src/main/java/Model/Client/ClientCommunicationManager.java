@@ -75,7 +75,12 @@ public class ClientCommunicationManager implements Runnable{
             while (true)
             {
                 message = in.readObject();
-                if(message instanceof ClientMessage) handleMessage((ClientMessage) message);
+                if(message instanceof ClientMessage ) {
+                    handleMessage((ClientMessage) message);
+                }
+                else{
+                    throw new IllegalArgumentException("Invalid message type");
+                }
             }
         } catch (IOException | ClassNotFoundException | IllegalArgumentException e) {
 
