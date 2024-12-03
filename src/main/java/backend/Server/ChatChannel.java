@@ -72,4 +72,7 @@ public class ChatChannel {
         return clients;
     }
 
+    public String getName() {
+        return name;
+    }
 }

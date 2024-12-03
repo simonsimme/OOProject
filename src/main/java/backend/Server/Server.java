@@ -4,6 +4,10 @@ import java.net.*;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  * The Server class implements a basic server that listens for incoming client
@@ -18,6 +22,21 @@ public class Server {
     private final Map<String, ChatChannel> channels;
     private volatile boolean isRunning;
 
+    public static Logger logger = Logger.getLogger(Server.class.getName());
+    // Initialize the logger and write to a file in the server directory
+    //this will be used to debug the server
+    static {
+        try {
+            // Create a FileHandler that writes log messages to a file
+            FileHandler fileHandler = new FileHandler("./src/main/java/backend/Server/server.log", true);
+            fileHandler.setFormatter(new SimpleFormatter());
+            logger.addHandler(fileHandler);
+            logger.setLevel(Level.ALL);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Failed to initialize logger FileHandler.", e);
+        }
+    }
+
     /**
      * Creates a singleton instance of the Server with the specific port.
      * If the server instance already exist, it returns the existing instance.
@@ -27,6 +46,8 @@ public class Server {
     public static Server createServerInstance(int port) {
         if (thisServer == null) {
             thisServer = new Server(port);
+            Server.logger.log(Level.FINE, "Server created on port: " + port);
+
         }
         return thisServer;
     }
@@ -41,8 +62,11 @@ public class Server {
         System.out.println("Started new server:");
         try {
             this.server = new ServerSocket(port);
+            logger.log(Level.FINE, "Server socket is created on port: " + server.getLocalPort());
         } catch (IOException e) {
             System.out.println(e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
+
         }
     }
 
@@ -53,6 +77,7 @@ public class Server {
     public void startListening() {
         try {
             while (isRunning) {
+                Server.logger.log(Level.FINE, "Waiting for clients...");
                 System.out.println("Waiting for clients...");
                 Socket clientSocket = server.accept();
 
@@ -78,7 +103,8 @@ public class Server {
         isRunning = false; // Stop accepting new connections
         if (server != null && !server.isClosed()) {
             server.close(); // Close the server socket to break the accept() call
-            thisServer = null;
+            thisServer = null; // Reset the server instance
+            logger = null; // Reset the logger
         }
     }
     /**
@@ -92,6 +118,7 @@ public class Server {
     public synchronized void createChannel(String channelName, String password) {
         if (channels.containsKey(channelName)) {
             System.out.println("ChannelName taken, Try another one.");
+            logger.log(Level.FINER, "ChannelName taken, Try another one.");
         } else {
             channels.put(channelName, new ChatChannel(channelName, password));
         }
