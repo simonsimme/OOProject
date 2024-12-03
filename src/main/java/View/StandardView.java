@@ -196,6 +196,7 @@ public class StandardView implements IView {
         }
         startArea();
         showNotification("Welcome to the Chat Application!");
+        guestUser ++; //increment the guest user
 
     }
 
