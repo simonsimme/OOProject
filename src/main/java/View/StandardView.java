@@ -34,6 +34,9 @@ public class StandardView implements IView {
     private JList<String> channelList = new JList<>();
     DefaultListModel<String> listModel = new DefaultListModel<>();
 
+    //static initializer to see the the Guest user;
+    private  static  int guestUser = 0;
+
     /**
      * Updates the channel list with the given channels and sets the current channel.
      * @param channels List of channel names.
@@ -204,8 +207,10 @@ public class StandardView implements IView {
     public String getNickNameFeild() {
         String name = inputTextField.getText();
         if (name.isEmpty() || name.equals("")) {
-            name = "Guest";
+            return ("Guest +" + guestUser);
         }
+        //replace all white spaces with empty string
+        name = name.replaceAll("\\s", "");
         return name;
     }
 
