@@ -1,7 +1,9 @@
 package backend.Messages.Server;
 
 
-
+/**
+ * Interface for a visitor that handles server messages.
+ */
 public interface ServerMessageVisitor
 {
     void handle(LeaveChannelCommand leaveChannelCommand);
