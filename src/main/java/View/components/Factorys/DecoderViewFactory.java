@@ -1,8 +1,8 @@
-package Move.Factorys;
+package View.components.Factorys;
 
-import Move.Decoraters.DecryptionDecorator;
-import Move.IView;
-import Move.Decoraters.TimestampDecorator;
+import View.components.Decoraters.DecryptionDecorator;
+import View.components.IView;
+import View.components.Decoraters.TimestampDecorator;
 import View.*;
 
 public class DecoderViewFactory implements ViewFactory {

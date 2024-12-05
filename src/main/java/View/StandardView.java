@@ -1,9 +1,10 @@
 // StandardView.java
 package View;
 
-import Move.IView;
-import Move.TextFormat;
+import View.components.IView;
+import View.components.TextFormat;
 import Model.Messages.UI.DisplayMessage;
+import View.components.WindowManager;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -19,7 +20,7 @@ import java.util.List;
  * The StandardView class is responsible for displaying the chat application UI.
  */
 public class StandardView implements IView {
-    private static JFrame frame;
+    private final WindowManager windowManager;
     private JTextPane chatArea = new JTextPane();
     private JTextArea inputField;
     private final JTextField inputTextField = new JTextField(20);
@@ -32,157 +33,7 @@ public class StandardView implements IView {
     private JButton createNewChannelButton;
     private JList<String> channelList = new JList<>();
     DefaultListModel<String> listModel = new DefaultListModel<>();
-
-    //static initializer to see the Guest user;
-    private  static  int guestUser = 0;
-
-    /**
-     * Updates the channel list with the given channels and sets the current channel.
-     * @param channels List of channel names.
-     * @param currentChannel The name of the current channel.
-     */
-    public void updateChannelList(List<String> channels, String currentChannel) {
-        if(chatArea == null){ //TODO fix this
-            return;
-        }
-        listModel.clear();
-        for (String channel : channels) {
-            chatArea.setText(chatArea.getText() + channel);
-            listModel.addElement(channel);
-        }
-        channelList.setSelectedValue(currentChannel, true);
-        channelList.repaint();
-    }
-
-    /**
-     * Returns the channel list model.
-     * @return The DefaultListModel containing the channel names.
-     */
-    public DefaultListModel<String> getChannelList() {
-        return listModel;
-    }
-
-    /**
-     * Displays the chat history in the chat area.
-     * @param history The chat history to display.
-     */
-    @Override
-    public void showHistory(StringBuilder history) {
-        chatArea.setText(history.toString());
-    }
-
-    /**
-     * Changes the current channel and updates the chat area.
-     * @param channelName The name of the new channel.
-     */
-    @Override
-    public void changeChannel(String channelName) {
-        if (chatArea != null) {
-            chatArea.setText(""); // clear chat
-            channelList.repaint();
-        }
-    }
-    /**
-     * Displays an error message in a dialog.
-     * @param errorMessage The error message to display.
-     */
-
-    @Override
-    public void displayErrorMessage(String errorMessage) {
-        JOptionPane.showMessageDialog(frame, errorMessage, "Message", JOptionPane.ERROR_MESSAGE);
-    }
-    /**
-     * Displays a notification of info to the user.
-     * @param message notification message.
-     */
-    @Override
-    public void showNotification(String message) {
-        JWindow window = new JWindow(frame);
-        window.setLayout(new BorderLayout());
-        window.setSize(250, 100);
-        window.setBackground(new Color(0, 0, 0, 0)); // Set the background to be transparent
-
-        JPanel panel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2d.setColor(new Color(45, 45, 45));
-                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-                g2d.setColor(Color.GRAY);
-                g2d.setStroke(new BasicStroke(2));
-                g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
-            }
-        };
-        panel.setOpaque(false);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setLayout(new BorderLayout());
-
-        JLabel label = new JLabel(message, SwingConstants.CENTER);
-        int fontSize = 20; // Starting font size
-        Font font = new Font("Arial", Font.BOLD, fontSize);
-        label.setFont(font);
-        while (label.getPreferredSize().width > window.getWidth() - 20 && fontSize > 10) {
-            fontSize--;
-            font = new Font("Arial", Font.BOLD, fontSize);
-            label.setFont(font);
-        }
-        label.setForeground(Color.WHITE);
-        panel.add(label, BorderLayout.CENTER);
-
-        window.add(panel);
-        window.setAlwaysOnTop(true);
-
-        int x = frame.getX() + frame.getWidth() - window.getWidth() - 10;
-        int y = frame.getY() + frame.getHeight() - window.getHeight() - 10;
-        window.setLocation(x, y);
-
-        window.setVisible(true);
-
-        Timer timer = new Timer(3000, e -> window.dispose());
-        timer.setRepeats(false);
-        timer.start();
-    }
-
-
-
-
-
-    /**
-     * Prompts the user to enter a channel name and password.
-     * @return An array containing the entered channel name and password.
-     */
-    @Override
-    public String[] getChannelNameAndPasswordInput(String type) {
-        JPanel panel = new JPanel(new GridLayout(2, 2));
-        JLabel channelNameLabel = new JLabel("Channel Name:");
-        JLabel passwordLabel = new JLabel("Password:");
-        JTextField channelNameField = new JTextField(20);
-        JPasswordField passwordField = new JPasswordField(20);
-
-        panel.add(channelNameLabel);
-        panel.add(channelNameField);
-        panel.add(passwordLabel);
-        panel.add(passwordField);
-
-        int result = JOptionPane.showConfirmDialog(frame, panel, "Channel " + type, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-        if (result == JOptionPane.OK_OPTION) {
-            return new String[]{channelNameField.getText(), new String(passwordField.getPassword())};
-        } else {
-            return null;
-        }
-    }
-
-
-    /**
-     * Adds an ActionListener to the create button.
-     * @param listener The ActionListener to add.
-     */
-    @Override
-    public void addCreateButtonListener(ActionListener listener) {
-        createButton.addActionListener(listener);
-    }
+    private static int guestUser = 0;
 
     /**
      * Constructor for StandardView. Initializes the UI components.
@@ -193,24 +44,10 @@ public class StandardView implements IView {
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
+        windowManager = new WindowManager();
         startArea();
-        StandardView.guestUser ++; //increment the guest user depending on the number of objects created
-        showNotification("Welcome "+  "Guest" + guestUser + "!");
-    }
-
-    /**
-     * Returns the nickname entered in the input text field.
-     * @return The entered nickname or "Guest" if the field is empty.
-     */
-    @Override
-    public String getNickNameFeild() {
-        String name = inputTextField.getText();
-        if (name.isEmpty()) {
-            return ("Guest +" + guestUser);
-        }
-        //replace all white spaces with empty string
-        name = name.replaceAll("\\s", "");
-        return name;
+        guestUser++;
+        showNotification("Welcome " + "Guest" + guestUser + "!");
     }
 
     /**
@@ -218,17 +55,6 @@ public class StandardView implements IView {
      */
     @Override
     public void startArea() {
-        if (frame != null) {
-            frame.getContentPane().removeAll();
-            frame.revalidate();
-            frame.repaint();
-        } else {
-            frame = new JFrame("Chat Application");
-            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            frame.setSize(800, 600);
-            frame.setLocationRelativeTo(null);
-        }
-
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBackground(new Color(43, 43, 43));
@@ -272,35 +98,8 @@ public class StandardView implements IView {
 
         panel.add(startPanel, BorderLayout.CENTER);
 
-        frame.add(panel);
-        frame.setVisible(true);
-    }
-
-    /**
-     * Adds an ActionListener to the create channel button.
-     * @param listener The ActionListener to add.
-     */
-    @Override
-    public void addCreateChannelButtonListener(ActionListener listener) {
-        createChannelButton.addActionListener(listener);
-    }
-
-    /**
-     * Adds an ActionListener to the join channel button.
-     * @param listener The ActionListener to add.
-     */
-    @Override
-    public void addJoinChannelButtonListener(ActionListener listener) {
-        joinChannelButton.addActionListener(listener);
-    }
-
-    /**
-     * Adds an ActionListener to the create new channel button.
-     * @param listener The ActionListener to add.
-     */
-    @Override
-    public void addCreateNewChannelButtonListener(ActionListener listener) {
-        createNewChannelButton.addActionListener(listener);
+        windowManager.setContentPane(panel);
+        windowManager.showWindow();
     }
 
     /**
@@ -308,16 +107,6 @@ public class StandardView implements IView {
      */
     @Override
     public void showChatArea() {
-        frame.getContentPane().removeAll();
-        chatArea();
-        frame.revalidate();
-        frame.repaint();
-    }
-
-    /**
-     * Initializes and displays the chat area UI.
-     */
-    private void chatArea() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBackground(new Color(43, 43, 43));
@@ -403,17 +192,195 @@ public class StandardView implements IView {
 
         panel.add(splitPane, BorderLayout.CENTER);
 
-        frame.add(panel);
-        frame.setVisible(true);
+        windowManager.setContentPane(panel);
     }
 
     /**
-     * Adds a channel to the channel list.
-     * @param channelName The name of the channel to add.
+     * Updates the channel list with the given channels and sets the current channel.
+     * @param channels List of channel names.
+     * @param currentChannel The name of the current channel.
      */
     @Override
-    public void addChannelToList(String channelName) {
-       //listModel.addElement(channelName);
+    public void updateChannelList(List<String> channels, String currentChannel) {
+        if(chatArea == null){ //TODO fix this
+            return;
+        }
+        listModel.clear();
+        for (String channel : channels) {
+            chatArea.setText(chatArea.getText() + channel);
+            listModel.addElement(channel);
+        }
+        channelList.setSelectedValue(currentChannel, true);
+        channelList.repaint();
+    }
+
+    /**
+     * Returns the channel list model.
+     * @return The DefaultListModel containing the channel names.
+     */
+    @Override
+    public DefaultListModel<String> getChannelList() {
+        return listModel;
+    }
+
+    /**
+     * Displays the chat history in the chat area.
+     * @param history The chat history to display.
+     */
+    @Override
+    public void showHistory(StringBuilder history) {
+        chatArea.setText(history.toString());
+    }
+
+    /**
+     * Changes the current channel and updates the chat area.
+     * @param channelName The name of the new channel.
+     */
+    @Override
+    public void changeChannel(String channelName) {
+        if (chatArea != null) {
+            chatArea.setText(""); // clear chat
+            channelList.repaint();
+        }
+    }
+
+    /**
+     * Displays an error message in a dialog.
+     * @param errorMessage The error message to display.
+     */
+    @Override
+    public void displayErrorMessage(String errorMessage) {
+        JOptionPane.showMessageDialog(windowManager.getFrame(), errorMessage, "Message", JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Displays a notification of info to the user.
+     * @param message notification message.
+     */
+    @Override
+    public void showNotification(String message) {
+        JWindow window = new JWindow(windowManager.getFrame());
+        window.setLayout(new BorderLayout());
+        window.setSize(250, 100);
+        window.setBackground(new Color(0, 0, 0, 0)); // Set the background to be transparent
+
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setColor(new Color(45, 45, 45));
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                g2d.setColor(Color.GRAY);
+                g2d.setStroke(new BasicStroke(2));
+                g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
+            }
+        };
+        panel.setOpaque(false);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setLayout(new BorderLayout());
+
+        JLabel label = new JLabel(message, SwingConstants.CENTER);
+        int fontSize = 20; // Starting font size
+        Font font = new Font("Arial", Font.BOLD, fontSize);
+        label.setFont(font);
+        while (label.getPreferredSize().width > window.getWidth() - 20 && fontSize > 10) {
+            fontSize--;
+            font = new Font("Arial", Font.BOLD, fontSize);
+            label.setFont(font);
+        }
+        label.setForeground(Color.WHITE);
+        panel.add(label, BorderLayout.CENTER);
+
+        window.add(panel);
+        window.setAlwaysOnTop(true);
+
+        int x = windowManager.getFrame().getX() + windowManager.getFrame().getWidth() - window.getWidth() - 10;
+        int y = windowManager.getFrame().getY() + windowManager.getFrame().getHeight() - window.getHeight() - 10;
+        window.setLocation(x, y);
+
+        window.setVisible(true);
+
+        Timer timer = new Timer(3000, e -> window.dispose());
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    /**
+     * Prompts the user to enter a channel name and password.
+     * @return An array containing the entered channel name and password.
+     */
+    @Override
+    public String[] getChannelNameAndPasswordInput(String type) {
+        JPanel panel = new JPanel(new GridLayout(2, 2));
+        JLabel channelNameLabel = new JLabel("Channel Name:");
+        JLabel passwordLabel = new JLabel("Password:");
+        JTextField channelNameField = new JTextField(20);
+        JPasswordField passwordField = new JPasswordField(20);
+
+        panel.add(channelNameLabel);
+        panel.add(channelNameField);
+        panel.add(passwordLabel);
+        panel.add(passwordField);
+
+        int result = JOptionPane.showConfirmDialog(windowManager.getFrame(), panel, "Channel " + type, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            return new String[]{channelNameField.getText(), new String(passwordField.getPassword())};
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Adds an ActionListener to the create button.
+     * @param listener The ActionListener to add.
+     */
+    @Override
+    public void addCreateButtonListener(ActionListener listener) {
+        createButton.addActionListener(listener);
+    }
+
+    /**
+     * Returns the nickname entered in the input text field.
+     * @return The entered nickname or "Guest" if the field is empty.
+     */
+    @Override
+    public String getNickNameFeild() {
+        String name = inputTextField.getText();
+        if (name.isEmpty()) {
+            return ("Guest" + guestUser);
+        }
+        //replace all white spaces with empty string
+        name = name.replaceAll("\\s", "");
+        return name;
+    }
+
+    /**
+     * Adds an ActionListener to the create channel button.
+     * @param listener The ActionListener to add.
+     */
+    @Override
+    public void addCreateChannelButtonListener(ActionListener listener) {
+        createChannelButton.addActionListener(listener);
+    }
+
+    /**
+     * Adds an ActionListener to the join channel button.
+     * @param listener The ActionListener to add.
+     */
+    @Override
+    public void addJoinChannelButtonListener(ActionListener listener) {
+        joinChannelButton.addActionListener(listener);
+    }
+
+    /**
+     * Adds an ActionListener to the create new channel button.
+     * @param listener The ActionListener to add.
+     */
+    @Override
+    public void addCreateNewChannelButtonListener(ActionListener listener) {
+        createNewChannelButton.addActionListener(listener);
     }
 
     /**
@@ -535,11 +502,20 @@ public class StandardView implements IView {
         inputField.setText("");
     }
 
+    /**
+     * Adds a WindowListener to the window.
+     * @param listener The WindowListener to add.
+     */
     @Override
     public void addWindowExitListener(WindowListener listener) {
-        frame.addWindowListener(listener);
+        windowManager.addWindowListener(listener);
     }
+
+    /**
+     * Closes the window.
+     */
+    @Override
     public void closeWindow() {
-        frame.dispose();
+        windowManager.closeWindow();
     }
 }

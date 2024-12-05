@@ -1,6 +1,6 @@
-package Move.Decoraters;
+package View.components.Decoraters;
 
-import Move.IView;
+import View.components.IView;
 import Model.Messages.UI.*;
 
 public class HandleMessageDecorator extends ViewDecorator implements UIMessageVisitor {

@@ -1,4 +1,4 @@
-package Move;
+package View.components;
 
 import javax.swing.*;
 import javax.swing.text.*;

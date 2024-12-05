@@ -1,8 +1,8 @@
 // ViewDecorator.java
-package Move.Decoraters;
+package View.components.Decoraters;
 
-import Move.IView;
-import Move.TextFormat;
+import View.components.IView;
+import View.components.TextFormat;
 import Model.Messages.UI.DisplayMessage;
 
 import javax.swing.*;
@@ -107,10 +107,7 @@ public  class ViewDecorator implements IView {
         decoratedView.addCreateButtonListener(listener);
     }
 
-    @Override
-    public void addChannelToList(String channelName) {
-        decoratedView.addChannelToList(channelName);
-    }
+
     @Override
     public void updateChannelList(List<String> channels, String currentChannel) {
         decoratedView.updateChannelList(channels, currentChannel);

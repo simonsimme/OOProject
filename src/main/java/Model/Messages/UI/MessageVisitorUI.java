@@ -1,5 +1,5 @@
 package Model.Messages.UI;
-import Move.IView;
+import View.components.IView;
 public class MessageVisitorUI implements UIMessageVisitor {
     private IView view;
     public MessageVisitorUI(IView view){

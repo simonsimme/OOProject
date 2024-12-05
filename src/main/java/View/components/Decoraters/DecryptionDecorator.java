@@ -1,7 +1,7 @@
 // DecryptionDecorator.java
-package Move.Decoraters;
+package View.components.Decoraters;
 
-import Move.IView;
+import View.components.IView;
 import Model.Messages.UI.DisplayMessage;
 
 

@@ -1,4 +1,4 @@
-package Move;
+package View.components;
 
 import java.awt.*;
 import java.util.List;

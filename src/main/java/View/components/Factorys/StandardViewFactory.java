@@ -1,7 +1,7 @@
-package Move.Factorys;
+package View.components.Factorys;
 
-import Move.Decoraters.TimestampDecorator;
-import Move.IView;
+import View.components.Decoraters.TimestampDecorator;
+import View.components.IView;
 import View.StandardView;
 
 public class StandardViewFactory implements ViewFactory {

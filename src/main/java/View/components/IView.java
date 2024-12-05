@@ -1,4 +1,4 @@
-package Move;
+package View.components;
 
 import Model.Messages.UI.DisplayMessage;
 
@@ -21,7 +21,6 @@ public interface IView {
     void updateChannelList(List<String> channels, String currentChannel);
     void changeChannel(String channelName);
     void addChannelListSelectionListener(ListSelectionListener listener);
-    void addChannelToList(String channelName);
     String getInputText();
     void appendChatText(String text);
     void appendChatText(DisplayMessage text);

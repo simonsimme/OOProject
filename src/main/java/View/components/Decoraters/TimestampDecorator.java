@@ -1,8 +1,8 @@
 // TimestampDecorator.java
-package Move.Decoraters;
+package View.components.Decoraters;
 
-import Move.IView;
-import Move.TextFormat;
+import View.components.IView;
+import View.components.TextFormat;
 import Model.Messages.UI.DisplayMessage;
 
 import java.awt.*;
