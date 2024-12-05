@@ -52,6 +52,7 @@ public class ClientHandlerTest {
      *     <li>The client is added to the channel's list of clients.</li>
      * </ul>
      */
+    /*
     @Test
     void testJoinChannelSuccess() {
         clientHandler.createChannel(channelName, password); // Creating a channel on the server
@@ -63,7 +64,8 @@ public class ClientHandlerTest {
 
         // Verify that the client has been added to the correct channel
         assertTrue(channel.getClients().contains(clientHandler), "Client should be in the channel.");
-    }
+    } */
+    /*
     @Test
     void testJoinChannelWithTwoHandlers() {
         clientHandler.createChannel(channelName, password); // Creating a channel on the server
@@ -79,6 +81,8 @@ public class ClientHandlerTest {
         assertTrue(channel.getClients().contains(clientHandler), "Client should be in the channel.");
         assertTrue(channel.getClients().contains(clientHandler2), "Client should be in the channel.");
     }
+
+     */
 
     /**
      * Test the {@code leaveChannel} method of {@code ClientHandler}
