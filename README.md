@@ -5,7 +5,6 @@ This chat application allows users to:
 - Create and join channels
 - Send and receive messages
 - Switch between channels
-- View chat history
 
 It supports multiple clients and provides a user-friendly interface for seamless communication.
 
