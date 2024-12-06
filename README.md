@@ -75,7 +75,6 @@ Press Enter or click Send to send the message.
 Select any channel from the Channel List.
 The Chat Area will update to show messages from the selected channel.
 - 🛠️ Stress Testing
-
 Test by creating multiple channels and switching between them.
 Add multiple clients and simulate a high volume of messages.
 ---
