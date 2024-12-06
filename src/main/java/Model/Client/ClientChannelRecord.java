@@ -60,11 +60,20 @@ public class ClientChannelRecord {
     public void recordMessageInChannel(String message, String channelName){
         for (ClientChannel channel: channels) {
             if(Objects.equals(channel.getName(), channelName)){
-                channel.recordMessage(message);
+                channel.recordMessage("System", message);
                 break;
             }
         }
     }
+    public void recordMessageInChannel(String username, String message, String channelName){
+        for (ClientChannel channel: channels) {
+            if(Objects.equals(channel.getName(), channelName)){
+                channel.recordMessage(username, message);
+                break;
+            }
+        }
+    }
+
 
     public void addNewChannel(String channelName){
         System.out.println("Adding new channel: " + channelName);
@@ -125,9 +134,7 @@ public class ClientChannelRecord {
         return currentChannel.getName();
     }
 
-    public StringBuilder getCurrentChannelHistory(){
-        return currentChannel.getHistory();
-    }
+
 
     public List<String> getUsersInCurrentChannel(){
         return currentChannel.getUsers();
@@ -142,4 +149,12 @@ public class ClientChannelRecord {
     }
 
 
+    public ClientChannel getChannel(String channelName) {
+        for (ClientChannel channel: channels) {
+            if (channel.getName().equals(channelName)) {
+                return channel;
+            }
+        }
+        return null;
+    }
 }

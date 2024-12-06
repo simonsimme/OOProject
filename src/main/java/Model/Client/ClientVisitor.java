@@ -17,21 +17,10 @@ public class ClientVisitor implements ClientMessageVisitor{
      * The channelRecord is passed down to the ClientMessageVisitor from the Client class since ClientMessageVisitor
      * needs to manipulate it.
      */
-    private ClientChannelRecord channelRecord;
-    /**
-     * The list of observers observing the client is passed down to ClientMessageVisitor since ClientMessageVisitor
-     * needs to notify them.
-     */
-    private List<ClientObserver> observers;
+    private final ClientChannelManager channelManager;
 
-    /**
-     * Constructor
-     * @param channelGroup Passed down reference.
-     * @param observers Passed down reference.
-     */
-    public  ClientVisitor(ClientChannelRecord channelGroup, List<ClientObserver> observers){
-        this.channelRecord = channelGroup;
-        this.observers = observers;
+    public  ClientVisitor(ClientChannelManager cm){
+        this.channelManager = cm;
     }
 
     /**
@@ -41,8 +30,8 @@ public class ClientVisitor implements ClientMessageVisitor{
      */
     @Override
     public void handle(JoinChannelResponse m) {
-        channelRecord.addNewChannel(m.getChannelName());
-        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
+        channelManager.addNewChannel(m.getChannelName());
+        channelManager.loadChatHistory(m.getChannelName());
     }
 
     /**
@@ -51,8 +40,7 @@ public class ClientVisitor implements ClientMessageVisitor{
      */
     @Override
     public void handle(CreateChannelResponse m) {
-        channelRecord.addNewChannel(m.getChannelName());
-        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
+        channelManager.addNewChannel(m.getChannelName());
     }
 
     /**
@@ -61,9 +49,7 @@ public class ClientVisitor implements ClientMessageVisitor{
      */
     @Override
     public void handle(LeaveChannelResponse m) {
-        channelRecord.removeChannel(m.getChannelName());
-        System.out.println("Channel removed: " + m.getChannelName() + " and this is currChannel" + channelRecord.getCurrentChannelName());
-        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(), channelRecord.getCurrentChannelName()));
+        channelManager.removeChannel(m.getChannelName());
     }
 
     /**
@@ -72,7 +58,7 @@ public class ClientVisitor implements ClientMessageVisitor{
      */
     @Override
     public void handle(ErrorResponse m) {
-        notifyObservers(new DisplayError(m.getErrorMessage()));
+        channelManager.notifyObservers(new DisplayError(m.getErrorMessage()));
     }
 
     /**
@@ -84,18 +70,9 @@ public class ClientVisitor implements ClientMessageVisitor{
      */
     @Override
     public void handle(MessageInChannel m) {
-        if(m.getChannelName().equals(channelRecord.getCurrentChannelName())){
-            notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));}
-        channelRecord.recordMessageInChannel(m.getMessage(),m.getChannelName());
+        if(m.getChannelName().equals(channelManager.getCurrentChannelName())){
+            channelManager.notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));}
+        channelManager.recordMessageInChannel(m.getMessage(),m.getChannelName());
     }
 
-    /**
-     * Notifies any listening observers (the UI)
-     * @param message
-     */
-    public void notifyObservers(UIMessage message) {
-        for (ClientObserver observer:observers) {
-            observer.update(message);
-        }
-    }
 }

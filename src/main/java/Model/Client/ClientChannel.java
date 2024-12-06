@@ -11,7 +11,7 @@ import java.util.List;
 public class ClientChannel {
     private String channelName;
     private List<String> usersInChannel;
-    private StringBuilder history;
+    private final ChannelLogger logger;
 
     /**
      * Constructs a new {@code ClientChannel} with the specified name.
@@ -22,7 +22,8 @@ public class ClientChannel {
     public ClientChannel(String channelName) {
         this.channelName = channelName;
         this.usersInChannel = new ArrayList<>();
-        this.history = new StringBuilder();
+        //this.history = new StringBuilder();
+        this.logger = new ChannelLogger(channelName);
     }
 
     /**
@@ -33,7 +34,8 @@ public class ClientChannel {
     public ClientChannel(ClientChannel clientChannel){
         this.channelName = clientChannel.getName();
         this.usersInChannel = new ArrayList<>(clientChannel.getUsers());
-        this.history = new StringBuilder(clientChannel.getHistory());
+        //this.history = new StringBuilder(clientChannel.getHistory());
+        this.logger = new ChannelLogger(channelName);
     }
 
     /**
@@ -46,15 +48,25 @@ public class ClientChannel {
     public ClientChannel(String channelName, String[] usersInChannel, StringBuilder history){
         this.channelName = channelName;
         this.usersInChannel = Arrays.stream(usersInChannel).toList();
-        this.history = history;
+        //this.history = history;
+        this.logger = new ChannelLogger(channelName);
     }
     /**
      * Appends a message to the channel's history.
      *
      * @param message the message to add to the history.
      */
-    public void recordMessage(String message){
-        history.append(message);
+    //public void recordMessage(String message){
+        //history.append(message);
+    //}
+    public void recordMessage(String username, String Message){
+        logger.logMessage(username, Message);
+    }
+    public void closeLogger(){
+        logger.close();
+    }
+    public StringBuilder getChatHistory(){
+        return logger.loadMessages();
     }
     /**
      * Sets the list of users currently in the channel.
@@ -109,18 +121,18 @@ public class ClientChannel {
      *
      * @param history the message history to set.
      */
-    private void setHistory(String history){
-        this.history = new StringBuilder(history);
-    }
+    //private void setHistory(String history){
+        //this.history = new StringBuilder(history);
+    //}
     /**
      * Retrieves the channel's message history as a string.
      *
      * @return the channel's message history.
      */
-    public StringBuilder getHistory(){
+    //public StringBuilder getHistory(){
         //loadHistory();
-        return new StringBuilder(history);
-    }
+        //return new StringBuilder(history);
+    //}
     /**
      * Saves the channel's history to persistent storage.
      * <p>

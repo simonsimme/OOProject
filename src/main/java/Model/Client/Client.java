@@ -15,6 +15,7 @@ public class Client implements ClientSubject{
     private final ClientChannelRecord channelRecord;
     private final ClientCommunicationManager cm;
     private final List<ClientObserver> observers = new ArrayList<>();
+    private final ClientChannelManager channelManager;
 
     /**
      * Client's only constructor, requires the address to connect to and a port.
@@ -24,7 +25,8 @@ public class Client implements ClientSubject{
     public Client(String address, int port) {
         this.user = "client default user name";
         this.channelRecord = new ClientChannelRecord();
-        cm = new ClientCommunicationManager(address,port,this.channelRecord,observers);
+        this.channelManager = new ClientChannelManager(channelRecord,observers);
+        cm = new ClientCommunicationManager(address,port, channelManager,observers);
         new Thread(cm).start();
 
     }
@@ -106,9 +108,7 @@ public class Client implements ClientSubject{
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
     }
 
-    public StringBuilder getHistory(){
-        return channelRecord.getCurrentChannelHistory();
-    }
+
 
     /**
      * Sends a message to the current channel.

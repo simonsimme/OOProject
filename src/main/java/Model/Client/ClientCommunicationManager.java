@@ -46,9 +46,9 @@ public class ClientCommunicationManager implements Runnable{
      * @param channelGroup Passed reference.
      * @param observers Passed reference.
      */
-    public ClientCommunicationManager(String address, int port, ClientChannelRecord channelGroup, List<ClientObserver> observers){
+    public ClientCommunicationManager(String address, int port, ClientChannelManager channelManager, List<ClientObserver> observers){
 
-        this.visitor = new ClientVisitor(channelGroup,observers);
+        this.visitor = new ClientVisitor(channelManager);
 
         this.host = address;
         this.port = port;
@@ -123,6 +123,7 @@ public class ClientCommunicationManager implements Runnable{
                 new SendMessageInChannelCommand(user, channel, messageString);
 
         sendMessageToServer(message);
+
     }
 
     /**
