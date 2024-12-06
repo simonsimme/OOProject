@@ -54,7 +54,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>Main.ChatApplication</mainClass>
+                            <mainClass>Main.ChatLauncher</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

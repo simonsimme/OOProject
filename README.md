@@ -47,9 +47,10 @@ mvn clean install -DskipTests
 # Step 3: Navigate to the target directory
 cd target
 
-# Step 4: Run the application
-java -jar chat-application-1.0-SNAPSHOT.jar
-
+# Step 4: Run the Server in a new terminal window
+java -jar chat-application-1.0-SNAPSHOT.jar /server
+# Step 5: Run the client(s) in a new terminal window
+java -jar chat-application-1.0-SNAPSHOT.jar /client
 ``` 
 ---
 ## **📖 UserGuide**
