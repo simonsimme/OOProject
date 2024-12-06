@@ -49,6 +49,7 @@ cd target
 
 # Step 4: Run the Server in a new terminal window
 java -jar chat-application-1.0-SNAPSHOT.jar /server
+
 # Step 5: Run the client(s) in a new terminal window
 java -jar chat-application-1.0-SNAPSHOT.jar /client
 ``` 
@@ -73,7 +74,7 @@ Press Enter or click Send to send the message.
 - 5️⃣ Switching Channels
 Select any channel from the Channel List.
 The Chat Area will update to show messages from the selected channel.
-🛠️ Stress Testing
+- 🛠️ Stress Testing
 
 Test by creating multiple channels and switching between them.
 Add multiple clients and simulate a high volume of messages.
