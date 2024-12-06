@@ -21,6 +21,14 @@ It supports multiple clients and provides a user-friendly interface for seamless
 Before running the application, ensure you have:
 1. **Java Development Kit (JDK)** installed
 2. **Maven** installed
+```bash
+# Step 1: ensure you have JDK
+java -version
+
+# Step 2: ensure you have MVN
+mvn -v
+```
+
 
 ---
 
