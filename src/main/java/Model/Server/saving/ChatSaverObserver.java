@@ -1,6 +1,7 @@
 package Model.Server.saving;// src/main/java/Model/Server/saving/ChatSaverObserver.java
 
 
+import Model.Message;
 import Model.Server.ChatChannel;
 import Model.Server.saving.ChatSaver;
 import Model.Server.saving.SaveObserver;
@@ -13,8 +14,8 @@ public class ChatSaverObserver implements SaveObserver {
     }
 
     @Override
-    public void update(String userName, String channelName, String message) {
-        this.chatSaver.saveMessage(userName, channelName, message);
+    public void update(String channelName, Message message) {
+        this.chatSaver.saveMessage(channelName, message);
     }
 
     public void close() {

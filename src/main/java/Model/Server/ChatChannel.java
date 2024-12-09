@@ -79,7 +79,7 @@ public class ChatChannel {
     }
     private void notifyObservers(Message message) {
         for (SaveObserver observer : observers) {
-            observer.update(message.toString(), name, message.toString());
+            observer.update(name, message);
         }
     }
     /**

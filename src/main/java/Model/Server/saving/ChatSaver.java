@@ -1,4 +1,5 @@
 package Model.Server.saving;
+import Model.Message;
 import Model.Server.ChatChannel;
 
 import java.io.*;
@@ -28,12 +29,19 @@ public class ChatSaver {
         }
     }
 
-    public void update(String userName, String channelName, String message) {
-        saveMessage(userName, channelName, message);
+    public void update(String channelName, Message message) {
+        saveMessage(channelName, message);
     }
-    public void saveMessage(String userName, String channelName, String message) {
+    public void saveMessage(String channelName, Message message) {
         try {
+
             writer.write(channelName);
+
+            // TODO this and implment the toString method in message to the correct string
+            writer.write(message.toString());
+
+
+
             writer.newLine();
 
             writer.flush();
