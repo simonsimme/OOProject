@@ -1,6 +1,7 @@
 // ViewDecorator.java
 package View.components.Decoraters;
 
+import Model.Messages.UI.DisplayCode;
 import View.components.IView;
 import View.components.TextFormat;
 import Model.Messages.UI.DisplayMessage;
@@ -111,6 +112,10 @@ public  class ViewDecorator implements IView {
     @Override
     public void updateChannelList(List<String> channels, String currentChannel) {
         decoratedView.updateChannelList(channels, currentChannel);
+    }
+    @Override
+    public void appendChatText(DisplayCode text) {
+        decoratedView.appendChatText(text);
     }
     @Override
     public void changeChannel(String channelName) {

@@ -1,19 +1,30 @@
 // StandardView.java
 package View;
 
+import Model.Messages.UI.DisplayCode;
+import Model.Messages.UI.DisplayMessage;
 import View.components.IView;
 import View.components.TextFormat;
-import Model.Messages.UI.DisplayMessage;
 import View.components.WindowManager;
 import com.formdev.flatlaf.FlatDarculaLaf;
+
+import java.io.File;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.text.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowListener;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -48,6 +59,10 @@ public class StandardView implements IView {
         startArea();
         guestUser++;
         showNotification("Welcome " + "Guest" + guestUser + "!");
+        File resourceFile = new File("src/main/java/resources/highlight.min.js");
+        if (!resourceFile.exists()) {
+            throw new IllegalArgumentException("Resource file not found at: " + resourceFile.getAbsolutePath());
+        }
     }
 
     /**
@@ -116,7 +131,7 @@ public class StandardView implements IView {
         chatArea.setFont(new Font("Arial", Font.PLAIN, 14));
         chatArea.setBackground(new Color(60, 63, 65));
         chatArea.setForeground(Color.WHITE);
-        chatArea.setContentType("text/plain");
+        chatArea.setContentType("text/html");
         JScrollPane chatScrollPane = new JScrollPane(chatArea);
         chatScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         chatScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -445,6 +460,33 @@ public class StandardView implements IView {
         }
     }
 
+    @Override
+
+    public void appendChatText(DisplayCode code) {
+        if (chatArea != null) {
+            try {
+                String highlightJs = Files.readString(Paths.get("src/main/java/resources/highlight.min.js"), StandardCharsets.UTF_8);
+                String highlightCss = Files.readString(Paths.get("src/main/java/resources/styles/ascetic.min.css"), StandardCharsets.UTF_8);
+
+                // Create an HTML document with the code and highlight.js
+                String htmlContent = "<html><head><style>" + highlightCss + "</style></head><body>" +
+                        "<pre><code class=\"language-java\">" + code.getCode() + "</code></pre>" +
+                        "<script>" + highlightJs + "</script>" +
+                        "<script>document.addEventListener('DOMContentLoaded', (event) => { hljs.highlightAll(); });</script>" +
+                        "</body></html>";
+
+                // Set the HTML content to the JTextPane
+                chatArea.setContentType("text/html");
+                chatArea.setText(htmlContent);
+                System.out.println(htmlContent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
     /**
      * Appends formatted text to the chat area.
      * @param tf The TextFormat object containing the text and colors.
@@ -469,6 +511,7 @@ public class StandardView implements IView {
             }
         }
     }
+
 
     /**
      * Appends a DisplayMessage to the chat area.

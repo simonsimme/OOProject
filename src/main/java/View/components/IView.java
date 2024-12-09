@@ -1,5 +1,6 @@
 package View.components;
 
+import Model.Messages.UI.DisplayCode;
 import Model.Messages.UI.DisplayMessage;
 
 import javax.swing.*;
@@ -23,6 +24,7 @@ public interface IView {
     void addChannelListSelectionListener(ListSelectionListener listener);
     String getInputText();
     void appendChatText(String text);
+    void appendChatText(DisplayCode code);
     void appendChatText(DisplayMessage text);
     void appendChatText(TextFormat ft);
     String[] getChannelNameAndPasswordInput(String type);

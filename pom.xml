@@ -41,9 +41,28 @@
             <version>5.12.0</version>
             <scope>test</scope>
         </dependency>
-
-
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>highlight.js</artifactId>
+            <version>11.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.10.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>webjars</id>
+            <url>https://repo.webjars.org</url>
+        </repository>
+    </repositories>
     <build>
         <plugins>
             <plugin>
