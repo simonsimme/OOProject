@@ -156,5 +156,12 @@ public class Server {
         return channels;
     }
 
+    public synchronized Map<String, ChatChannel> readServerChannels(){
+
+
+
+        return null;
+    }
+
 
 }

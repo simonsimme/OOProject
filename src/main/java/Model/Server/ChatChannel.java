@@ -18,7 +18,6 @@ public class ChatChannel {
     private final String name;
     private final String password;
     private final Set<ClientHandler> clients;
-
     private final Set<SaveObserver> observers;
 
     /**
