@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ChatSaverTest {
 
-    ChatChannel channelTest = new ChatChannel("testChannel","testpassword");
+    ChatChannel channelTest = new ChatChannel("test1Channel","testpassword");
     ChatSaver saverTest = new ChatSaver(channelTest);
 
     @BeforeEach

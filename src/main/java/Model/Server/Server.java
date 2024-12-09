@@ -1,7 +1,11 @@
 package Model.Server;
 
+import Model.Server.saving.ChatSaver;
+import Model.Server.saving.ChatSaverObserver;
+
 import java.net.*;
 import java.io.*;
+import java.nio.channels.Channel;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.FileHandler;
@@ -130,7 +134,11 @@ public class Server {
             System.out.println("ChannelName taken, Try another one.");
             logger.log(Level.FINER, "ChannelName taken, Try another one.");
         } else {
-            channels.put(channelName, new ChatChannel(channelName, password));
+            ChatChannel channel = new ChatChannel(channelName, password);
+            channels.put(channelName, channel);
+            // the logic to add the observers to write to the txt files.
+            ChatSaverObserver chatSaverObserver = new ChatSaverObserver(channel);
+            channel.addObserver(chatSaverObserver);
             logger.log(Level.FINE, "Channel created: " + channelName);
         }
     }
@@ -147,4 +155,6 @@ public class Server {
     public synchronized Map<String, ChatChannel> getChannels() {
         return channels;
     }
+
+
 }

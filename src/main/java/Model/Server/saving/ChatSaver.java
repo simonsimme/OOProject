@@ -8,9 +8,11 @@ public class ChatSaver {
     //private final String folderPath;
     private BufferedWriter writer;
 
+    //private final String pathToLoger = "./src/main/java/Model/Server/saving/logs";
+
     public ChatSaver(ChatChannel channel) {
         //dont remove the dot in the start
-        this("./src/main/java/backend/Server/saving/logs", channel);
+        this("./src/main/java/Model/Server/saving/logs" , channel);
     }
 
     private ChatSaver(String folderPath, ChatChannel channel) {
@@ -31,8 +33,6 @@ public class ChatSaver {
     }
     public void saveMessage(String userName, String channelName, String message) {
         try {
-
-
             writer.write(channelName);
             writer.newLine();
 
@@ -55,7 +55,7 @@ public class ChatSaver {
     }
     public StringBuilder getChatHistory(ChatChannel channel) {
         try {
-            this.filePath = "./src/main/java/backend/Server/saving/logs" + File.separator + channel.getName() + ".txt";
+            this.filePath = "./src/main/java/Model/Server/saving/logs" + File.separator + channel.getName() + ".txt";
             return readFile();
         } catch (Exception e) {
             System.err.println("Error reading file: " + e.getMessage());

@@ -1,6 +1,9 @@
 package Model.Server;
 
 import Model.Message;
+import Model.Server.saving.ChatSaverObserver;
+import Model.Server.saving.SaveObserver;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -16,6 +19,8 @@ public class ChatChannel {
     private final String password;
     private final Set<ClientHandler> clients;
 
+    private final Set<SaveObserver> observers;
+
     /**
      * Constructor for a ChatChannel with a given name and password.
      * @param name the name of the chat channel.
@@ -25,6 +30,7 @@ public class ChatChannel {
         this.name = name;
         this.password = password;
         this.clients = new HashSet<>();
+        this.observers = new HashSet<>();
         Server.logger.fine("Creating chat channel: " + name + " with password: " + password);
     }
     /**
@@ -33,8 +39,6 @@ public class ChatChannel {
      * @return true if the password is correct, false otherwise.
      */
     public synchronized boolean validatePassword(String password) {
-
-
 
         return this.password.equals(password);
     }
@@ -72,6 +76,12 @@ public class ChatChannel {
         for (ClientHandler client : clients) {
                 client.sendMessage(message);
         }
+        notifyObservers(message);
+    }
+    private void notifyObservers(Message message) {
+        for (SaveObserver observer : observers) {
+            observer.update(message.toString(), name, message.toString());
+        }
     }
     /**
      * Returns the name of the chat channel.
@@ -84,5 +94,12 @@ public class ChatChannel {
 
     public String getName() {
         return name;
+    }
+
+    public void addObserver(ChatSaverObserver observer){
+        observers.add(observer);
+    }
+    public void removeObserver(ChatSaverObserver observer){
+        observers.remove(observer);
     }
 }
