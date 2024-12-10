@@ -92,6 +92,7 @@ public class Client implements ClientSubject{
      */
     public void switchChannel(String channelName){
         channelRecord.switchToChannel(channelName);
+        ClientChannel channel = channelRecord.getChannel(channelName);
         channelManager.loadChatHistory(channelName);
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
     }
