@@ -10,4 +10,6 @@ public interface ServerMessageVisitor
     void handle(SendMessageInChannelCommand sendMessageInChannelCommand);
     void handle(JoinChannelCommand joinChannelCommand);
     void handle(CreateChannelCommand createChannelCommand);
+
+    void handle(RetrieveChatHistoryRequest retrieveChatHistoryRequest);
 }

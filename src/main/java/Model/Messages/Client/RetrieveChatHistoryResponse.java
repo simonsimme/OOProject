@@ -3,11 +3,11 @@ package Model.Messages.Client;
 public class RetrieveChatHistoryResponse extends ClientMessage {
 
     private String channelName;
-    private StringBuilder text;
+    private StringBuilder history;
 
-    public RetrieveChatHistoryResponse(String channelName){
+    public RetrieveChatHistoryResponse(String channelName, StringBuilder history){
         this.channelName = channelName;
-        this.text = new StringBuilder();
+        this.history = new StringBuilder();
     }
 
     public String getChannelName() {

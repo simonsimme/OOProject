@@ -142,6 +142,7 @@ public class ClientChannel {
      * This method is currently a placeholder and needs implementation.
      */
     private void loadHistory(){
+
         /*
         StringBuilder loadedHistory = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(channelName + "_history.txt"))) {
@@ -154,6 +155,7 @@ public class ClientChannel {
         }
         this.history = loadedHistory;
         */
+
     }
     public void setName(String name){
         channelName = name;

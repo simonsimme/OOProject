@@ -67,5 +67,15 @@ public class MessageVisitorServer implements ServerMessageVisitor {
         clientHandler.sendMessage(new CreateChannelResponse(createChannelCommand.getChannelName()));
     }
 
+    @Override
+    public void handle(RetrieveChatHistoryRequest retrieveChatHistoryRequest) {
+        ChatChannel channel = clientHandler.getChannel(retrieveChatHistoryRequest.getChannelName());
+        if (channel == null) {
+            clientHandler.sendMessage(new ErrorResponse("You are not in a channel"));
+        } else {
+            clientHandler.sendMessage(new RetrieveChatHistoryResponse(channel.getName(), channel.getChatChannelHistory()));
+        }
+    }
+
 
 }
