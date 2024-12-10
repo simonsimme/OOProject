@@ -38,9 +38,7 @@ public class ChatSaver {
 
     public void saveMessage(String channelName, Message message) {
         try {
-
             writer.write(message.toString());
-
 
             writer.newLine();
 

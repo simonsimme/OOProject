@@ -4,7 +4,10 @@ package Model.Server.saving;// src/main/java/Model/Server/saving/ChatSaverObserv
 import Model.Message;
 import Model.Server.ChatChannel;
 
-
+/**
+ * The {@code ChatSaverObserver} class is responsible for observing messages
+ * and saving them to a file using a {@link ChatSaver} instance.
+ */
 public class ChatSaverObserver implements SaveObserver {
     private final ChatSaver chatSaver;
 

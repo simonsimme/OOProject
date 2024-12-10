@@ -89,6 +89,11 @@ public class ClientVisitor implements ClientMessageVisitor{
         channelRecord.recordMessageInChannel(m.getMessage(),m.getChannelName());
     }
 
+    @Override
+    public void handle(RetrieveChatHistoryResponse m) {
+
+    }
+
     /**
      * Notifies any listening observers (the UI)
      * @param message

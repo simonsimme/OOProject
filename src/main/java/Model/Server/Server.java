@@ -122,7 +122,9 @@ public class Server {
 
         }
         this.deleteAllChannels();
+        logger.log(Level.FINE,"Deleted all channels");
         this.deleteAllLogFiles();
+        logger.log(Level.FINE,"Deleted all log files");
     }
     /**
      * Creates a new chat channel with the specific name and password

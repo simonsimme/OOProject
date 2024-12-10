@@ -66,4 +66,6 @@ public class MessageVisitorServer implements ServerMessageVisitor {
         if(clientHandler.createChannel(createChannelCommand.getChannelName(), createChannelCommand.getChannelPassword()))
         clientHandler.sendMessage(new CreateChannelResponse(createChannelCommand.getChannelName()));
     }
+
+
 }
