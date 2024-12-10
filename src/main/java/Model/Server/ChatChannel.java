@@ -108,7 +108,8 @@ public class ChatChannel {
     public void addObserver(ChatSaverObserver observer){
         observers.add(observer);
     }
-    public void removeObserver(ChatSaverObserver observer){
+    public void removeObserver(String observer){
         observers.remove(observer);
     }
+
 }

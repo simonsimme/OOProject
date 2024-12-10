@@ -115,11 +115,14 @@ public class Server {
      */
     public  void stop() throws IOException {
         isRunning = false; // Stop accepting new connections
+
         if (server != null && !server.isClosed()) {
             server.close(); // Close the server socket to break the accept() call
             thisServer = null; // Reset the server instance
 
         }
+        this.deleteAllChannels();
+        this.deleteAllLogFiles();
     }
     /**
      * Creates a new chat channel with the specific name and password
@@ -159,6 +162,32 @@ public class Server {
     public synchronized Map<String, ChatChannel> readServerChannels(){
         return null;
     }
+
+    public synchronized void deleteAllChannels() {
+        for (String channelName : channels.keySet()) {
+            ChatChannel channel = channels.get(channelName);
+            if (channel != null) {
+                channel.removeObserver(channelName); // Clean up observers if necessary
+                System.out.println("Channel " + channelName + " deleted.");
+            }
+        }
+        channels.clear();
+    }
+    public synchronized void deleteAllLogFiles() {
+        String folderPath = "./src/main/java/Model/Server/saving/logs";
+        File folder = new File(folderPath);
+        if (folder.exists() && folder.isDirectory()) {
+            File[] files = folder.listFiles((dir, name) -> name.endsWith(".txt"));
+            if (files != null) {
+                for (File file : files) {
+                    if (!file.delete()) {
+                        System.err.println("Failed to delete file: " + file.getName());
+                    }
+                }
+            }
+        }
+    }
+
 
 
 
