@@ -52,19 +52,6 @@ public class ClientChannelRecord {
         return channels.get(i).getName();
     }
 
-    /**
-     * Saves a record of the given message in the given channel
-     * @param message
-     * @param channelName
-     */
-    public void recordMessageInChannel(String message, String channelName){
-        for (ClientChannel channel: channels) {
-            if(Objects.equals(channel.getName(), channelName)){
-                channel.recordMessage("System", message);
-                break;
-            }
-        }
-    }
     public void recordMessageInChannel(String username, String message, String channelName){
         for (ClientChannel channel: channels) {
             if(Objects.equals(channel.getName(), channelName)){

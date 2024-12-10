@@ -20,8 +20,8 @@ public class ChannelLogger {
                 System.out.println("Log file created: " + filePath);
             }
             this.writer = new BufferedWriter(new FileWriter(filePath, true));
-            System.out.println("log file found & clearing it");
-            clearLogFile();
+            System.out.println("log file found");
+
         } catch (IOException e) {
             System.err.println("Error initializing writer: " + e.getMessage());
         }

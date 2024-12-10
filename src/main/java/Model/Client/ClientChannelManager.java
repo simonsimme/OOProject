@@ -25,8 +25,8 @@ public class ClientChannelManager {
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(), channelRecord.getCurrentChannelName()));
     }
 
-    public void recordMessageInChannel(String message, String channelName) {
-        channelRecord.recordMessageInChannel(message, channelName);
+    public void recordMessageInChannel(String sender, String message, String channelName) {
+        channelRecord.recordMessageInChannel(sender, message, channelName);
     }
 
     public String getCurrentChannelName() {
@@ -39,6 +39,7 @@ public class ClientChannelManager {
             notifyObservers(new DisplayMessage("System", history.toString()));
         }
     }
+
 
     public void notifyObservers(UIMessage message) {
         for (ClientObserver observer : observers) {

@@ -48,7 +48,8 @@ public class ClientVisitor implements ClientMessageVisitor{
      * @param m
      */
     @Override
-    public void handle(LeaveChannelResponse m) {
+    public void handle(LeaveChannelResponse m)
+    {
         channelManager.removeChannel(m.getChannelName());
     }
 
@@ -57,7 +58,8 @@ public class ClientVisitor implements ClientMessageVisitor{
      * @param m
      */
     @Override
-    public void handle(ErrorResponse m) {
+    public void handle(ErrorResponse m)
+    {
         channelManager.notifyObservers(new DisplayError(m.getErrorMessage()));
     }
 
@@ -72,7 +74,7 @@ public class ClientVisitor implements ClientMessageVisitor{
     public void handle(MessageInChannel m) {
         if(m.getChannelName().equals(channelManager.getCurrentChannelName())){
             channelManager.notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));}
-        channelManager.recordMessageInChannel(m.getMessage(),m.getChannelName());
+        channelManager.recordMessageInChannel(m.getUserName(), m.getMessage(),m.getChannelName());
     }
 
 }

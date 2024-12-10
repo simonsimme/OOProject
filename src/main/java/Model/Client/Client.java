@@ -92,11 +92,13 @@ public class Client implements ClientSubject{
      */
     public void switchChannel(String channelName){
         channelRecord.switchToChannel(channelName);
+        channelManager.loadChatHistory(channelName);
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
     }
     //This should be removed. Use nextChannel() instead and wait on an UpdateChannels message from the client.
     public String switchChannel(){
         String newChannelName = channelRecord.switchToNextChannel();
+        channelManager.loadChatHistory(newChannelName);
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
         return newChannelName;
     }
