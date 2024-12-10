@@ -6,6 +6,7 @@ public class ChannelLogger {
     private String filePath;
     private BufferedWriter writer;
 
+
     public ChannelLogger(String channelName) {
         this("src" + File.separator + "main" + File.separator + "java" + File.separator + "backend" + File.separator + "Server" + File.separator + "saving" + File.separator + "logs", channelName);
     }
@@ -16,9 +17,11 @@ public class ChannelLogger {
             File channelLogFile = new File(filePath);
             if (!channelLogFile.exists()) {
                 channelLogFile.createNewFile();
+                System.out.println("Log file created: " + filePath);
             }
             this.writer = new BufferedWriter(new FileWriter(filePath, true));
-            System.out.println("Log file created: " + filePath);
+            System.out.println("log file found & clearing it");
+            clearLogFile();
         } catch (IOException e) {
             System.err.println("Error initializing writer: " + e.getMessage());
         }
