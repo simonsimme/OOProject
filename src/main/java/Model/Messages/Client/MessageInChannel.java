@@ -42,4 +42,12 @@ public class MessageInChannel extends ClientMessage {
     public void accept(ClientMessageVisitor visitor) {
         visitor.handle(this);
     }
+
+    @Override
+    public String getMessageAsString() {
+        return this.getMessage();
+    }
+    public String getSenderAsString(){
+        return this.getUserName();
+    }
 }
