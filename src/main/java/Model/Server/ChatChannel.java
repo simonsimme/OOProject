@@ -64,7 +64,6 @@ public class ChatChannel {
      * @param client the client to remove.
      */
     public synchronized void removeClient(ClientHandler client) {
-        clients.remove(client);
         boolean removed = clients.remove(client);
         if(!removed){
             //TODO: throw exception or something like that to notify the client that he is not in the channel

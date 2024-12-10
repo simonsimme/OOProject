@@ -22,7 +22,7 @@ public class ChatSaver {
 
     private ChatSaver(String folderPath, ChatChannel channel) {
         this.filePath = folderPath + File.separator + channel.getName() + ".txt";
-        this.startString = "/*******Chat history for channel: " + channel.getName() + "********/";
+        this.startString = "/*******Chat history for channel: " + channel.getName() + "********/" + System.lineSeparator();
         try {
             File folder = new File(folderPath);
             if (!folder.exists()) {

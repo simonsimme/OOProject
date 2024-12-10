@@ -59,7 +59,8 @@ public abstract class Message implements Serializable {
      * @return a string representation of the message
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return timestamp + " Message: "+ getMessageAsString() + " from " + getSenderAsString();
     }
     /**

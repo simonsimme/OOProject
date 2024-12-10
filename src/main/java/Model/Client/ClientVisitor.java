@@ -90,8 +90,9 @@ public class ClientVisitor implements ClientMessageVisitor{
     public void handle(RetrieveChatHistoryResponse m) {
         String channelName = m.getChannelName(); // get the channel name
         String history = m.toString(); // get the history
+        System.out.println("History: " + history);
         channelRecord.setChannelHistory(channelName, new StringBuilder(history));
-        notifyObservers(new UIChannelHistory());
+        notifyObservers(new UIChannelHistory(history));
     }
 
     /**
