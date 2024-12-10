@@ -88,7 +88,7 @@ public class Server {
      * Starts the server to listen to for incoming client connections.
      * Each client connection is handled by a thread using {@code ClientHandler}
      */
-    public void startListening() {
+    public synchronized void startListening() {
         try {
             while (isRunning) {
                 Server.logger.log(Level.FINE, "Waiting for clients...");
@@ -113,7 +113,7 @@ public class Server {
      * sets {@code isRunning} to false when called
      * @throws IOException if an I/O error occurs while closing the server socket.
      */
-    public void stop() throws IOException {
+    public synchronized void stop() throws IOException {
         isRunning = false; // Stop accepting new connections
         if (server != null && !server.isClosed()) {
             server.close(); // Close the server socket to break the accept() call

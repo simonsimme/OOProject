@@ -3,8 +3,7 @@ package Model.Server.saving;// src/main/java/Model/Server/saving/ChatSaverObserv
 
 import Model.Message;
 import Model.Server.ChatChannel;
-import Model.Server.saving.ChatSaver;
-import Model.Server.saving.SaveObserver;
+
 
 public class ChatSaverObserver implements SaveObserver {
     private final ChatSaver chatSaver;

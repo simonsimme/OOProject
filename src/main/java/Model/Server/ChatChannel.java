@@ -1,6 +1,7 @@
 package Model.Server;
 
 import Model.Message;
+import Model.Server.saving.ChatSaver;
 import Model.Server.saving.ChatSaverObserver;
 import Model.Server.saving.SaveObserver;
 
@@ -20,6 +21,8 @@ public class ChatChannel {
     private final Set<ClientHandler> clients;
     private final Set<SaveObserver> observers;
 
+   ChatSaver chatSaverLocal;
+
     /**
      * Constructor for a ChatChannel with a given name and password.
      * @param name the name of the chat channel.
@@ -30,7 +33,9 @@ public class ChatChannel {
         this.password = password;
         this.clients = new HashSet<>();
         this.observers = new HashSet<>();
+        this.chatSaverLocal = new ChatSaver(this);
         Server.logger.fine("Creating chat channel: " + name + " with password: " + password);
+
     }
     /**
      * Validates the password for the chat channel.
@@ -82,6 +87,11 @@ public class ChatChannel {
             observer.update(name, message);
         }
     }
+    //method to turn the string builder to later send to the client
+    public StringBuilder getChatChannelHistory() {
+        return ChatSaver.getChatHistory(this);
+    }
+
     /**
      * Returns the name of the chat channel.
      * @return the name of the chat channel.

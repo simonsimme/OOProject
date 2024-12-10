@@ -5,7 +5,7 @@ import Model.Server.ChatChannel;
 import java.io.*;
 
 public class ChatSaver {
-    private  String filePath;
+    private static String filePath;
     //private final String folderPath;
     private BufferedWriter writer;
 
@@ -35,9 +35,6 @@ public class ChatSaver {
     public void saveMessage(String channelName, Message message) {
         try {
 
-            writer.write(channelName);
-
-            // TODO this and implment the toString method in message to the correct string
             writer.write(message.toString());
 
 
@@ -45,11 +42,12 @@ public class ChatSaver {
             writer.newLine();
 
             writer.flush();
+
         } catch (IOException e) {
             System.err.println("Error writing message to file: " + e.getMessage());
         }
     }
-    private StringBuilder readFile() {
+    private static StringBuilder readFile() {
         StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -61,9 +59,11 @@ public class ChatSaver {
         }
         return content;
     }
-    public StringBuilder getChatHistory(ChatChannel channel) {
+
+    //extract the history of the channel
+    public static StringBuilder getChatHistory(ChatChannel channel) {
         try {
-            this.filePath = "./src/main/java/Model/Server/saving/logs" + File.separator + channel.getName() + ".txt";
+            filePath = "./src/main/java/Model/Server/saving/logs" + File.separator + channel.getName() + ".txt";
             return readFile();
         } catch (Exception e) {
             System.err.println("Error reading file: " + e.getMessage());
