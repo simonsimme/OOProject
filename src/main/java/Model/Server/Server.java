@@ -88,7 +88,7 @@ public class Server {
      * Starts the server to listen to for incoming client connections.
      * Each client connection is handled by a thread using {@code ClientHandler}
      */
-    public synchronized void startListening() {
+    public  void startListening() {
         try {
             while (isRunning) {
                 Server.logger.log(Level.FINE, "Waiting for clients...");
@@ -113,7 +113,7 @@ public class Server {
      * sets {@code isRunning} to false when called
      * @throws IOException if an I/O error occurs while closing the server socket.
      */
-    public synchronized void stop() throws IOException {
+    public  void stop() throws IOException {
         isRunning = false; // Stop accepting new connections
         if (server != null && !server.isClosed()) {
             server.close(); // Close the server socket to break the accept() call
@@ -157,11 +157,10 @@ public class Server {
     }
 
     public synchronized Map<String, ChatChannel> readServerChannels(){
-
-
-
         return null;
     }
+
+
 
 
 }
