@@ -4,6 +4,7 @@ import Model.Messages.UI.DisplayError;
 import Model.Messages.UI.DisplayMessage;
 import Model.Messages.UI.UIMessageVisitor;
 import Model.Messages.UI.UpdateChannels;
+import Model.Messages.UI.UIChannelHistory;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -31,5 +32,10 @@ public class CLIVisitor implements UIMessageVisitor {
         for (String channel: channels) {
             ps.println(channel);
         }
+    }
+
+    @Override
+    public void handle(UIChannelHistory message) {
+
     }
 }

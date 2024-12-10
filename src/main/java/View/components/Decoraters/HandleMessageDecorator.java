@@ -16,10 +16,16 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
     @Override
     public void handle(DisplayMessage m) {
     decoratedView.appendChatText(m);
+
     }
 
     @Override
     public void handle(UpdateChannels u) {
         decoratedView.updateChannelList(u.getChannels(), u.getCurrentChannel());
+    }
+
+    //TODO implement this
+    public void handle(UIChannelHistory message) {
+       decoratedView.appendChatText(message.toString());
     }
 }

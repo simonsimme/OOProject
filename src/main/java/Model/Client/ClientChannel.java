@@ -109,7 +109,7 @@ public class ClientChannel {
      *
      * @param history the message history to set.
      */
-    private void setHistory(String history){
+    void setHistory(String history){
         this.history = new StringBuilder(history);
     }
     /**

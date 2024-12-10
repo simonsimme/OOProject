@@ -1,10 +1,7 @@
 package Model.Client;
 
 import Model.Messages.Client.*;
-import Model.Messages.UI.DisplayError;
-import Model.Messages.UI.DisplayMessage;
-import Model.Messages.UI.UIMessage;
-import Model.Messages.UI.UpdateChannels;
+import Model.Messages.UI.*;
 
 import java.util.List;
 
@@ -91,7 +88,10 @@ public class ClientVisitor implements ClientMessageVisitor{
 
     @Override
     public void handle(RetrieveChatHistoryResponse m) {
-
+        String channelName = m.getChannelName(); // get the channel name
+        String history = m.toString(); // get the history
+        channelRecord.setChannelHistory(channelName, new StringBuilder(history));
+        notifyObservers(new UIChannelHistory());
     }
 
     /**
