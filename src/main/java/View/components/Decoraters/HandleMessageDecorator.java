@@ -41,6 +41,15 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
 
     //TODO implement this
     public void handle(UIChannelHistory message) {
-        decoratedView.appendChatText(message.parseHistory());
+        String ret = "ERROR";
+        try
+        {
+            ret = EncryptionLayer.decrypt(message.parseHistory(), key);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        decoratedView.appendChatText(ret);
     }
 }
