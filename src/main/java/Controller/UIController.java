@@ -98,7 +98,7 @@ public class UIController{
         public void actionPerformed(ActionEvent e) {
             String inputText = view.getInputText();
             try {
-               inputText = EncryptionLayer.encrypt(inputText, key);
+               inputText = EncryptionLayer.encrypt(inputText, key); //TODO check if this is againg SRP
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }

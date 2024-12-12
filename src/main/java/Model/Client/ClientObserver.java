@@ -1,5 +1,6 @@
 package Model.Client;
 
+import Model.Messages.UI.DisplayMessage;
 import Model.Messages.UI.UIMessage;
 
 /**
@@ -7,5 +8,5 @@ import Model.Messages.UI.UIMessage;
  */
 public interface ClientObserver {
     void update(UIMessage message);
-    void loadHistory(StringBuilder history);
+    void nofitication(DisplayMessage message);
 }

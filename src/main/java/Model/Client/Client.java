@@ -176,4 +176,7 @@ public class Client implements ClientSubject{
             observer.update(message);
         }
     }
+
+
+
 }

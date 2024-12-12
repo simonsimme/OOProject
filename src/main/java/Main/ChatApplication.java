@@ -2,7 +2,6 @@
 package Main;
 
 import Controller.UIClientObserver;
-import Model.EncryptionLayer;
 import View.components.Factorys.StandardViewFactory;
 import View.components.Factorys.ViewFactory;
 import View.components.IView;
@@ -44,7 +43,7 @@ public class ChatApplication {
         ViewFactory viewFactory1 = new StandardViewFactory();
         IView view1 = viewFactory1.createView();
         client = new Client("localhost", 1234);
-        UIClientObserver observer = new UIClientObserver(view1,key);
+        UIClientObserver observer = new UIClientObserver(view1,key, client);
 
         uiController1 = new  UIController( view1, client,key);
 
@@ -53,7 +52,7 @@ public class ChatApplication {
         ViewFactory viewFactory2 = new StandardViewFactory ();
         IView view2 = viewFactory2.createView();
         client2 = new Client("localhost", 1234);
-        UIClientObserver observer2 = new UIClientObserver(view2,key);
+        UIClientObserver observer2 = new UIClientObserver(view2,key, client2);
 
          uiController2 = new UIController(view2, client2,key);
         //new Thread(client2).start(); Thread startas i client nu

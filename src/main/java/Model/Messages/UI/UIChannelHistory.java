@@ -35,7 +35,7 @@ public class UIChannelHistory extends UIMessage {
                     if (messageParts.length == 2) {
                         String message = messageParts[0].trim();
                         String sender = messageParts[1].trim();
-                        messages.add(new DisplayMessage(sender, message));
+                        messages.add(new DisplayMessage(sender, message, "---"));
                        // historyString.append(sender).append(" - ").append(message).append(System.lineSeparator());
                     }
                 }

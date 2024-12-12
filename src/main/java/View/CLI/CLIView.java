@@ -1,5 +1,6 @@
 package View.CLI;
 
+import Model.Messages.UI.DisplayMessage;
 import Model.Messages.UI.UIMessage;
 import Model.Messages.UI.UIMessageVisitor;
 import Model.Client.ClientObserver;
@@ -25,7 +26,11 @@ public class CLIView implements ClientObserver {
     }
 
     @Override
-    public void loadHistory(StringBuilder history) {
+    public void nofitication(DisplayMessage message) {
 
     }
+
+
+
+
 }

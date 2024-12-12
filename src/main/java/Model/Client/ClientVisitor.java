@@ -82,7 +82,10 @@ public class ClientVisitor implements ClientMessageVisitor{
     @Override
     public void handle(MessageInChannel m) {
         if(m.getChannelName().equals(channelRecord.getCurrentChannelName())){
-            notifyObservers(new DisplayMessage(m.getUserName(),m.getMessage()));}
+            DisplayMessage dm = new DisplayMessage(m.getUserName(),m.getMessage(), m.getChannelName());
+            notifyObservers(dm);
+            notificationToClients(dm);
+        }
         channelRecord.recordMessageInChannel(m.getMessage(),m.getChannelName());
     }
 
@@ -102,6 +105,11 @@ public class ClientVisitor implements ClientMessageVisitor{
     public void notifyObservers(UIMessage message) {
         for (ClientObserver observer:observers) {
             observer.update(message);
+        }
+    }
+    private void notificationToClients(DisplayMessage message){
+        for (ClientObserver observer:observers) {
+            observer.nofitication(message);
         }
     }
 }

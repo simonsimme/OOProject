@@ -20,7 +20,7 @@ public class ClientApplication {
         Client client = new Client("localhost", 1234);
         //TODO make so the client get the KEY from the server and pass it to ui and observer
         UIController ui = new UIController(view, client, key);
-        UIClientObserver observer = new UIClientObserver(view, key);
+        UIClientObserver observer = new UIClientObserver(view, key, client);
         client.attach(observer);
     }
 }
