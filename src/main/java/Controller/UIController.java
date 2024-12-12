@@ -154,9 +154,8 @@ public class UIController{
                 view.addCreateChannelButtonListener(new CreateChannelButtonListener());
                 view.addJoinChannelButtonListener(new JoinChannelButtonListener());
             } else {
-                view.removeChannelFromList(reference.getCurrentChannelName());
-                String channelName = reference.switchChannel();
-                view.changeChannel(channelName);
+
+                reference.switchChannel();
             }
         }
     }
