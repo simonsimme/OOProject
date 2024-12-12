@@ -17,13 +17,14 @@ public class ChatApplication {
     Client client2;
     UIController uiController1;
     UIController uiController2;
+    static Server server;
 
     public static void main(String[] args) throws Exception {
         ChatApplication chatApplication = new ChatApplication();
 
         // Start the server in a separate thread
         Thread serverThread = new Thread(() -> {
-            Server server = Server.createServerInstance(1234);
+             server = Server.createServerInstance(1234);
             server.startListening();
         });
         serverThread.start();
@@ -38,8 +39,8 @@ public class ChatApplication {
     }
 
     public void startClients() throws Exception {
+        SecretKey key = server.getKeys();
         // Create and run the first client with its own view
-        SecretKey key = EncryptionLayer.generateKey();
         ViewFactory viewFactory1 = new StandardViewFactory();
         IView view1 = viewFactory1.createView();
         client = new Client("localhost", 1234);

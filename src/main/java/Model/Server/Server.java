@@ -1,11 +1,11 @@
 package Model.Server;
 
-import Model.Server.saving.ChatSaver;
+import Model.EncryptionLayer;
 import Model.Server.saving.ChatSaverObserver;
 
+import javax.crypto.SecretKey;
 import java.net.*;
 import java.io.*;
-import java.nio.channels.Channel;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.FileHandler;
@@ -25,6 +25,7 @@ public class Server {
     //A map of active chat channels, identified by their names.
     private final Map<String, ChatChannel> channels;
     private volatile boolean isRunning;
+    private final SecretKey key;
 
     public static Logger logger = Logger.getLogger(Server.class.getName());
     // Initialize the logger and write to a file in the server directory
@@ -49,8 +50,15 @@ public class Server {
      */
     public static Server createServerInstance(int port) {
         if (thisServer == null) {
-            thisServer = new Server(port);
-            Server.logger.log(Level.FINE, "Server created on port: " + port);
+            try {
+                SecretKey key = EncryptionLayer.generateKey();
+                thisServer = new Server(port, key);
+                Server.logger.log(Level.FINE, "Server created on port: " + port);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
 
         }
         return thisServer;
@@ -58,9 +66,12 @@ public class Server {
     /**
      * Private constructor to initialize the server on the specific port.
      * Initializes the channels map and creates a default channel.
+     *
      * @param port the port number the server will listen to.
+     * @param key
      */
-    private Server(int port) {
+    private Server(int port, SecretKey key) {
+        this.key = key;
         isRunning = true;
         channels = new HashMap<>();
         System.out.println("Started new server:");
@@ -82,6 +93,10 @@ public class Server {
                 throw new RuntimeException(e);
             }
         }));
+    }
+
+    public SecretKey getKeys() {
+        return key;
     }
 
     /**

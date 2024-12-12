@@ -6,6 +6,7 @@ public class ServerApplication {
             Server server = Server.createServerInstance(1234);
             server.startListening();
 
+
         // Wait a moment to ensure the server is up and running
         try {
             Thread.sleep(1000);

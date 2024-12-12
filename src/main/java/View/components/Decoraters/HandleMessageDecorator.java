@@ -45,7 +45,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
         List<DisplayMessage> messages = m.parseHistory();
         for (DisplayMessage message : messages) {
             String ret = "";
-            System.out.println("Message:-- " + message.getMessage());
+
             try
             {
                 ret = EncryptionLayer.decrypt(message.getMessage(), key);
