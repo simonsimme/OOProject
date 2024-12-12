@@ -1,6 +1,18 @@
-dec. 11, 2024 10:01:04 FM Model.Server.Server <init>
-ALLVARLIG: Address already in use: bind
-dec. 11, 2024 10:01:04 FM Model.Server.Server createServerInstance
+dec. 12, 2024 2:07:29 EM Model.Server.Server <init>
+FIN: Server socket is created on port: 1234
+dec. 12, 2024 2:07:29 EM Model.Server.Server createServerInstance
 FIN: Server created on port: 1234
-dec. 11, 2024 10:01:04 FM Model.Server.Server startListening
+dec. 12, 2024 2:07:29 EM Model.Server.Server startListening
 FIN: Waiting for clients...
+dec. 12, 2024 2:07:31 EM Model.Server.Server startListening
+FIN: Waiting for clients...
+dec. 12, 2024 2:07:31 EM Model.Server.Server startListening
+FIN: Waiting for clients...
+dec. 12, 2024 2:07:34 EM Model.Server.ChatChannel <init>
+FIN: Creating chat channel: hi with password: 
+dec. 12, 2024 2:07:34 EM Model.Server.Server createChannel
+FIN: Channel created: hi
+dec. 12, 2024 2:07:34 EM Model.Server.ChatChannel addClient
+FIN: Adding client: Thread-4 to chat channel: hi
+dec. 12, 2024 2:07:51 EM Model.Server.ChatChannel addClient
+FIN: Adding client: Thread-2 to chat channel: hi

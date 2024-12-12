@@ -21,7 +21,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
 
     @Override
     public void handle(DisplayMessage m) {
-        String ret = "ERORR";
+        String ret = "";
         try
         {
             ret = EncryptionLayer.decrypt( m.getMessage(), key);
@@ -40,16 +40,17 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
     }
 
     //TODO implement this
-    public void handle(UIChannelHistory message) {
-        String ret = "ERROR";
+    public void handle(UIChannelHistory m) {
+        String ret = "";
         try
         {
-            ret = EncryptionLayer.decrypt(message.parseHistory(), key);
+            ret = EncryptionLayer.decrypt(m.parseHistory().getMessage(), key);
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-        decoratedView.appendChatText(ret);
+        DisplayMessage dm = new DisplayMessage(m.parseHistory().getUserName(),ret);
+        decoratedView.appendChatText(dm);
     }
 }

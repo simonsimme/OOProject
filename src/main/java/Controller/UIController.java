@@ -21,7 +21,6 @@ import javax.swing.event.ListSelectionListener;
 public class UIController{
     private final IView view;
     private final Client reference;
-    private final HandleMessageDecorator handleMessageDecorator;
     private UIChannelController channelController;
     private final SecretKey key;
 
@@ -34,7 +33,6 @@ public class UIController{
 
         WindowController windowController = new WindowController(view, reference);
          channelController = new UIChannelController(view, ref);
-        this.handleMessageDecorator = new HandleMessageDecorator(view,key);
     }
 
 
@@ -120,8 +118,7 @@ public class UIController{
                 if (selectedChannel != null && !selectedChannel.equals(reference.getCurrentChannelName())) {
                     reference.switchChannel(selectedChannel);
                     view.changeChannel(selectedChannel);
-                    UIMessage message = new DisplayMessage("SYSTEM", "Switched to channel: " + selectedChannel);
-                    message.accept(handleMessageDecorator);
+
                 }
             }
         }
