@@ -5,6 +5,7 @@ import View.components.IView;
 import Model.Messages.UI.*;
 
 import javax.crypto.SecretKey;
+import java.util.List;
 
 public class HandleMessageDecorator extends ViewDecorator implements UIMessageVisitor {
     SecretKey key;
@@ -41,16 +42,22 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
 
     //TODO implement this
     public void handle(UIChannelHistory m) {
-        String ret = "";
-        try
-        {
-            ret = EncryptionLayer.decrypt(m.parseHistory().getMessage(), key);
+        List<DisplayMessage> messages = m.parseHistory();
+        for (DisplayMessage message : messages) {
+            String ret = "";
+            System.out.println("Message:-- " + message.getMessage());
+            try
+            {
+                ret = EncryptionLayer.decrypt(message.getMessage(), key);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            DisplayMessage dm = new DisplayMessage(message.getUserName(),ret);
+            decoratedView.appendChatText(dm);
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        DisplayMessage dm = new DisplayMessage(m.parseHistory().getUserName(),ret);
-        decoratedView.appendChatText(dm);
+
+
     }
 }

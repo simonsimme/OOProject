@@ -20,7 +20,9 @@ public class UIChannelHistory extends UIMessage {
      * @return List of DisplayMessages.
      */
 
-    public DisplayMessage parseHistory() {
+    public List<DisplayMessage> parseHistory() {
+        List<DisplayMessage> messages = new ArrayList<>();
+
         StringBuilder historyString = new StringBuilder();
         historyString.append("\n");
         String[] lines = history.split(System.lineSeparator());
@@ -33,12 +35,14 @@ public class UIChannelHistory extends UIMessage {
                     if (messageParts.length == 2) {
                         String message = messageParts[0].trim();
                         String sender = messageParts[1].trim();
-                        historyString.append(sender).append(" - ").append(message).append(System.lineSeparator());
+                        messages.add(new DisplayMessage(sender, message));
+                       // historyString.append(sender).append(" - ").append(message).append(System.lineSeparator());
                     }
                 }
             }
         }
-        return new DisplayMessage("Loading ChatHistory", historyString.toString());
+        System.out.println(historyString.toString());
+        return messages;
 
     }
 }
