@@ -524,4 +524,23 @@ public class StandardView implements IView {
     public void closeWindow() {
         windowManager.closeWindow();
     }
+    public void showSystemNotification(String title, String message) {
+        if (SystemTray.isSupported()) {
+            SystemTray tray = SystemTray.getSystemTray();
+            Image image = Toolkit.getDefaultToolkit().createImage("icon.png");
+            TrayIcon trayIcon = new TrayIcon(image, "Chat Application");
+            trayIcon.setImageAutoSize(true);
+            trayIcon.setToolTip("Chat Application");
+            try {
+                tray.add(trayIcon);
+                trayIcon.displayMessage(title, message, TrayIcon.MessageType.INFO);
+            } catch (AWTException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.println("System tray not supported!");
+
+
+        }
+    }
 }
