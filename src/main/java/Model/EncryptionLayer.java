@@ -1,7 +1,4 @@
-
-package Model.Server;
-
-
+package Model;
 
 import Model.Message;
 import javax.crypto.Cipher;

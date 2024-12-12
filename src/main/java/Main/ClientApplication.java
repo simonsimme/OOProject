@@ -2,7 +2,7 @@ package Main;
 
 import Controller.UIClientObserver;
 import Controller.UIController;
-import Model.Server.EncryptionLayer;
+import Model.EncryptionLayer;
 import View.components.Factorys.StandardViewFactory;
 import View.components.Factorys.ViewFactory;
 import View.components.IView;

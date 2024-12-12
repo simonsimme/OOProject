@@ -2,7 +2,7 @@
 package Main;
 
 import Controller.UIClientObserver;
-import Model.Server.EncryptionLayer;
+import Model.EncryptionLayer;
 import View.components.Factorys.StandardViewFactory;
 import View.components.Factorys.ViewFactory;
 import View.components.IView;
@@ -11,7 +11,6 @@ import Model.Server.Server;
 import Model.Client.Client;
 
 import javax.crypto.SecretKey;
-import java.io.IOException;
 
 public class ChatApplication {
     Client client;

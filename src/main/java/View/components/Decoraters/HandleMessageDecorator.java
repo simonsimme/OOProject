@@ -1,6 +1,6 @@
 package View.components.Decoraters;
 
-import Model.Server.EncryptionLayer;
+import Model.EncryptionLayer;
 import View.components.IView;
 import Model.Messages.UI.*;
 

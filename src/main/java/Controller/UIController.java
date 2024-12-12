@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Server.EncryptionLayer;
+import Model.EncryptionLayer;
 import View.components.Decoraters.HandleMessageDecorator;
 import Model.Messages.UI.*;
 import Model.Client.Client;
