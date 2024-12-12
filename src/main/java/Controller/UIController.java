@@ -137,9 +137,7 @@ public class UIController{
                     return;
                 }
                 view.displayErrorMessage(ex.getMessage());
-                return;
             }
-            view.showNotification("Joined channel successfully");
         }
     }
 
@@ -178,6 +176,7 @@ public class UIController{
                 view.displayErrorMessage(ex.getMessage());
                 return;
             }
+            view.clearChatText();
             view.showNotification("Channel created successfully");
         }
     }

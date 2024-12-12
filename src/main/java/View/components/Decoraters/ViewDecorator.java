@@ -71,6 +71,10 @@ public  class ViewDecorator implements IView {
     public void appendChatText(DisplayMessage text) {
         decoratedView.appendChatText(text);
     }
+    @Override
+    public void clearChatText() {
+        decoratedView.clearChatText();
+    }
 
     @Override
     public void clearInputText() {

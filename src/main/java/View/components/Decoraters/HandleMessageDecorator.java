@@ -22,6 +22,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
 
     @Override
     public void handle(DisplayMessage m) {
+
         String ret = "";
         try
         {
@@ -29,6 +30,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
         }
         catch (Exception e)
         {
+            System.out.println(m.getMessage());
             e.printStackTrace();
         }
         DisplayMessage dm = new DisplayMessage(m.getUserName(),ret);
@@ -43,9 +45,9 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
     //TODO implement this
     public void handle(UIChannelHistory m) {
         List<DisplayMessage> messages = m.parseHistory();
+        decoratedView.clearChatText();
         for (DisplayMessage message : messages) {
             String ret = "";
-
             try
             {
                 ret = EncryptionLayer.decrypt(message.getMessage(), key);
@@ -55,6 +57,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
                 e.printStackTrace();
             }
             DisplayMessage dm = new DisplayMessage(message.getUserName(),ret);
+
             decoratedView.appendChatText(dm);
         }
 

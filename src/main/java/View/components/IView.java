@@ -22,6 +22,7 @@ public interface IView {
     void changeChannel(String channelName);
     void addChannelListSelectionListener(ListSelectionListener listener);
     String getInputText();
+    void clearChatText();
     void appendChatText(String text);
     void appendChatText(DisplayMessage text);
     void appendChatText(TextFormat ft);

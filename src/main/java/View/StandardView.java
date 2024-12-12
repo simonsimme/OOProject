@@ -194,6 +194,12 @@ public class StandardView implements IView {
 
         windowManager.setContentPane(panel);
     }
+    @Override
+    public void clearChatText(){
+        if (chatArea != null) {
+            chatArea.setText("");
+        }
+    }
 
     /**
      * Updates the channel list with the given channels and sets the current channel.
@@ -207,7 +213,7 @@ public class StandardView implements IView {
         }
         listModel.clear();
         for (String channel : channels) {
-            chatArea.setText(chatArea.getText() + channel);
+          //  chatArea.setText(chatArea.getText() + channel);
             listModel.addElement(channel);
         }
         channelList.setSelectedValue(currentChannel, true);
