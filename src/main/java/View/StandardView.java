@@ -116,7 +116,7 @@ public class StandardView implements IView {
         chatArea.setFont(new Font("Arial", Font.PLAIN, 14));
         chatArea.setBackground(new Color(60, 63, 65));
         chatArea.setForeground(Color.WHITE);
-        chatArea.setContentType("text/html");
+        chatArea.setContentType("text/plain");
         JScrollPane chatScrollPane = new JScrollPane(chatArea);
         chatScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         chatScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
