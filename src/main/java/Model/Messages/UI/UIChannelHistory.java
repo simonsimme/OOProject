@@ -9,6 +9,9 @@ public class UIChannelHistory extends UIMessage {
     public UIChannelHistory(String history){
         this.history = history;
     }
+    public String getHistory() {
+        return history;
+    }
 
     @Override
     public void accept(UIMessageVisitor visitor) {
@@ -20,25 +23,4 @@ public class UIChannelHistory extends UIMessage {
      * @return List of DisplayMessages.
      */
 
-    public DisplayMessage parseHistory() {
-        StringBuilder historyString = new StringBuilder();
-        historyString.append("\n");
-        String[] lines = history.split(System.lineSeparator());
-        for (String line : lines) {
-            if (line.contains("Message:")) {
-                String[] parts = line.split(" Message: ");
-                if (parts.length == 2) {
-                    String timestamp = parts[0].trim();
-                    String[] messageParts = parts[1].split(" from ");
-                    if (messageParts.length == 2) {
-                        String message = messageParts[0].trim();
-                        String sender = messageParts[1].trim();
-                        historyString.append(sender).append(" - ").append(message).append(System.lineSeparator());
-                    }
-                }
-            }
-        }
-        return new DisplayMessage("Loading ChatHistory", historyString.toString());
-
-    }
 }

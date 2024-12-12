@@ -41,15 +41,40 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
 
     //TODO implement this
     public void handle(UIChannelHistory message) {
-        String ret = "ERROR";
-        try
-        {
-            ret = EncryptionLayer.decrypt(message.parseHistory(), key);
-        }
-        catch (Exception e)
-        {
+        try {
+            String history = message.getHistory();
+            String parsedHistory = parseHistory(history);
+            DisplayMessage dm = new DisplayMessage("Loading ChatHistory", parsedHistory);
+            decoratedView.appendChatText(dm);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        decoratedView.appendChatText(ret);
+    }
+    private String parseHistory(String history) throws Exception {
+        StringBuilder historyString = new StringBuilder();
+        historyString.append("\n");
+        String[] lines = history.split(System.lineSeparator());
+        for (String line : lines) {
+            if (line.contains("Message:")) {
+                String[] parts = line.split(" Message: ");
+                if (parts.length == 2) {
+                    String timestamp = parts[0].trim();
+                    String[] messageParts = parts[1].split(" from ");
+                    if (messageParts.length == 2) {
+                        String encryptedMessage = messageParts[0].trim();
+                        String sender = messageParts[1].trim();
+                        try {
+                            String decryptedMessage = EncryptionLayer.decrypt(encryptedMessage, key);
+                            historyString.append(sender).append(" - ").append(decryptedMessage).append(System.lineSeparator());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            historyString.append(sender).append(" - ").append("ERROR: Unable to decrypt message").append(System.lineSeparator());
+                        }
+                    }
+                }
+            }
+        }
+        return historyString.toString();
     }
 }
+
