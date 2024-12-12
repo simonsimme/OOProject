@@ -141,5 +141,12 @@ public class ClientChannelRecord {
         return result;
     }
 
-
+    public void setChannelHistory(String channelName, StringBuilder stringBuilder) {
+        for (ClientChannel channel: channels) {
+            if(Objects.equals(channel.getName(), channelName)){
+                channel.setHistory(String.valueOf(stringBuilder));
+                break;
+            }
+        }
+    }
 }

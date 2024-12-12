@@ -1,6 +1,10 @@
 package Model.Server;
 
 import Model.Message;
+import Model.Server.saving.ChatSaver;
+import Model.Server.saving.ChatSaverObserver;
+import Model.Server.saving.SaveObserver;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -15,6 +19,9 @@ public class ChatChannel {
     private final String name;
     private final String password;
     private final Set<ClientHandler> clients;
+    private final Set<SaveObserver> observers;
+
+   ChatSaver chatSaverLocal;
 
     /**
      * Constructor for a ChatChannel with a given name and password.
@@ -25,7 +32,10 @@ public class ChatChannel {
         this.name = name;
         this.password = password;
         this.clients = new HashSet<>();
+        this.observers = new HashSet<>();
+        this.chatSaverLocal = new ChatSaver(this);
         Server.logger.fine("Creating chat channel: " + name + " with password: " + password);
+
     }
     /**
      * Validates the password for the chat channel.
@@ -33,8 +43,6 @@ public class ChatChannel {
      * @return true if the password is correct, false otherwise.
      */
     public synchronized boolean validatePassword(String password) {
-
-
 
         return this.password.equals(password);
     }
@@ -56,7 +64,6 @@ public class ChatChannel {
      * @param client the client to remove.
      */
     public synchronized void removeClient(ClientHandler client) {
-        clients.remove(client);
         boolean removed = clients.remove(client);
         if(!removed){
             //TODO: throw exception or something like that to notify the client that he is not in the channel
@@ -72,7 +79,18 @@ public class ChatChannel {
         for (ClientHandler client : clients) {
                 client.sendMessage(message);
         }
+        notifyObservers(message);
     }
+    private void notifyObservers(Message message) {
+        for (SaveObserver observer : observers) {
+            observer.update(name, message);
+        }
+    }
+    //method to turn the string builder to later send to the client
+    public StringBuilder getChatChannelHistory() {
+        return ChatSaver.getChatHistory(this);
+    }
+
     /**
      * Returns the name of the chat channel.
      * @return the name of the chat channel.
@@ -85,4 +103,12 @@ public class ChatChannel {
     public String getName() {
         return name;
     }
+
+    public void addObserver(ChatSaverObserver observer){
+        observers.add(observer);
+    }
+    public void removeObserver(String observer){
+        observers.remove(observer);
+    }
+
 }

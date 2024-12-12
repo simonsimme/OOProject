@@ -142,6 +142,10 @@ public class ClientCommunicationManager implements Runnable{
         }
 
     }
+    public void getChannelHistory(String userName, String channelName){
+        ServerMessage message = new RetrieveChatHistoryRequest(userName, channelName);
+        sendMessageToServer(message);
+    }
     /**
      * Sends a request to the server that the given user wants to leave a channel.
      * @param userName Name of the user that sent the request (currentUser).

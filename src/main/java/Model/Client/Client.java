@@ -3,7 +3,9 @@ package Model.Client;
 import Model.Messages.UI.UIMessage;
 import Model.Messages.UI.UpdateChannels;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -15,6 +17,9 @@ public class Client implements ClientSubject{
     private final ClientChannelRecord channelRecord;
     private final ClientCommunicationManager cm;
     private final List<ClientObserver> observers = new ArrayList<>();
+
+    //Client will hold a history of all channels it has been in. Less required for the client, but better for the server.
+    private final Map<String, StringBuilder> history = new HashMap<String, StringBuilder>();
 
     /**
      * Client's only constructor, requires the address to connect to and a port.
@@ -69,8 +74,9 @@ public class Client implements ClientSubject{
      */
     public void joinChannel(String channelName, String password){
         try{
-
             cm.joinChannel(user, channelName, password);
+            cm.getChannelHistory(user,channelName);
+
         }catch (Exception e){
             throw new IllegalArgumentException(e.getMessage() );
         }
@@ -91,11 +97,13 @@ public class Client implements ClientSubject{
     public void switchChannel(String channelName){
         channelRecord.switchToChannel(channelName);
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
+        cm.getChannelHistory(user,channelName);
     }
     //This should be removed. Use nextChannel() instead and wait on an UpdateChannels message from the client.
     public String switchChannel(){
         String newChannelName = channelRecord.switchToNextChannel();
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
+        cm.getChannelHistory(user,newChannelName);
         return newChannelName;
     }
     /**

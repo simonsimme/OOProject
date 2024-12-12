@@ -1,7 +1,11 @@
 package Model.Server;
 
+import Model.Server.saving.ChatSaver;
+import Model.Server.saving.ChatSaverObserver;
+
 import java.net.*;
 import java.io.*;
+import java.nio.channels.Channel;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.FileHandler;
@@ -84,7 +88,7 @@ public class Server {
      * Starts the server to listen to for incoming client connections.
      * Each client connection is handled by a thread using {@code ClientHandler}
      */
-    public void startListening() {
+    public  void startListening() {
         try {
             while (isRunning) {
                 Server.logger.log(Level.FINE, "Waiting for clients...");
@@ -109,13 +113,18 @@ public class Server {
      * sets {@code isRunning} to false when called
      * @throws IOException if an I/O error occurs while closing the server socket.
      */
-    public void stop() throws IOException {
+    public  void stop() throws IOException {
         isRunning = false; // Stop accepting new connections
+
         if (server != null && !server.isClosed()) {
             server.close(); // Close the server socket to break the accept() call
             thisServer = null; // Reset the server instance
 
         }
+        this.deleteAllChannels();
+        logger.log(Level.FINE,"Deleted all channels");
+        this.deleteAllLogFiles();
+        logger.log(Level.FINE,"Deleted all log files");
     }
     /**
      * Creates a new chat channel with the specific name and password
@@ -130,7 +139,11 @@ public class Server {
             System.out.println("ChannelName taken, Try another one.");
             logger.log(Level.FINER, "ChannelName taken, Try another one.");
         } else {
-            channels.put(channelName, new ChatChannel(channelName, password));
+            ChatChannel channel = new ChatChannel(channelName, password);
+            channels.put(channelName, channel);
+            // the logic to add the observers to write to the txt files.
+            ChatSaverObserver chatSaverObserver = new ChatSaverObserver(channel);
+            channel.addObserver(chatSaverObserver);
             logger.log(Level.FINE, "Channel created: " + channelName);
         }
     }
@@ -147,4 +160,38 @@ public class Server {
     public synchronized Map<String, ChatChannel> getChannels() {
         return channels;
     }
+
+    public synchronized Map<String, ChatChannel> readServerChannels(){
+        return null;
+    }
+
+    public synchronized void deleteAllChannels() {
+        for (String channelName : channels.keySet()) {
+            ChatChannel channel = channels.get(channelName);
+            if (channel != null) {
+                channel.removeObserver(channelName); // Clean up observers if necessary
+                System.out.println("Channel " + channelName + " deleted.");
+            }
+        }
+        channels.clear();
+    }
+    public synchronized void deleteAllLogFiles() {
+        String folderPath = "./src/main/java/Model/Server/saving/logs";
+        File folder = new File(folderPath);
+        if (folder.exists() && folder.isDirectory()) {
+            File[] files = folder.listFiles((dir, name) -> name.endsWith(".txt"));
+            if (files != null) {
+                for (File file : files) {
+                    if (!file.delete()) {
+                        System.err.println("Failed to delete file: " + file.getName());
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
 }

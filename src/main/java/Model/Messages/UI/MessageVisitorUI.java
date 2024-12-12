@@ -21,4 +21,9 @@ public class MessageVisitorUI implements UIMessageVisitor {
     public void handle(UpdateChannels u) {
         //view.updateChannelList(u.getChannels(), u.getCurrentChannel()); // this adds in channels from getChannels() , kolla med Simon innan lägga tillbacka
     }
+
+    @Override
+    public void handle(UIChannelHistory message) {
+        view.appendChatText("UIChannelHistory: " + message.toString());
+    }
 }
