@@ -1,15 +1,16 @@
 package Controller;
 
+import Model.Server.EncryptionLayer;
 import View.components.Decoraters.HandleMessageDecorator;
 import Model.Messages.UI.*;
 import Model.Client.Client;
-import Model.Client.ClientObserver;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import View.components.IView;
+
+import javax.crypto.SecretKey;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -22,16 +23,18 @@ public class UIController{
     private final Client reference;
     private final HandleMessageDecorator handleMessageDecorator;
     private UIChannelController channelController;
+    private final SecretKey key;
 
-    public UIController(IView view, Client ref) {
+    public UIController(IView view, Client ref, SecretKey key) {
         this.view = view;
         this.reference = ref;
+        this.key = key;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
 
         WindowController windowController = new WindowController(view, reference);
          channelController = new UIChannelController(view, ref);
-        this.handleMessageDecorator = new HandleMessageDecorator(view);
+        this.handleMessageDecorator = new HandleMessageDecorator(view,key);
     }
 
 
@@ -96,6 +99,11 @@ public class UIController{
         @Override
         public void actionPerformed(ActionEvent e) {
             String inputText = view.getInputText();
+            try {
+               inputText = EncryptionLayer.encrypt(inputText, key);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
             reference.sendMessage(inputText);
             view.clearInputText();
         }

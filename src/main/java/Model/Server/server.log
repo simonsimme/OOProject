@@ -1,0 +1,6 @@
+dec. 11, 2024 10:01:04 FM Model.Server.Server <init>
+ALLVARLIG: Address already in use: bind
+dec. 11, 2024 10:01:04 FM Model.Server.Server createServerInstance
+FIN: Server created on port: 1234
+dec. 11, 2024 10:01:04 FM Model.Server.Server startListening
+FIN: Waiting for clients...

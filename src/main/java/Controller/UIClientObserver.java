@@ -5,13 +5,15 @@ import Model.Client.ClientObserver;
 import View.components.Decoraters.HandleMessageDecorator;
 import View.components.IView;
 
+import javax.crypto.SecretKey;
+
 public class UIClientObserver implements ClientObserver {
     private final IView view;
 
     private final HandleMessageDecorator handleMessageDecorator;
-    public UIClientObserver(IView view) {
+    public UIClientObserver(IView view, SecretKey key) {
         this.view = view;
-        this.handleMessageDecorator = new HandleMessageDecorator(view);
+        this.handleMessageDecorator = new HandleMessageDecorator(view,key);
     }
 
     /**

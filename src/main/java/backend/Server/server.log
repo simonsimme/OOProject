@@ -1,0 +1,18 @@
+dec. 03, 2024 1:26:01 EM backend.Server.ChatChannel <init>
+FINE: Creating chat channel: testChannel with password: testpassword
+dec. 03, 2024 1:26:02 EM backend.Server.ChatChannel <init>
+FINE: Creating chat channel: testChannel with password: testpassword
+dec. 03, 2024 1:26:02 EM backend.Server.ChatChannel <init>
+FINE: Creating chat channel: testChannel with password: testpassword
+dec. 03, 2024 1:26:02 EM backend.Server.ChatChannel <init>
+FINE: Creating chat channel: testChannel with password: testpassword
+dec. 03, 2024 1:26:02 EM backend.Server.Server <init>
+FINE: Server socket is created on port: 8080
+dec. 03, 2024 1:26:02 EM backend.Server.Server createServerInstance
+FINE: Server created on port: 8080
+dec. 03, 2024 1:26:02 EM backend.Server.ChatChannel <init>
+FINE: Creating chat channel: testChannel with password: password
+dec. 03, 2024 1:26:02 EM backend.Server.Server createChannel
+FINE: Channel created: testChannel
+dec. 03, 2024 1:26:02 EM backend.Server.ChatChannel addClient
+FINE: Adding client: Thread-1 to chat channel: testChannel
