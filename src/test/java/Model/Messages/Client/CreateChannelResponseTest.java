@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class CreateChannelResponseTest {
     private String channelName;
-    private CreateChannelResponse reponse;
+    private CreateChannelResponse response;
 
     /**
      * Sets up the test data and initializes a {@code CreateChannelResponse} instance.
@@ -20,7 +20,7 @@ class CreateChannelResponseTest {
     @BeforeEach
     void setUp() {
         this.channelName = "channelName";
-        this.reponse = new CreateChannelResponse(channelName);
+        this.response = new CreateChannelResponse(channelName);
     }
 
     /**
@@ -28,7 +28,7 @@ class CreateChannelResponseTest {
      */
     @Test
     void getChannelName() {
-        String result = reponse.getChannelName();
+        String result = response.getChannelName();
         assertEquals(channelName, result);
     }
 
@@ -40,8 +40,8 @@ class CreateChannelResponseTest {
         //Arrange: Create a mock ClientVisitor
         ClientVisitor mockVisitor = mock(ClientVisitor.class);
         //Act: Call accept on the response with the mock Visitor
-        reponse.accept(mockVisitor);
+        response.accept(mockVisitor);
         //Assert: Verify the handle method is called with the correct response
-        verify(mockVisitor, times(1)).handle(reponse);
+        verify(mockVisitor, times(1)).handle(response);
     }
 }
