@@ -38,4 +38,6 @@ public interface IView {
     void showHistory(StringBuilder history);
     void addWindowExitListener(WindowListener listener);
     void closeWindow();
+
+    void updateUserList(List<String> users);
 }

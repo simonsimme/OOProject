@@ -26,13 +26,14 @@ public class StandardView implements IView {
     private final JTextField inputTextField = new JTextField(20);
     private JButton sendButton;
     private JButton createChannelButton;
-    private JButton createButton;
     private JButton joinChannelButton;
     private JButton joinNewChannelButton;
     private JButton leaveChannelButton;
     private JButton createNewChannelButton;
     private JList<String> channelList = new JList<>();
-    DefaultListModel<String> listModel = new DefaultListModel<>();
+    private final DefaultListModel<String> listModel = new DefaultListModel<>();
+    private final JList<String> userList = new JList<>();
+    private final DefaultListModel<String> userModel = new DefaultListModel<>();
     private static int guestUser = 0;
 
     /**
@@ -53,11 +54,23 @@ public class StandardView implements IView {
     /**
      * Initializes and displays the start area UI.
      */
-    @Override
-    public void startArea() {
+
+    private JPanel createJPanelAndSetColor(Color color) {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        panel.setBackground(new Color(43, 43, 43));
+        panel.setBackground(color);
+        return panel;
+    }
+    private JButton createButton(String name, Font font, Color backGround, Color foreGround) {
+        JButton button = new JButton(name);
+        button.setFont(font);
+        button.setBackground(backGround);
+        button.setForeground(foreGround);
+        return button;
+    }
+    @Override
+    public void startArea() {
+        JPanel panel = createJPanelAndSetColor(new Color(43, 43, 43));
 
         JPanel startPanel = new JPanel();
         startPanel.setLayout(new GridBagLayout());
@@ -65,18 +78,13 @@ public class StandardView implements IView {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        createChannelButton = new JButton("Create Channel");
-        createChannelButton.setFont(new Font("Arial", Font.BOLD, 16));
-        createChannelButton.setBackground(new Color(60, 63, 65));
-        createChannelButton.setForeground(Color.WHITE);
+        createChannelButton = createButton("Create Channel", new Font("Arial", Font.BOLD, 16), new Color(60, 63, 65), Color.WHITE);
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         startPanel.add(createChannelButton, gbc);
 
-        joinChannelButton = new JButton("Join Channel");
-        joinChannelButton.setFont(new Font("Arial", Font.BOLD, 16));
-        joinChannelButton.setBackground(new Color(60, 63, 65));
-        joinChannelButton.setForeground(Color.WHITE);
+        joinChannelButton = createButton("Join Channel", new Font("Arial", Font.BOLD, 16), new Color(60, 63, 65), Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 1;
         startPanel.add(joinChannelButton, gbc);
@@ -107,9 +115,7 @@ public class StandardView implements IView {
      */
     @Override
     public void showChatArea() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.setBackground(new Color(43, 43, 43));
+        JPanel panel = createJPanelAndSetColor(new Color(43, 43, 43));
 
         chatArea = new JTextPane();
         chatArea.setEditable(false);
@@ -132,10 +138,8 @@ public class StandardView implements IView {
         JScrollPane inputScrollPane = new JScrollPane(inputField);
         inputScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         inputScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        sendButton = new JButton("Send");
-        sendButton.setFont(new Font("Arial", Font.BOLD, 14));
-        sendButton.setBackground(new Color(60, 63, 65));
-        sendButton.setForeground(Color.WHITE);
+
+        sendButton = createButton("Send", new Font("Arial", Font.BOLD, 14), new Color(60, 63, 65), Color.WHITE);
         inputPanel.add(inputScrollPane, BorderLayout.CENTER);
         inputPanel.add(sendButton, BorderLayout.EAST);
 
@@ -165,21 +169,25 @@ public class StandardView implements IView {
         JScrollPane channelScrollPane = new JScrollPane(channelList);
         sidebar.add(channelScrollPane, BorderLayout.CENTER);
 
+        userList.setModel(userModel);
+        userList.setFont(new Font("Arial", Font.PLAIN, 14));
+        userList.setBackground(new Color(60, 63, 65));
+        userList.setForeground(Color.WHITE);
+        JScrollPane userScrollPane = new JScrollPane(userList);
+
+        JSplitPane verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, channelScrollPane, userScrollPane);
+        verticalSplitPane.setDividerLocation(150);
+        sidebar.add(verticalSplitPane, BorderLayout.CENTER);
+
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(3, 1));
         buttonPanel.setBackground(new Color(43, 43, 43));
-        joinNewChannelButton = new JButton("+ Join New Channel");
-        joinNewChannelButton.setFont(new Font("Arial", Font.BOLD, 14));
-        joinNewChannelButton.setBackground(new Color(60, 63, 65));
-        joinNewChannelButton.setForeground(Color.WHITE);
-        leaveChannelButton = new JButton("Leave Channel");
-        leaveChannelButton.setFont(new Font("Arial", Font.BOLD, 14));
-        leaveChannelButton.setBackground(new Color(60, 63, 65));
-        leaveChannelButton.setForeground(Color.WHITE);
-        createNewChannelButton = new JButton("Create New Channel");
-        createNewChannelButton.setFont(new Font("Arial", Font.BOLD, 14));
-        createNewChannelButton.setBackground(new Color(60, 63, 65));
-        createNewChannelButton.setForeground(Color.WHITE);
+
+        joinNewChannelButton = createButton("+ Join New Channel", new Font("Arial", Font.BOLD, 14), new Color(60, 63, 65), Color.WHITE);
+        leaveChannelButton = createButton("Leave Channel", new Font("Arial", Font.BOLD, 14), new Color(60, 63, 65), Color.WHITE);
+        createNewChannelButton = createButton("Create New Channel", new Font("Arial", Font.BOLD, 14), new Color(60, 63, 65), Color.WHITE);
+
         buttonPanel.add(joinNewChannelButton);
         buttonPanel.add(leaveChannelButton);
         buttonPanel.add(createNewChannelButton);
@@ -213,11 +221,17 @@ public class StandardView implements IView {
         }
         listModel.clear();
         for (String channel : channels) {
-          //  chatArea.setText(chatArea.getText() + channel);
             listModel.addElement(channel);
         }
         channelList.setSelectedValue(currentChannel, true);
         channelList.repaint();
+    }
+    public void updateUserList(List<String> users) {
+        userModel.clear();
+        for(String user : users) {
+            userModel.addElement(user);
+        }
+        userList.repaint();
     }
 
     /**
@@ -344,7 +358,7 @@ public class StandardView implements IView {
      */
     @Override
     public void addCreateButtonListener(ActionListener listener) {
-        createButton.addActionListener(listener);
+        createChannelButton.addActionListener(listener);
     }
 
     /**

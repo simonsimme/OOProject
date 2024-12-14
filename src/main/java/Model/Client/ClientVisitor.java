@@ -26,7 +26,7 @@ public class ClientVisitor implements ClientMessageVisitor{
      * @param channelGroup Passed down reference.
      * @param observers Passed down reference.
      */
-    public  ClientVisitor(ClientChannelRecord channelGroup, List<ClientObserver> observers){
+    public ClientVisitor(ClientChannelRecord channelGroup, List<ClientObserver> observers){
         this.channelRecord = channelGroup;
         this.observers = observers;
     }
@@ -39,6 +39,7 @@ public class ClientVisitor implements ClientMessageVisitor{
     @Override
     public void handle(JoinChannelResponse m) {
         channelRecord.addNewChannel(m.getChannelName());
+        notifyObservers(new UpdateUserMessage(m.getUsers()));
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
     }
 

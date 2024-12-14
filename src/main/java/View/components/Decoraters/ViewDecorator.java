@@ -1,6 +1,7 @@
 // ViewDecorator.java
 package View.components.Decoraters;
 
+import Model.Messages.UI.UpdateUserMessage;
 import View.components.IView;
 import View.components.TextFormat;
 import Model.Messages.UI.DisplayMessage;
@@ -11,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.util.List;
 
-public  class ViewDecorator implements IView {
+public class ViewDecorator implements IView {
     protected IView decoratedView;
 
     public ViewDecorator(IView decoratedView) {
@@ -89,9 +90,6 @@ public  class ViewDecorator implements IView {
     public String getNickNameFeild() {
         return decoratedView.getNickNameFeild();
     }
-
-
-
     @Override
     public String[] getChannelNameAndPasswordInput(String type) {
         return decoratedView.getChannelNameAndPasswordInput(type);

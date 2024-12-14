@@ -34,7 +34,6 @@ public class ClientHandler extends Thread {
 
 
 
-
     /**
      * Constructor for a {@code ClientHandler} for a given client socket and server instance.
      * @param socket the client's socket connection.
@@ -44,7 +43,6 @@ public class ClientHandler extends Thread {
         this.server = server;
         this.clientSocket = socket;
         this.channels = new ArrayList<>();
-
 
 
         try {
@@ -127,7 +125,7 @@ public class ClientHandler extends Thread {
      * channel, they are removed from it before joining a new chat channel.
      * @param channelName the name of the channel to join
      */
-    public boolean joinChannel(String channelName, String password) {       
+    public boolean joinChannel(String channelName, String password, String userName) {
         ChatChannel channel = getChannel(channelName);
         boolean result = false;
 
@@ -146,7 +144,7 @@ public class ClientHandler extends Thread {
                 result = false;
             }else {
                 channels.add(channel);
-                channel.addClient(this);
+                channel.addClient(this, userName);
                 result = true;
             }
         }
@@ -164,13 +162,13 @@ public class ClientHandler extends Thread {
      * Uses booleam to indicate if the client was removed from the channel
      * @param channelName the name of the channel to leave
      */
-    public boolean leaveChannel(String channelName) {
+    public boolean leaveChannel(String channelName, String userName) {
         ChatChannel channel = getChannel(channelName);
         boolean result = false;
 
         if (channel != null && channels.contains(channel))
         {
-            channel.removeClient(this);
+            channel.removeClient(this, userName);
             result = true;
         }
         else
@@ -212,7 +210,7 @@ public class ClientHandler extends Thread {
      * @param channelName the name of the new channel
      * @param password the password for the new channel
      */
-    public boolean createChannel(String channelName, String password) {
+    public boolean createChannel(String channelName, String password, String userName) {
         boolean result = false;
 
         if (server.getChannel(channelName) == null)
@@ -221,7 +219,7 @@ public class ClientHandler extends Thread {
             result = true;
             ChatChannel newChannel = server.getChannel(channelName);
             channels.add(newChannel);
-            newChannel.addClient(this);
+            newChannel.addClient(this, userName);
         }
         else
         {

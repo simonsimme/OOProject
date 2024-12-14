@@ -15,12 +15,14 @@ public class MessageVisitorServer implements ServerMessageVisitor {
     /**
      * Handles the LeaveChannelCommand, removing the client from the specified channel if they are in it.
      * if clientHandler.leaveChannel returns true, the clientHandler sends a LeaveChannelResponse to the client.
-     * @param leaveChannelCommand containing the name of the channel to leave.
+     * @param lcc containing the name of the channel to leave.
      */
     @Override
-    public void handle(LeaveChannelCommand leaveChannelCommand)
+    public void handle(LeaveChannelCommand lcc)
     {
-        if(clientHandler.leaveChannel(leaveChannelCommand.getChannelName())) clientHandler.sendMessage(new LeaveChannelResponse(leaveChannelCommand.getChannelName()));
+        if(clientHandler.leaveChannel(lcc.getChannelName(), lcc.getUserName())) {
+            clientHandler.sendMessage(new LeaveChannelResponse(lcc.getChannelName()));
+        }
     }
     /**
      * Handles the SendMessageInChannelCommand, sending a message to the current chat channel if the user is in one.
@@ -45,12 +47,10 @@ public class MessageVisitorServer implements ServerMessageVisitor {
     @Override
     public void handle(JoinChannelCommand joinChannelCommand) {
         try {
-
-            if (clientHandler.joinChannel(joinChannelCommand.getChannelName(), joinChannelCommand.getPassword())) {
-                clientHandler.sendMessage(new JoinChannelResponse(joinChannelCommand.getChannelName()));
-
+            if (clientHandler.joinChannel(joinChannelCommand.getChannelName(), joinChannelCommand.getPassword(), joinChannelCommand.getUserName())) {
+                ChatChannel channel = clientHandler.getChannel(joinChannelCommand.getChannelName());
+                clientHandler.sendMessage(new JoinChannelResponse(joinChannelCommand.getChannelName(), channel.getClientNames()));
             }
-
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
@@ -63,8 +63,9 @@ public class MessageVisitorServer implements ServerMessageVisitor {
        * */
     @Override
     public void handle(CreateChannelCommand createChannelCommand) {
-        if(clientHandler.createChannel(createChannelCommand.getChannelName(), createChannelCommand.getChannelPassword()))
-        clientHandler.sendMessage(new CreateChannelResponse(createChannelCommand.getChannelName()));
+        if(clientHandler.createChannel(createChannelCommand.getChannelName(), createChannelCommand.getChannelPassword(), createChannelCommand.getUserName())) {
+            clientHandler.sendMessage(new CreateChannelResponse(createChannelCommand.getChannelName()));
+        }
     }
 
     @Override
@@ -76,6 +77,4 @@ public class MessageVisitorServer implements ServerMessageVisitor {
             clientHandler.sendMessage(new RetrieveChatHistoryResponse(channel.getName(), channel.getChatChannelHistory()));
         }
     }
-
-
 }

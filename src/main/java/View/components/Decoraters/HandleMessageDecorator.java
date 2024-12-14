@@ -9,10 +9,9 @@ import java.util.List;
 
 public class HandleMessageDecorator extends ViewDecorator implements UIMessageVisitor {
     SecretKey key;
-    public HandleMessageDecorator(IView decoratedView ,SecretKey key) {
+    public HandleMessageDecorator(IView decoratedView, SecretKey key) {
         super(decoratedView);
         this.key = key;
-
     }
 
     @Override
@@ -41,6 +40,10 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
     public void handle(UpdateChannels u) {
         decoratedView.updateChannelList(u.getChannels(), u.getCurrentChannel());
     }
+    @Override
+    public void handle(UpdateUserMessage u) {
+        decoratedView.updateUserList(u.getUsers());
+    }
 
     //TODO implement this
     public void handle(UIChannelHistory m) {
@@ -60,7 +63,5 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
 
             decoratedView.appendChatText(dm);
         }
-
-
     }
 }

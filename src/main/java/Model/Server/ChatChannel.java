@@ -5,7 +5,9 @@ import Model.Server.saving.ChatSaver;
 import Model.Server.saving.ChatSaverObserver;
 import Model.Server.saving.SaveObserver;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -19,6 +21,7 @@ public class ChatChannel {
     private final String name;
     private final String password;
     private final Set<ClientHandler> clients;
+    private final Set<String> clientNames;
     private final Set<SaveObserver> observers;
 
    ChatSaver chatSaverLocal;
@@ -32,6 +35,7 @@ public class ChatChannel {
         this.name = name;
         this.password = password;
         this.clients = new HashSet<>();
+        this.clientNames = new HashSet<>();
         this.observers = new HashSet<>();
         this.chatSaverLocal = new ChatSaver(this);
         Server.logger.fine("Creating chat channel: " + name + " with password: " + password);
@@ -50,11 +54,13 @@ public class ChatChannel {
      * Adds a client to the chat channel.
      * @param client the client to add.
      */
-    public synchronized void addClient(ClientHandler client) {
+    public synchronized void addClient(ClientHandler client, String clientName) {
         Server.logger.fine("Adding client: " + client.getName() + " to chat channel: " + this.name);
         boolean added = clients.add(client);
-        if(!added){
-            //TODO throw exception or something like that to notify the client that he is already in the channel
+        if(added) {
+            clientNames.add(clientName);
+        }
+        else {//TODO throw exception or something like that to notify the client that he is already in the channel
             Server.logger.log(Level.SEVERE, "Client already in the channel or we have a problem in adding the client");
         }
     }
@@ -63,9 +69,11 @@ public class ChatChannel {
      * Removes a client from the chat channel.
      * @param client the client to remove.
      */
-    public synchronized void removeClient(ClientHandler client) {
+    public synchronized void removeClient(ClientHandler client, String clientName) {
         boolean removed = clients.remove(client);
-        if(!removed){
+        if(removed) {
+            clientNames.remove(clientName);
+        } else {
             //TODO: throw exception or something like that to notify the client that he is not in the channel
             Server.logger.log(Level.SEVERE, "Client not in the channel or we have a problem in removing the client");
         }
@@ -99,7 +107,9 @@ public class ChatChannel {
     public Set<ClientHandler> getClients() {
         return clients;
     }
-
+    public List<String> getClientNames() {
+        return new ArrayList<>(clientNames);
+    }
     public String getName() {
         return name;
     }

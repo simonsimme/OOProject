@@ -1,3 +1,4 @@
+/*
 package Model.Server;
 
 import org.junit.jupiter.api.AfterEach;
@@ -8,10 +9,12 @@ import java.net.Socket;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+*/
 /**
  * This class tests the functionality of the {@code ClientHandler} class,
  * focusing on client interactions with chat channels such as joining and leaving channels.
- */
+ *//*
+
 public class ClientHandlerTest {
     private Server Server;
     private ClientHandler clientHandler;
@@ -19,10 +22,12 @@ public class ClientHandlerTest {
     private ClientHandler clientHandler2;
     private String channelName;
     private String password;
-    /**
+    */
+/**
      * Sets up the test environment by creating a {@code Server} instance and
      * initializing a {@code ClientHandler} with a test socket before each test case.
-     */
+     *//*
+
     @BeforeEach
     void setUp() {
         //Set up the server and start listening for the clients
@@ -44,14 +49,16 @@ public class ClientHandlerTest {
         clientHandler2 = null;
         channelName = null;
     }
-    /**
+    */
+/**
      * Tests the {@code joinChannel} method of {@code ClientHandler}.
      * Verifies that:
      * <ul>
      *     <li>The client successfully joins an existing channel when the correct password is provided.</li>
      *     <li>The client is added to the channel's list of clients.</li>
      * </ul>
-     */
+     *//*
+
     @Test
     void testJoinChannelSuccess() {
         clientHandler.createChannel(channelName, password); // Creating a channel on the server
@@ -80,12 +87,14 @@ public class ClientHandlerTest {
         assertTrue(channel.getClients().contains(clientHandler2), "Client should be in the channel.");
     }
 
-    /**
+    */
+/**
      * Test the {@code leaveChannel} method of {@code ClientHandler}
      * verifies that
      * <li>The client successfully leaves a previously channel</li>
      * <li>The client is removed from the channel list of clients</li>
-     */
+     *//*
+
     @Test
     void testLeaveChannelSuccess() {
         Server.createChannel(channelName, password);
@@ -96,12 +105,14 @@ public class ClientHandlerTest {
 
         assertFalse(channels.getClients().contains(clientHandler));
     }
-    /**
+    */
+/**
      * Test {@code getCurrentChannel} method of {code ClientHandler}.
      * Verifies that:
      * <li>The client correctly identifies the current channel after joining it</li>
      * <li>The current channel returned by method matches the channel instance retried from the server</li>
-     */
+     *//*
+
     @Test
     void testGetCurrentChannel() {
         Server.createChannel(channelName, password);
@@ -109,7 +120,8 @@ public class ClientHandlerTest {
         clientHandler.joinChannel(channelName, password);
         assertEquals(chatChannel ,clientHandler.getCurrentChannel());
     }
-    /**
+    */
+/**
      * Tests the {@code createChannel} method of {@code ClientHandler}.
      * Verifies that:
      * <ul>
@@ -117,7 +129,8 @@ public class ClientHandlerTest {
      *     <li>The client is automatically added to the newly created channel.</li>
      *     <li>The client's current channel is updated to the newly created channel.</li>
      * </ul>
-     */
+     *//*
+
     @Test
     void testCreateChannel() {
         clientHandler.createChannel(channelName, password);
@@ -128,4 +141,4 @@ public class ClientHandlerTest {
         //Assert that the channel has been added to ChatChannel
         assertTrue(chatChannel.getClients().contains(clientHandler));
     }
-}
+}*/

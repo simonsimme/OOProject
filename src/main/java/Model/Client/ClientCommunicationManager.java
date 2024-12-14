@@ -135,7 +135,7 @@ public class ClientCommunicationManager implements Runnable{
      */
     public void joinChannel(String userName,String channelName,String password){
         try{
-            ServerMessage message = new JoinChannelCommand(userName,channelName,password);
+            ServerMessage message = new JoinChannelCommand(userName, channelName, password);
             sendMessageToServer(message);
         }catch (Exception e){
             throw new IllegalArgumentException(e.getMessage());
