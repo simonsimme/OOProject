@@ -8,9 +8,8 @@ public class CreateChannelCommand extends ServerMessage {
     private final String userName;
     private final String channelName;
     private final String channelPassword;
-    //TODO : Add channel settings ?
     /**
-     * Constructs a {@code CreateChannelCommand} with the specified user name and channel name.
+     * Constructs a {@code CreateChannelCommand} with the specified username and channel name.
      * The channel will be created without a password.
      *
      * @param userName    the name of the user creating the channel.

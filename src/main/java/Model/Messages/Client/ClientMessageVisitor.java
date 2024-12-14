@@ -11,6 +11,5 @@ public interface ClientMessageVisitor
     void handle(LeaveChannelResponse m);
     void handle(ErrorResponse m);
     void handle(MessageInChannel m);
-
     void handle(RetrieveChatHistoryResponse m);
 }
