@@ -4,7 +4,6 @@ import Model.Message;
 import Model.Server.saving.ChatSaver;
 import Model.Server.saving.ChatSaverObserver;
 import Model.Server.saving.SaveObserver;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
