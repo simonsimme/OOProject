@@ -143,7 +143,7 @@ public class ClientCommunicationManager implements Runnable{
 
     }
     public void getChannelHistory(String userName, String channelName){
-        ServerMessage message = new RetrieveChatHistoryRequest(userName, channelName);
+        ServerMessage message = new RetrieveChatHistoryCommand(userName, channelName);
         sendMessageToServer(message);
     }
     /**

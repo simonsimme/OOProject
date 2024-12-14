@@ -68,8 +68,8 @@ public class MessageVisitorServer implements ServerMessageVisitor {
     }
 
     @Override
-    public void handle(RetrieveChatHistoryRequest retrieveChatHistoryRequest) {
-        ChatChannel channel = clientHandler.getChannel(retrieveChatHistoryRequest.getChannelName());
+    public void handle(RetrieveChatHistoryCommand retrieveChatHistoryCommand) {
+        ChatChannel channel = clientHandler.getChannel(retrieveChatHistoryCommand.getChannelName());
         if (channel == null) {
             clientHandler.sendMessage(new ErrorResponse("You are not in a channel"));
         } else {

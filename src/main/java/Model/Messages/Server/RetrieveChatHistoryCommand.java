@@ -1,11 +1,11 @@
 package Model.Messages.Server;
 
-public class RetrieveChatHistoryRequest extends ServerMessage {
+public class RetrieveChatHistoryCommand extends ServerMessage {
 
     private String channelName;
     private String userName;
 
-    public RetrieveChatHistoryRequest(String userName, String channelName){
+    public RetrieveChatHistoryCommand(String userName, String channelName){
         this.channelName = channelName;
         this.userName = userName;
     }
