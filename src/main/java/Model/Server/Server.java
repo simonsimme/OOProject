@@ -129,11 +129,9 @@ public class Server {
      */
     public  void stop() throws IOException {
         isRunning = false; // Stop accepting new connections
-
         if (server != null && !server.isClosed()) {
             server.close(); // Close the server socket to break the accept() call
             thisServer = null; // Reset the server instance
-
         }
         this.deleteAllChannels();
         logger.log(Level.FINE,"Deleted all channels");
