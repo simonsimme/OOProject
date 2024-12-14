@@ -7,29 +7,29 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit test for {@link CreateChannelResponse} class
+ * Unit test for {@link ErrorResponse} class
  * Tests the functionality of the methods in the {@code JoinChannelCommand} class
  */
-class CreateChannelResponseTest {
-    private String channelName;
-    private CreateChannelResponse response;
+class ErrorResponseTest {
+    private String errorMsg;
+    private ErrorResponse response;
 
     /**
      * Sets up the test data and initializes a {@code CreateChannelResponse} instance.
      */
     @BeforeEach
     void setUp() {
-        this.channelName = "channelName";
-        this.response = new CreateChannelResponse(channelName);
+        this.errorMsg = "Error Message";
+        this.response = new ErrorResponse(errorMsg);
     }
 
     /**
-     * Test the {@code getChannelName} method to ensure it returns the correct channelName.
+     * Test the {@code getErrorMessage} method to ensure it returns the correct Error Message.
      */
     @Test
-    void getChannelName() {
-        String result = response.getChannelName();
-        assertEquals(channelName, result);
+    void getErrorMessage() {
+        String result = response.getErrorMessage();
+        assertEquals(errorMsg, result);
     }
 
     /**
