@@ -1,69 +1,43 @@
 package Controller;
 
-import Main.ChatApplication;
-import View.ErrorMessageDecorator;
-import backend.Messages.UI.*;
-import backend.client_model.Client;
-import backend.client_model.ClientChannel;
-import backend.client_model.ClientObserver;
+import Model.EncryptionLayer;
+import View.components.Decoraters.HandleMessageDecorator;
+import Model.Messages.UI.*;
+import Model.Client.Client;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import View.IView;
+
+import View.components.IView;
+
+import javax.crypto.SecretKey;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class UIController implements ClientObserver {
-    private IView view;
-    private Client refrence;
-    private ErrorMessageDecorator errorMessageDecorator;
+/**
+ * The UIController class is responsible for handling user input and updating the view based on the received messages.
+ */
+public class UIController{
+    private final IView view;
+    private final Client reference;
+    private UIChannelController channelController;
+    private final SecretKey key;
 
-    public UIController(IView view, Client ref) {
+    public UIController(IView view, Client ref, SecretKey key) {
         this.view = view;
-        this.refrence = ref;
+        this.reference = ref;
+        this.key = key;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
-        this.errorMessageDecorator = new ErrorMessageDecorator(view);
+
+        WindowController windowController = new WindowController(view, reference);
+         channelController = new UIChannelController(view, ref);
     }
 
-    /**
-     * Updates the UI based on the received UIMessage.
-     * @param message the UIMessage to process.
-     */
-    @Override
-    public void update(UIMessage message) {
-       // view.appendChatText(message);
-        message.accept(errorMessageDecorator);
-    }
 
-    /**
-     * Loads the chat history into the view.
-     * @param history the chat history to load.
-     */
-    @Override
-    public void loadHistory(StringBuilder history) {
-        view.showHistory(history);
-    }
 
-    /**
-     * Joins a channel with the given name and password.
-     */
-    private void joinChannel() {
-        String channelName = view.getChannelNameInput();
-        String password = view.getPasswordInput();
-        refrence.joinChannel(channelName, password);
-        view.addChannelToList(channelName);
-    }
 
-    /**
-     * Creates a new channel with the given name and password.
-     */
-    private void createChannel() {
-        String channelName = view.getChannelNameInput();
-        String password = view.getPasswordInput();
-        refrence.createChannel(channelName, password);
-        view.addChannelToList(channelName);
-    }
 
     /**
      * Displays the chat area and sets up listeners for various actions.
@@ -75,36 +49,24 @@ public class UIController implements ClientObserver {
         view.addLeaveChannelButtonListener(new LeaveChannelButtonListener());
         view.addCreateNewChannelButtonListener(new CreateNewChannelButtonListener());
         view.addChannelListSelectionListener(new ChannelListSelectionListener());
-        nicknameset(view.getNickNameFeild());
+        channelController.setNickName(view.getNickNameFeild());
     }
 
-    /**
-     * Sets the nickname for the client.
-     * @param name the nickname to set.
-     */
-    private void nicknameset(String name) {
-        refrence.setNickName(name);
-    }
 
-    /**
-     * Displays a message in the chat view.
-     * @param msg the message to display.
-     */
-    public void showTextinView(DisplayMessage msg) {
-        try {
-            view.appendChatText(msg.getTimestamp().getHour() + "." + msg.getTimestamp().getMinute() + "  " + msg.getMessage() + ": " + msg.getMessage());
-        } catch (Exception e) {
-            System.out.println("clients not found");
-        }
-    }
 
-    /**
-     * Listener for the create channel button.
-     */
     class CreateChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            createChannel();
+            try {
+                channelController.createChannel();
+            } catch (Exception ex) {
+                // Handle the exception and do not proceed to the chat area
+                if(ex.getMessage().equals("STOPPED")){
+                    return;
+                }
+                view.displayErrorMessage(ex.getMessage());
+                return;
+            }
             showChatArea();
         }
     }
@@ -115,7 +77,15 @@ public class UIController implements ClientObserver {
     class JoinChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            joinChannel();
+            try {
+                channelController.joinChannel();
+            } catch (Exception ex) {
+                if(ex.getMessage().equals("STOPPED")){
+                    return;
+                }
+                view.displayErrorMessage(ex.getMessage());
+                return;
+            }
             showChatArea();
         }
     }
@@ -127,7 +97,12 @@ public class UIController implements ClientObserver {
         @Override
         public void actionPerformed(ActionEvent e) {
             String inputText = view.getInputText();
-            refrence.sendMessage(inputText);
+            try {
+               inputText = EncryptionLayer.encrypt(inputText, key); //TODO check if this is againg SRP
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            reference.sendMessage(inputText);
             view.clearInputText();
         }
     }
@@ -140,11 +115,10 @@ public class UIController implements ClientObserver {
         public void valueChanged(ListSelectionEvent e) {
             if (!e.getValueIsAdjusting()) {
                 String selectedChannel = ((JList<String>) e.getSource()).getSelectedValue();
-                System.out.println(refrence.getCurrentChannelName());
-                if (selectedChannel != null && !selectedChannel.equals(refrence.getCurrentChannelName())) {
-                    refrence.switchChannel(selectedChannel);
+                if (selectedChannel != null && !selectedChannel.equals(reference.getCurrentChannelName())) {
+                    reference.switchChannel(selectedChannel);
                     view.changeChannel(selectedChannel);
-                    view.showHistory(refrence.getHistory());
+
                 }
             }
         }
@@ -156,8 +130,14 @@ public class UIController implements ClientObserver {
     class JoinNewChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            joinChannel();
-            view.appendChatText("Joining new channel...");
+            try {
+                channelController.joinChannel();
+            } catch (Exception ex) {
+                if(ex.getMessage().equals("STOPPED")){
+                    return;
+                }
+                view.displayErrorMessage(ex.getMessage());
+            }
         }
     }
 
@@ -167,16 +147,15 @@ public class UIController implements ClientObserver {
     class LeaveChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            refrence.leaveChannel();
-            view.removeChannelFromList(refrence.getCurrentChannelName());
-            if (view.getChannelList().size() == 0) {
+            reference.leaveChannel();
+            view.removeChannelFromList(reference.getCurrentChannelName());
+            if (view.getChannelList().isEmpty()) {
                 view.startArea();
                 view.addCreateChannelButtonListener(new CreateChannelButtonListener());
                 view.addJoinChannelButtonListener(new JoinChannelButtonListener());
             } else {
-                view.removeChannelFromList(refrence.getCurrentChannelName());
-                String channelName = refrence.switchChannel();
-                view.changeChannel(channelName);
+
+                reference.switchChannel();
             }
         }
     }
@@ -187,8 +166,17 @@ public class UIController implements ClientObserver {
     class CreateNewChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            createChannel();
-            view.appendChatText("Creating new channel...");
+            try {
+                channelController.createChannel();
+            } catch (Exception ex) {
+                if(ex.getMessage().equals("STOPPED")){
+                    return;
+                }
+                view.displayErrorMessage(ex.getMessage());
+                return;
+            }
+            view.clearChatText();
+            view.showNotification("Channel created successfully");
         }
     }
 }

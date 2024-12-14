@@ -1,27 +1,29 @@
 // ChatApplication.java
 package Main;
 
-import View.StandardViewFactory;
-import View.ViewFactory;
-import View.IView;
+import Controller.UIClientObserver;
+import View.components.Factorys.StandardViewFactory;
+import View.components.Factorys.ViewFactory;
+import View.components.IView;
 import Controller.UIController;
-import backend.Server.Server;
-import backend.client_model.Client;
+import Model.Server.Server;
+import Model.Client.Client;
 
-import java.io.IOException;
+import javax.crypto.SecretKey;
 
 public class ChatApplication {
     Client client;
     Client client2;
     UIController uiController1;
     UIController uiController2;
+    static Server server;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         ChatApplication chatApplication = new ChatApplication();
 
         // Start the server in a separate thread
         Thread serverThread = new Thread(() -> {
-            Server server = Server.createServerInstance(1234);
+             server = Server.createServerInstance(1234);
             server.startListening();
         });
         serverThread.start();
@@ -35,26 +37,30 @@ public class ChatApplication {
         chatApplication.startClients();
     }
 
-    public void startClients() throws IOException {
+    public void startClients() throws Exception {
+        SecretKey key = server.getKeys();
         // Create and run the first client with its own view
         ViewFactory viewFactory1 = new StandardViewFactory();
         IView view1 = viewFactory1.createView();
         client = new Client("localhost", 1234);
+        UIClientObserver observer = new UIClientObserver(view1,key, client);
 
-        uiController1 = new  UIController( view1, client);
+        uiController1 = new  UIController( view1, client,key);
 
 
         // Create and run the second client with its own view
         ViewFactory viewFactory2 = new StandardViewFactory ();
         IView view2 = viewFactory2.createView();
         client2 = new Client("localhost", 1234);
+        UIClientObserver observer2 = new UIClientObserver(view2,key, client2);
 
-         uiController2 = new UIController(view2, client2);
+         uiController2 = new UIController(view2, client2,key);
         //new Thread(client2).start(); Thread startas i client nu
+
         //TODO: Add so the client only attaches its own uicontroller the client should be the one who recives messages
-        client.attach(uiController1);
-        client.attach(uiController2);
-        client2.attach(uiController2);
-        client2.attach(uiController1);
-    }
+        client.attach(observer);
+      //  client.attach(uiController2);
+        client2.attach(observer2);
+       //    client2.attach(uiController1);
+    }//e
 }
