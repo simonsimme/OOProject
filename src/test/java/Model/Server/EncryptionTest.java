@@ -3,47 +3,58 @@ package Model.Server;
 import Model.EncryptionLayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import javax.crypto.SecretKey;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit test for {@link EncryptionLayer} class
  * Tests the functionality of the methods in the {@code Model.EncryptionLayer} class
  */
 public class EncryptionTest {
-    EncryptionLayer encryptionLayer = new EncryptionLayer();
+    EncryptionLayer encryptionLayer;
     SecretKey key;
 
-
+    /**
+     * Set up method that runs before each test.
+     * Initializes the EncryptionLayer instance and generates a secret key.
+     *
+     * @throws Exception if key generation fails
+     */
     @BeforeEach
     void setUp() throws Exception {
-        key = EncryptionLayer.generateKey();
+        this.encryptionLayer = new EncryptionLayer();
+        this.key = EncryptionLayer.generateKey();
 
     }
-@Test
- public void testEncryption() {
+
+    /**
+     * Test case for encrypting and decrypting a message.
+     * Ensures that the decrypted message matches the original message after encryption.
+     *
+     */
+    @Test
+    public void testEncryption() {
         try {
             String message = "My name is test and i hate programs without tests";
-            Object encryptedMessage = encryptionLayer.encrypt(message, key);
-            String decryptedMessage = encryptionLayer.decrypt(encryptedMessage, key);
+            Object encryptedMessage = EncryptionLayer.encrypt(message, key);
+            String decryptedMessage = EncryptionLayer.decrypt(encryptedMessage, key);
             assert message.equals(decryptedMessage);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // this test will be fixed with a if statment cheacking if the object is null. At this time it will throw an exception the message is null
+    /**
+     * Tests that encrypting and decrypting null message throws an Exception.
+     */
     @Test
     public void testEncryptionNullCase() {
-        try {
-            String message = null;
-            Object encryptedMessage = encryptionLayer.encrypt(message, key);
-            String decryptedMessage = encryptionLayer.decrypt(encryptedMessage, key);
-            assert message.equals(decryptedMessage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        String message = null;
+        // Using assertThrows to check for the expected exception
+        assertThrows(Exception.class, () -> {
+        Object encryptedMessage = EncryptionLayer.encrypt(message, key);
+        String decryptedMessage = EncryptionLayer.decrypt(encryptedMessage, key);
+        assert message.equals(decryptedMessage); // This line won't be reached if the exception is thrown
+        });
     }
 }
