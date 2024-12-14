@@ -142,4 +142,9 @@ public class ViewDecorator implements IView {
     public void closeWindow() {
         decoratedView.closeWindow();
     }
+
+    @Override
+    public void updateUserList(List<String> users) {
+        decoratedView.updateUserList(users);
+    }
 }
