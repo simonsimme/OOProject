@@ -88,4 +88,21 @@ class ServerTest {
         assertNotNull(server2);
         assertSame(server, server2);
     }
+    /**
+     * Tests the creation of a new chat channel.
+     * Verifies that the channel is successfully created and can be retrieved.
+     * This ensures that the {@code createChannel} method works as expected.
+     */
+    @Test
+    void testCreateChannel() {
+        String channelName = "TestChannel";
+        String password = "password";
+
+        server.createChannel(channelName, password);
+
+        ChatChannel channel = server.getChannel(channelName);
+        assertNotNull(channel, "Channel should exist!");
+        assertEquals(channelName, channel.getName());
+    }
+
 }

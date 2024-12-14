@@ -2,7 +2,6 @@ package Model.Server;
 
 import Model.EncryptionLayer;
 import Model.Server.saving.ChatSaverObserver;
-
 import javax.crypto.SecretKey;
 import java.net.*;
 import java.io.*;
@@ -171,15 +170,6 @@ public class Server {
     public synchronized ChatChannel getChannel(String channelName) {
         return channels.get(channelName);
     }
-
-    public synchronized Map<String, ChatChannel> getChannels() {
-        return channels;
-    }
-
-    public synchronized Map<String, ChatChannel> readServerChannels(){
-        return null;
-    }
-
     public synchronized void deleteAllChannels() {
         for (String channelName : channels.keySet()) {
             ChatChannel channel = channels.get(channelName);
@@ -204,9 +194,4 @@ public class Server {
             }
         }
     }
-
-
-
-
-
 }
