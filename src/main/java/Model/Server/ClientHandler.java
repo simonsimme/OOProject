@@ -131,8 +131,7 @@ public class ClientHandler extends Thread {
         boolean result = false;
 
         if (channel == null) {
-            this.error = new ErrorResponse("Channel does not exist--");
-
+            this.error = new ErrorResponse("Channel does not exist");
             sendMessage(error);
             return false;
         }
@@ -235,11 +234,6 @@ public class ClientHandler extends Thread {
      * @return the chat channel with the given name
      */
     public ChatChannel getChannel(String channelName) {
-        ChatChannel channel = server.getChannel(channelName);
-        if(channel != null){
-            return channel;
-        } else{
-            throw new IllegalArgumentException("Channel does not exist");
-        }
+        return server.getChannel(channelName);
     }
 }
