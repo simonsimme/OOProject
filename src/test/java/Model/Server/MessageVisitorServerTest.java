@@ -1,5 +1,6 @@
-package Model.Messages.Server;
+package Model.Server;
 
+import Model.Messages.Server.LeaveChannelCommand;
 import Model.Server.ClientHandler;
 import Model.Server.MessageVisitorServer;
 import Model.Server.Server;
