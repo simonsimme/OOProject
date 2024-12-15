@@ -2,8 +2,8 @@ package Model.Messages.Client;
 
 public class RetrieveChatHistoryResponse extends ClientMessage {
 
-    private String channelName;
-    private StringBuilder history;
+    private final String channelName;
+    private final StringBuilder history;
 
     public RetrieveChatHistoryResponse(String channelName, StringBuilder history){
         this.channelName = channelName;
@@ -20,12 +20,7 @@ public class RetrieveChatHistoryResponse extends ClientMessage {
                 ", history=" + history +
                 '}';
     }
-
     public void accept(ClientMessageVisitor visitor) {
         visitor.handle(this);
-    }
-
-    public StringBuilder getStringBuilder() {
-        return history;
     }
 }
