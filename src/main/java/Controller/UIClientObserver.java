@@ -55,7 +55,7 @@ public class UIClientObserver implements ClientObserver {
      * @param message the {@link DisplayMessage} to decrypt and display as a notification
      */
     @Override
-    public void nofitication(DisplayMessage message) {
+    public void notification(DisplayMessage message) {
         try {
             String msg = EncryptionLayer.decrypt(message.getMessage(),key);
             if (!message.getUserName().equals(reference.getUserName()) &&  !reference.getCurrentChannelName().equals(message.getChannelName())) {

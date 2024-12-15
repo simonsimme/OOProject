@@ -8,5 +8,5 @@ import Model.Messages.UI.UIMessage;
  */
 public interface ClientObserver {
     void update(UIMessage message);
-    void nofitication(DisplayMessage message);
+    void notification(DisplayMessage message);
 }

@@ -109,7 +109,7 @@ public class ClientVisitor implements ClientMessageVisitor{
     }
     private void notificationToClients(DisplayMessage message){
         for (ClientObserver observer:observers) {
-            observer.nofitication(message);
+            observer.notification(message);
         }
     }
 }
