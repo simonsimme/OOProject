@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * Facade for the client Provides methods for managing channels, send messages,
  * and notifying observers of updates. Acts as a central interface for client-side operations.
@@ -31,7 +30,6 @@ public class Client implements ClientSubject{
         this.channelRecord = new ClientChannelRecord();
         cm = new ClientCommunicationManager(address,port,this.channelRecord,observers);
         new Thread(cm).start();
-
     }
     /**
      * Gets the username of the client.
@@ -73,12 +71,11 @@ public class Client implements ClientSubject{
      * @param password    the password for the channel.
      */
     public void joinChannel(String channelName, String password){
-        try{
+        try {
             cm.joinChannel(user, channelName, password);
             cm.getChannelHistory(user,channelName);
-
-        }catch (Exception e){
-            throw new IllegalArgumentException(e.getMessage() );
+        } catch (Exception e){
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
     /**
@@ -99,21 +96,24 @@ public class Client implements ClientSubject{
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
         cm.getChannelHistory(user,channelName);
     }
-    //This should be removed. Use nextChannel() instead and wait on an UpdateChannels message from the client.
-    public String switchChannel(){
+
+    /**
+     * Switches the user's current channel to the next available channel in the list.
+     */
+    public void switchChannel(){
         String newChannelName = channelRecord.switchToNextChannel();
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
         cm.getChannelHistory(user,newChannelName);
-        return newChannelName;
     }
     /**
      * Switches to the next available channel in the channel record.
      */
+    //TODO NO uses at all?
     public void nextChannel(){
         channelRecord.switchToNextChannel();
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
     }
-
+    //TODO Is this not used?
     public StringBuilder getHistory(){
         return channelRecord.getCurrentChannelHistory();
     }
@@ -176,7 +176,4 @@ public class Client implements ClientSubject{
             observer.update(message);
         }
     }
-
-
-
 }

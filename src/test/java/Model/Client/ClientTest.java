@@ -45,6 +45,26 @@ public class ClientTest {
     }
 
     /**
+     * Test the {@code getUserName} method to ensure it returns the correct username.
+     */
+    @Test
+    void getUserName() {
+        String defaultUser = "client default user name";
+        assertEquals(defaultUser, client.getUserName());
+    }
+    /**
+     * Test the {@code getCurrentChannelName} method to ensure it returns the correct channel name.
+     */
+    @Test
+    void getCurrentChannelName() throws InterruptedException {
+        String channelName = "Testchannel";
+        server.createChannel(channelName, "Password");
+        client.joinChannel(channelName, "Password");
+        Thread.sleep(50);
+        String result = client.getCurrentChannelName();
+        assertEquals(channelName, result);
+    }
+    /**
      * Test the client's ability to join a channel
      * */
     @Test
@@ -206,8 +226,4 @@ public class ClientTest {
         // check the client is in the empty channel
         assertEquals("empty-channel", client.getCurrentChannelName());
     }
-
-
-
-
 }
