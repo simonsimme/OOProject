@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test for {@link CreateChannelResponse} class
- * Tests the functionality of the methods in the {@code JoinChannelCommand} class
+ * Tests the functionality of the methods in the {@code CreateChannelResponse} class
  */
 class CreateChannelResponseTest {
     private String channelName;

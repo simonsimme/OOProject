@@ -8,7 +8,7 @@ import static org.mockito.Mockito.*;
 
 /**
  * Unit test for {@link JoinChannelResponse} class
- * Tests the functionality of the methods in the {@code JoinChannelCommand} class
+ * Tests the functionality of the methods in the {@code JoinChannelResponse} class
  */
 class JoinChannelResponseTest {
     private String channelName;
