@@ -1,27 +1,30 @@
 package Model.Messages.Client;
 /**
- * Message to client : Send a message in a channel to a client
+ * Represents a message sent to a client, indicating that a message has been posted in a specific channel.
+ * This class extends {@code ClientMessage} and includes details about the sender, the channel, and the message content.
  */
 public class MessageInChannel extends ClientMessage {
     /**
-     * The user name of the sender of the message. This string is displayed before the message in the UI.
+     * The username of the sender of the message.
+     * This string is displayed before the message in the user interface.
      */
-    private String userName;
+    private final String userName;
     /**
      * The channel name of the channel that the message is sent to.
      */
-    private String channelName;
+    private final String channelName;
 
     /**
-     * This string is displayed in the chatbox i nthe given channel
+     * The content of the message.
      */
-    private String message;
+    private final String message;
 
     /**
-     * Constructor
-     * @param userName This string is displayed before the message in the UI.
-     * @param channelName The name of the channel that the message is sent in.
-     * @param message This string is displayed as the message in the chatbox in the given channel.
+     * Constructs a {@code MessageInChannel} with the specified sender, channel, and message content.
+     *
+     * @param userName    The name of the user sending the message.
+     * @param channelName The name of the channel where the message was sent.
+     * @param message     The content of the message.
      */
     public MessageInChannel(String userName, String channelName, String message){
         this.userName = userName;
@@ -29,14 +32,30 @@ public class MessageInChannel extends ClientMessage {
         this.message = message;
     }
 
-    //Getters
-    public String getChannelName() {return channelName;}
-    public String getMessage(){return message;}
-    public String getUserName() {return userName;}
+    /**
+     * Gets the name of the channel where the message was sent.
+     *
+     * @return The channel name.
+     */
+    public String getChannelName() { return channelName; }
 
     /**
-     * Visitor pattern method.
-     * @param visitor
+     * Gets the content of the message.
+     *
+     * @return The message content.
+     */
+    public String getMessage(){ return message; }
+
+    /**
+     * Gets the name of the user who sent the message.
+     *
+     * @return The username.
+     */
+    public String getUserName() { return userName; }
+
+    /**
+     * Accepts a visitor to handle this {@code MessageInChannel} as part of the Visitor pattern.
+     * @param visitor The visitor that processes this message.
      */
     @Override
     public void accept(ClientMessageVisitor visitor) {
