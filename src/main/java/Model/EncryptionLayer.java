@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Messages.Message;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;

@@ -1,6 +1,7 @@
 package Model.Messages.Server;
 
 import Model.Server.ClientHandler;
+import Model.Server.MessageVisitorServer;
 import Model.Server.Server;
 import org.junit.jupiter.api.BeforeEach;
 

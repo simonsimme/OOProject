@@ -1,6 +1,6 @@
 package Model.Server;
 
-import Model.Message;
+import Model.Messages.Message;
 import Model.Server.saving.ChatSaver;
 import Model.Server.saving.ChatSaverObserver;
 import Model.Server.saving.SaveObserver;

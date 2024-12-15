@@ -1,7 +1,7 @@
 package Model.Server.saving;// src/main/java/Model/Server/saving/ChatSaverObserver.java
 
 
-import Model.Message;
+import Model.Messages.Message;
 import Model.Server.ChatChannel;
 
 /**

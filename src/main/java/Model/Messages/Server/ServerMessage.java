@@ -1,6 +1,6 @@
 package Model.Messages.Server;
 
-import Model.Message;
+import Model.Messages.Message;
 
 /**
  * Abstract class for all server messages.

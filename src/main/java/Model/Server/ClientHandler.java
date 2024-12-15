@@ -1,7 +1,6 @@
 package Model.Server;
 import Model.Messages.Client.ErrorResponse;
-import Model.Message;
-import Model.Messages.Server.MessageVisitorServer;
+import Model.Messages.Message;
 import Model.Messages.Server.ServerMessageVisitor;
 
 import java.net.*;

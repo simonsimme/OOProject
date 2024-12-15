@@ -1,6 +1,7 @@
-package Model.Messages.Server;
+package Model.Server;
 
 import Model.Messages.Client.*;
+import Model.Messages.Server.*;
 import Model.Server.ChatChannel;
 import Model.Server.ClientHandler;
 

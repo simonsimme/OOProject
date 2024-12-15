@@ -1,6 +1,6 @@
 package Model.Server.saving;
 
-import Model.Message;
+import Model.Messages.Message;
 
 public interface SaveObserver {
     //void update(String userName, String channelName, String message);

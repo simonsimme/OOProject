@@ -1,4 +1,4 @@
-package Model;
+package Model.Messages;
 import Model.Messages.Server.ServerMessageVisitor;
 import java.io.Serial;
 import java.io.Serializable;
