@@ -1,14 +1,9 @@
 package Model.Server;
 
 import Model.Messages.Server.LeaveChannelCommand;
-import Model.Server.ClientHandler;
-import Model.Server.MessageVisitorServer;
-import Model.Server.Server;
 import org.junit.jupiter.api.BeforeEach;
-
 import java.net.Socket;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * I am not totatlly sure if this is the correct way to test this class but

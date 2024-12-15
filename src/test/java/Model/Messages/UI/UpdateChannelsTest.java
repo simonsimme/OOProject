@@ -12,7 +12,6 @@ import static org.mockito.Mockito.*;
  * Tests the functionality of the methods in the {@code UpdateChannels} class
  */
 class UpdateChannelsTest {
-    private List<String> channels;
     private String current;
     private UpdateChannels uc;
 
@@ -21,7 +20,7 @@ class UpdateChannelsTest {
      */
     @BeforeEach
     void setUp() {
-        this.channels = List.of("General", "TechTalk", "Random", "HelpDesk", "News");
+        List<String> channels = List.of("General", "TechTalk", "Random", "HelpDesk", "News");
         this.current = "TechTalk";
         this.uc = new UpdateChannels(channels, current);
     }

@@ -2,8 +2,6 @@ package Model.Server;
 
 import Model.Messages.Client.*;
 import Model.Messages.Server.*;
-import Model.Server.ChatChannel;
-import Model.Server.ClientHandler;
 
 public class MessageVisitorServer implements ServerMessageVisitor {
     private final ClientHandler clientHandler;
@@ -64,8 +62,9 @@ public class MessageVisitorServer implements ServerMessageVisitor {
        * */
     @Override
     public void handle(CreateChannelCommand createChannelCommand) {
-        if(clientHandler.createChannel(createChannelCommand.getChannelName(), createChannelCommand.getChannelPassword()))
-        clientHandler.sendMessage(new CreateChannelResponse(createChannelCommand.getChannelName()));
+        if(clientHandler.createChannel(createChannelCommand.getChannelName(), createChannelCommand.getChannelPassword())) {
+            clientHandler.sendMessage(new CreateChannelResponse(createChannelCommand.getChannelName()));
+        }
     }
 
     @Override

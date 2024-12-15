@@ -26,7 +26,7 @@ public class ClientHandler extends Thread {
     //The server instance managing the chat channels.
     private final Server server;
     //Current chat channel the client is joined in.
-    private List<ChatChannel> channels;
+    private final List<ChatChannel> channels;
     //we rewrite and create only one error object to lowe the dependecy between the classes
     private ErrorResponse error;
 
@@ -197,7 +197,6 @@ public class ClientHandler extends Thread {
      * returns the chatChannel thats in the last index of the list of channels
      * if the list is empty it returns null
      * @return the chatChannel that is in the last index of the list of channels
-     *
      * Look into the function, currently only used in testing might be Removed
      * */
     public ChatChannel getCurrentChannel() {
