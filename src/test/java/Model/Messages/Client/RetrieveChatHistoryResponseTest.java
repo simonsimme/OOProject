@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class RetrieveChatHistoryResponseTest {
     private String channelName;
-    private StringBuilder history;
     private RetrieveChatHistoryResponse response;
 
     /**
@@ -21,7 +20,7 @@ class RetrieveChatHistoryResponseTest {
     @BeforeEach
     void setUp() {
         this.channelName = "channelName";
-        this.history = new StringBuilder("First message\nSecond message\nThird message");
+        StringBuilder history = new StringBuilder("First message\nSecond message\nThird message");
         this.response = new RetrieveChatHistoryResponse(channelName, history);
     }
 
