@@ -14,7 +14,6 @@ import static org.mockito.Mockito.*;
  * Tests the functionality of the methods in the {@code UIChannelHistory} class
  */
 class UIChannelHistoryTest {
-    private String history;
     private UIChannelHistory UIch;
 
     /**
@@ -22,16 +21,16 @@ class UIChannelHistoryTest {
      */
     @BeforeEach
     void setUp() {
-        this.history = """
-            /*******Chat history for channel: ch********/
-            2024-12-15T11:49:25.606782400 Message: rHA7i8PEqJX15Rt6T/FTFw== from Guest2
-            2024-12-15T11:49:28.080430600 Message: MSHHHlpcXD5b4LaG2BVWOg== from Guest2
-            2024-12-15T11:49:29.969011500 Message: ucEBh/2sSOvrtWA53Hif9Q== from Guest2
-            2024-12-15T11:49:32.027282600 Message: ucEBh/2sSOvrtWA53Hif9Q== from Guest2
-            2024-12-15T11:49:37.165547900 Message: ucEBh/2sSOvrtWA53Hif9Q== from Guest2
-            2024-12-15T11:49:39.095792 Message: ucEBh/2sSOvrtWA53Hif9Q== from Guest2
-            2024-12-15T11:49:49.954386900 Message: has disconnected from the channel from Guest2
-        """;
+        String history = """
+                    /*******Chat history for channel: ch********/
+                    2024-12-15T11:49:25.606782400 Message: rHA7i8PEqJX15Rt6T/FTFw== from Guest2
+                    2024-12-15T11:49:28.080430600 Message: MSHHHlpcXD5b4LaG2BVWOg== from Guest2
+                    2024-12-15T11:49:29.969011500 Message: ucEBh/2sSOvrtWA53Hif9Q== from Guest2
+                    2024-12-15T11:49:32.027282600 Message: ucEBh/2sSOvrtWA53Hif9Q== from Guest2
+                    2024-12-15T11:49:37.165547900 Message: ucEBh/2sSOvrtWA53Hif9Q== from Guest2
+                    2024-12-15T11:49:39.095792 Message: ucEBh/2sSOvrtWA53Hif9Q== from Guest2
+                    2024-12-15T11:49:49.954386900 Message: has disconnected from the channel from Guest2
+                """;
         this.UIch = new UIChannelHistory(history);
     }
 
@@ -48,7 +47,7 @@ class UIChannelHistoryTest {
         assertEquals(7, messages.size(), "There should be 7 messages parsed.");
 
         // Verify the first message
-        DisplayMessage firstMessage = messages.get(0);
+        DisplayMessage firstMessage = messages.getFirst();
         assertEquals("Guest2", firstMessage.getUserName());
         assertEquals("rHA7i8PEqJX15Rt6T/FTFw==", firstMessage.getMessage());
         assertEquals("---", firstMessage.getChannelName());
