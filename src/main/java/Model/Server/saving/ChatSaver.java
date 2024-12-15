@@ -2,7 +2,6 @@ package Model.Server.saving;
 
 import Model.Messages.Message;
 import Model.Server.ChatChannel;
-
 import java.io.*;
 
 /**

@@ -21,23 +21,26 @@ import javax.swing.event.ListSelectionListener;
 public class UIController{
     private final IView view;
     private final Client reference;
-    private UIChannelController channelController;
+    private final UIChannelController channelController;
     private final SecretKey key;
 
+    /**
+     * Constructs a new {@code UIController} to handle user actions and interact with the view.
+     * Initializes the necessary listeners for user input on buttons.
+     *
+     * @param view     the view interface to interact with the user interface
+     * @param ref      the client instance associated with the user
+     * @param key      the secret key used for encrypting messages
+     */
     public UIController(IView view, Client ref, SecretKey key) {
         this.view = view;
         this.reference = ref;
         this.key = key;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
-
-        WindowController windowController = new WindowController(view, reference);
-         channelController = new UIChannelController(view, ref);
+        WindowController windowController = new WindowController(view, reference); //TODO Do we need this
+        channelController = new UIChannelController(view, ref);
     }
-
-
-
-
 
     /**
      * Displays the chat area and sets up listeners for various actions.
@@ -52,8 +55,9 @@ public class UIController{
         channelController.setNickName(view.getNickNameFeild());
     }
 
-
-
+    /**
+     * Listener for the create channel button. Handles the action of creating a new channel.
+     */
     class CreateChannelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

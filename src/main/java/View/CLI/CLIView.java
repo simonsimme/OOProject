@@ -26,11 +26,7 @@ public class CLIView implements ClientObserver {
     }
 
     @Override
-    public void nofitication(DisplayMessage message) {
+    public void notification(DisplayMessage message) {
 
     }
-
-
-
-
 }
