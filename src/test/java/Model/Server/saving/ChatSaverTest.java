@@ -31,7 +31,7 @@ class ChatSaverTest {
     @BeforeEach
     void setUp() throws IOException {
         this.channel = new ChatChannel("TestChannel", "Password");
-        this.message = new SendMessageInChannelCommand("user", "TestChannel", "This is the message being sent");
+        this.message = new SendMessageInChannelCommand("user", "TestChannel", "This is the message being sent", false);
         Files.createDirectories(Paths.get("./src/main/java/Model/Server/saving/logs"));
 
         File testFile = new File(filePath);
@@ -112,7 +112,7 @@ class ChatSaverTest {
         System.setErr(new PrintStream(errContent));
 
         // Attempt to save another message
-        chatSaver.saveMessage("TestChannel", new SendMessageInChannelCommand("user", "TestChannel", "Another message"));
+        chatSaver.saveMessage("TestChannel", new SendMessageInChannelCommand("user", "TestChannel", "Another message", false));
 
         // Restore the original System.err
         System.setErr(originalErr);

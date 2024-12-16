@@ -12,9 +12,8 @@ import javax.crypto.SecretKey;
 
 public class ClientApplication {
 
-
     public static void main(String[] args) throws Exception {
-       SecretKey key = EncryptionLayer.generateKey();
+        SecretKey key = EncryptionLayer.generateKey();
         ViewFactory viewFactory = new StandardViewFactory();
         IView view = viewFactory.createView();
         Client client = new Client("localhost", 1234);

@@ -124,7 +124,7 @@ public class Client implements ClientSubject{
      */
     public void sendMessage(String message)
     {
-        cm.sendMessage(user,channelRecord.getCurrentChannelName(), message);
+        cm.sendMessage(user,channelRecord.getCurrentChannelName(), message, false);
     }
     /**
      * Retrieves a list of names of all channels the client is a member of.

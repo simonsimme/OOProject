@@ -24,7 +24,7 @@ class MessageInChannelTest {
         this.userName = "Username";
         this.channelName = "channelName";
         this.message = "message to be tested";
-        this.msgInChannel = new MessageInChannel(userName, channelName, message);
+        this.msgInChannel = new MessageInChannel(userName, channelName, message, false);
     }
 
     /**

@@ -117,10 +117,10 @@ public class ClientCommunicationManager implements Runnable{
      * @param channel Name of the channel that the message is to be sent in.
      * @param messageString Actual message string.
      */
-    public void sendMessage(String user, String channel, String messageString)
+    public void sendMessage(String user, String channel, String messageString, boolean isServerMessage)
     {
         ServerMessage message =
-                new SendMessageInChannelCommand(user, channel, messageString);
+                new SendMessageInChannelCommand(user, channel, messageString, isServerMessage);
 
         sendMessageToServer(message);
     }
@@ -164,7 +164,7 @@ public class ClientCommunicationManager implements Runnable{
      */
     public void disconnect(String userName, String channelName) {
         String disconnected = "has disconnected from the channel";
-        ServerMessage disconnect = new SendMessageInChannelCommand(userName, channelName, disconnected);
+        ServerMessage disconnect = new SendMessageInChannelCommand(userName, channelName, disconnected, true);
         sendMessageToServer(disconnect);
 
         ServerMessage message = new LeaveChannelCommand(userName, channelName);

@@ -30,7 +30,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
         }
         catch (Exception e)
         {
-            System.out.println(m.getMessage());
+            System.out.println(m.getMessage() + "-------");
             e.printStackTrace();
         }
         DisplayMessage dm = new DisplayMessage(m.getUserName(),ret, m.getChannelName());
@@ -62,5 +62,11 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
         }
 
 
+    }
+
+    @Override
+    public void handle(DisplayChannelMessage displayChannelMessage) {
+        DisplayMessage dm = new DisplayMessage("",displayChannelMessage.getChannelMessage(),"");
+        decoratedView.appendChatText(dm);
     }
 }

@@ -10,6 +10,12 @@ public class SendMessageInChannelCommand extends ServerMessage {
     private final String channelName;
     private final String message;
 
+    public boolean isServerMessage() {
+        return isServerMessage;
+    }
+
+    private final boolean isServerMessage;
+
     /**
      * Constructs a new {@code SendMessageInChannelCommand} with the specified details.
      *
@@ -17,10 +23,11 @@ public class SendMessageInChannelCommand extends ServerMessage {
      * @param channelName the name of the channel where the message will be sent.
      * @param message     the content of the message being sent.
      */
-    public SendMessageInChannelCommand(String userName, String channelName, String message){
+    public SendMessageInChannelCommand(String userName, String channelName, String message, boolean isServerMessage){
         this.userName = userName;
         this.channelName = channelName;
         this.message = message;
+        this.isServerMessage = isServerMessage;
     }
     /**
      * Retrieves the message content.

@@ -1,10 +1,6 @@
 package View.CLI;
 
-import Model.Messages.UI.DisplayError;
-import Model.Messages.UI.DisplayMessage;
-import Model.Messages.UI.UIMessageVisitor;
-import Model.Messages.UI.UpdateChannels;
-import Model.Messages.UI.UIChannelHistory;
+import Model.Messages.UI.*;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -36,6 +32,11 @@ public class CLIVisitor implements UIMessageVisitor {
 
     @Override
     public void handle(UIChannelHistory message) {
+
+    }
+
+    @Override
+    public void handle(DisplayChannelMessage displayChannelMessage) {
 
     }
 }

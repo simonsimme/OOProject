@@ -24,7 +24,7 @@ class SendMessageInChannelCommandTest {
         this.userName = "userName";
         this.channelName = "channelName";
         this.message = "message";
-        smicc = new SendMessageInChannelCommand(userName, channelName, message);
+        smicc = new SendMessageInChannelCommand(userName, channelName, message, false);
     }
 
     /**

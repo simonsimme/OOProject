@@ -19,6 +19,8 @@ public class MessageInChannel extends ClientMessage {
      */
     private final String message;
 
+    private final boolean isServerMessage;
+
     /**
      * Constructs a {@code MessageInChannel} with the specified sender, channel, and message content.
      *
@@ -26,10 +28,11 @@ public class MessageInChannel extends ClientMessage {
      * @param channelName The name of the channel where the message was sent.
      * @param message     The content of the message.
      */
-    public MessageInChannel(String userName, String channelName, String message){
+    public MessageInChannel(String userName, String channelName, String message, boolean isServerMessage){
         this.userName = userName;
         this.channelName = channelName;
         this.message = message;
+        this.isServerMessage = isServerMessage;
     }
 
     /**

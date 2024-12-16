@@ -81,11 +81,17 @@ public class ClientVisitor implements ClientMessageVisitor{
      */
     @Override
     public void handle(MessageInChannel m) {
-        if(m.getChannelName().equals(channelRecord.getCurrentChannelName())){
-            DisplayMessage dm = new DisplayMessage(m.getUserName(),m.getMessage(), m.getChannelName());
-            notifyObservers(dm);
-            notificationToClients(dm);
+        if(m.isServerMessage())
+        {
+            DisplayChannelMessage displayChannelMessage = new DisplayChannelMessage(m.getMessage());
+            notifyObservers(displayChannelMessage);
         }
+        else
+            if (m.getChannelName().equals(channelRecord.getCurrentChannelName())) {
+                DisplayMessage dm = new DisplayMessage(m.getUserName(), m.getMessage(), m.getChannelName());
+                notifyObservers(dm);
+                notificationToClients(dm);
+            }
         channelRecord.recordMessageInChannel(m.getMessage(),m.getChannelName());
     }
 

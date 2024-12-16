@@ -33,7 +33,7 @@ public class MessageVisitorServer implements ServerMessageVisitor {
         if (channelToSendIn == null) {
             clientHandler.sendMessage(new ErrorResponse("You are not in a channel"));
         } else {
-            channelToSendIn.broadcast(new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage()));
+            channelToSendIn.broadcast(new MessageInChannel(message.getUserName(), message.getChannelName(), message.getMessage(), message.isServerMessage()));
         }
     }
     /**
