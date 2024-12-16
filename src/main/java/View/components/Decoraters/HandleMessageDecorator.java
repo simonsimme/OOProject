@@ -54,7 +54,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                System.out.println("hej");
             }
             DisplayMessage dm = new DisplayMessage(message.getUserName(),ret, "---");
 

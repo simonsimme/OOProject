@@ -34,6 +34,10 @@ public class MessageInChannel extends ClientMessage {
         this.message = message;
         this.isServerMessage = isServerMessage;
     }
+    public boolean isServerMessage()
+    {
+        return isServerMessage;
+    }
 
     /**
      * Gets the name of the channel where the message was sent.

@@ -32,4 +32,6 @@ public interface UIMessageVisitor {
      * @param historyMessage The {@code UIChannelHistory} message to be handled.
      */
     void handle(UIChannelHistory historyMessage);
+
+    void handle(DisplayChannelMessage displayChannelMessage);
 }
