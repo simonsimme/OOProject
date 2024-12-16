@@ -21,11 +21,11 @@ public class EncryptionLayer {
     The sender and the receiver must both know -- and use -- the same secret encryption key.
      */
     private static final String ALGORITHM = "AES";
-    private static final int keysize = 128;
+    private static final int KEYSIZE = 128;
 
     public static SecretKey generateKey() throws Exception {
         KeyGenerator keyGen = KeyGenerator.getInstance(ALGORITHM);
-        keyGen.init(keysize);
+        keyGen.init(KEYSIZE);
         return keyGen.generateKey();
     }
 
