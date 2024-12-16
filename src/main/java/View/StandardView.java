@@ -9,6 +9,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,9 @@ public class StandardView implements IView {
     private final ChatArea chatArea;
     private final InputPanel inputPanel;
     private final ChannelListPanel channelListPanel;
-    private static int guestUser = 0;
+    private final String uniqueId;
+    private final int processId;
+    private final String nickname;
 
     private final JButton createChannelButton;
     private final JButton joinChannelButton;
@@ -51,10 +54,12 @@ public class StandardView implements IView {
         createChannelButton = new JButton("Create Channel");
         joinChannelButton = new JButton("Join Channel");
         inputTextField = new JTextField(20);
-
+        String processName = ManagementFactory.getRuntimeMXBean().getName();
+        processId = Integer.parseInt(processName.split("@")[0]);
+        uniqueId = String.valueOf(System.currentTimeMillis());
+        nickname = "Guest"+ processId + uniqueId.substring(uniqueId.length()-2,uniqueId.length());
         startArea();
-        guestUser++;
-        notificationSystem.showNotification("Welcome " + "Guest" + guestUser + "!");
+        notificationSystem.showNotification("Welcome " + "Guest" + nickname + "!");
     }
 
     @Override
@@ -258,7 +263,7 @@ public class StandardView implements IView {
     @Override
     public String getNickNameFeild() {
         if(inputTextField.getText().isEmpty()){
-            return "Guest" + guestUser;
+            return nickname;
         }
         return inputTextField.getText();}
 
