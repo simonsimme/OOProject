@@ -34,32 +34,32 @@ public class ClientVisitor implements ClientMessageVisitor{
     /**
      * Adds the newly joined channel to channelGroup and notifies the UI to update its channels with the new
      * information.
-     * @param m
+     * @param message
      */
     @Override
-    public void handle(JoinChannelResponse m) {
-        channelRecord.addNewChannel(m.getChannelName());
+    public void handle(JoinChannelResponse message) {
+        channelRecord.addNewChannel(message.getChannelName());
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
     }
 
     /**
      * Adds the new channel to channelGroup and notifies the UI to update its channels with the new information.
-     * @param m
+     * @param message
      */
     @Override
-    public void handle(CreateChannelResponse m) {
-        channelRecord.addNewChannel(m.getChannelName());
+    public void handle(CreateChannelResponse message) {
+        channelRecord.addNewChannel(message.getChannelName());
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
     }
 
     /**
      * Removes the channel from channelGroup and notifies the UI to update its channels with the new information.
-     * @param m
+     * @param message
      */
     @Override
-    public void handle(LeaveChannelResponse m) {
-        channelRecord.removeChannel(m.getChannelName());
-        System.out.println("Channel removed: " + m.getChannelName() + " and this is currChannel" + channelRecord.getCurrentChannelName());
+    public void handle(LeaveChannelResponse message) {
+        channelRecord.removeChannel(message.getChannelName());
+        System.out.println("Channel removed: " + message.getChannelName() + " and this is currChannel" + channelRecord.getCurrentChannelName());
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(), channelRecord.getCurrentChannelName()));
     }
 
@@ -77,22 +77,22 @@ public class ClientVisitor implements ClientMessageVisitor{
      * channel, the message is saved to the client's channel record(channelGroup.sendMessage(message,channel)) and
      * is displayed. However, if the message is sent to any other channel that is not currently active, the message
      * simply gets stored without being displayed.
-     * @param m message
+     * @param message message
      */
     @Override
-    public void handle(MessageInChannel m) {
-        if(m.getChannelName().equals(channelRecord.getCurrentChannelName())){
-            DisplayMessage dm = new DisplayMessage(m.getUserName(),m.getMessage(), m.getChannelName());
+    public void handle(MessageInChannel message) {
+        if(message.getChannelName().equals(channelRecord.getCurrentChannelName())){
+            DisplayMessage dm = new DisplayMessage(message.getUserName(),message.getMessage(), message.getChannelName());
             notifyObservers(dm);
             notificationToClients(dm);
         }
-        channelRecord.recordMessageInChannel(m.getMessage(),m.getChannelName());
+        channelRecord.recordMessageInChannel(message.getMessage(),message.getChannelName());
     }
 
     @Override
-    public void handle(RetrieveChatHistoryResponse m) {
-        String channelName = m.getChannelName(); // get the channel name
-        String history = m.toString(); // get the history
+    public void handle(RetrieveChatHistoryResponse message) {
+        String channelName = message.getChannelName(); // get the channel name
+        String history = message.toString(); // get the history
         System.out.println("History: " + history);
         channelRecord.setChannelHistory(channelName, new StringBuilder(history));
         notifyObservers(new UIChannelHistory(history));
