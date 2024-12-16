@@ -6,10 +6,10 @@ import java.awt.*;
 import java.awt.event.WindowListener;
 
 public class WindowManager {
-    private JFrame frame;
+    private final JFrame frame;
 
     public WindowManager() {
-        frame = new JFrame("Chat Application");
+        frame = new JFrame("Concorde");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
