@@ -18,11 +18,11 @@ import java.util.logging.SimpleFormatter;
  */
 public class Server {
     //ServerSocket will listen for incoming connections.
-    private ServerSocket server = null;
+    private ServerSocket serverSocket = null;
     //Singleton instance of server.
-    private static Server thisServer = null;
+    private static Server thisServerInstance = null;
     //A map of active chat channels, identified by their names.
-    private final Map<String, ChatChannel> channels;
+    private final Map<String, ChatChannel> channelsMap;
     private volatile boolean isRunning;
     private final SecretKey key;
 
@@ -48,19 +48,18 @@ public class Server {
      * @return the singleton instance of the Server
      */
     public static Server createServerInstance(int port) {
-        if (thisServer == null) {
+        if (thisServerInstance == null) {
             try {
                 SecretKey key = EncryptionLayer.generateKey();
-                thisServer = new Server(port, key);
+                thisServerInstance = new Server(port, key);
                 Server.logger.log(Level.FINE, "Server created on port: " + port);
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
-
         }
-        return thisServer;
+        return thisServerInstance;
     }
     /**
      * Private constructor to initialize the server on the specific port.
@@ -72,11 +71,11 @@ public class Server {
     private Server(int port, SecretKey key) {
         this.key = key;
         isRunning = true;
-        channels = new HashMap<>();
+        channelsMap = new HashMap<>();
         System.out.println("Started new server:");
         try {
-            this.server = new ServerSocket(port);
-            logger.log(Level.FINE, "Server socket is created on port: " + server.getLocalPort());
+            this.serverSocket = new ServerSocket(port);
+            logger.log(Level.FINE, "Server socket is created on port: " + serverSocket.getLocalPort());
         } catch (IOException e) {
             System.out.println(e.getMessage());
             logger.log(Level.SEVERE, e.getMessage());
@@ -107,7 +106,7 @@ public class Server {
             while (isRunning) {
                 Server.logger.log(Level.FINE, "Waiting for clients...");
                 System.out.println("Waiting for clients...");
-                Socket clientSocket = server.accept();
+                Socket clientSocket = serverSocket.accept();
 
                 if(!isRunning) {
                     break;
@@ -129,9 +128,9 @@ public class Server {
      */
     public  void stop() throws IOException {
         isRunning = false; // Stop accepting new connections
-        if (server != null && !server.isClosed()) {
-            server.close(); // Close the server socket to break the accept() call
-            thisServer = null; // Reset the server instance
+        if (serverSocket != null && !serverSocket.isClosed()) {
+            serverSocket.close(); // Close the server socket to break the accept() call
+            thisServerInstance = null; // Reset the server instance
         }
         this.deleteAllChannels();
         logger.log(Level.FINE,"Deleted all channels");
@@ -147,12 +146,12 @@ public class Server {
      * @param password the password for the channel, used for authentication.
      */
     public synchronized void createChannel(String channelName, String password) {
-        if (channels.containsKey(channelName)) {
+        if (channelsMap.containsKey(channelName)) {
             System.out.println("ChannelName taken, Try another one.");
             logger.log(Level.FINER, "ChannelName taken, Try another one.");
         } else {
             ChatChannel channel = new ChatChannel(channelName, password);
-            channels.put(channelName, channel);
+            channelsMap.put(channelName, channel);
             // the logic to add the observers to write to the txt files.
             ChatSaverObserver chatSaverObserver = new ChatSaverObserver(channel);
             channel.addObserver(chatSaverObserver);
@@ -166,17 +165,17 @@ public class Server {
      * @return the {@code ChatChannel} object associated with the specific name.
      */
     public synchronized ChatChannel getChannel(String channelName) {
-        return channels.get(channelName);
+        return channelsMap.get(channelName);
     }
     public synchronized void deleteAllChannels() {
-        for (String channelName : channels.keySet()) {
-            ChatChannel channel = channels.get(channelName);
+        for (String channelName : channelsMap.keySet()) {
+            ChatChannel channel = channelsMap.get(channelName);
             if (channel != null) {
                 channel.removeObserver(channelName); // Clean up observers if necessary
                 System.out.println("Channel " + channelName + " deleted.");
             }
         }
-        channels.clear();
+        channelsMap.clear();
     }
     public synchronized void deleteAllLogFiles() {
         String folderPath = "./src/main/java/Model/Server/saving/logs";
