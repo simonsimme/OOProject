@@ -101,7 +101,8 @@ public class UIController{
         @Override
         public void actionPerformed(ActionEvent e) {
             String inputText = view.getInputText();
-            if (inputText.isEmpty()) {
+            String[] compText = inputText.split(" ");
+            if (inputText.isEmpty() || compText.length == 0) {
                 return;
             }
             try {
