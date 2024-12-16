@@ -23,18 +23,19 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
     @Override
     public void handle(DisplayMessage m) {
 
-        String ret = "";
         try
         {
-            ret = EncryptionLayer.decrypt( m.getMessage(), key);
+            String retText = EncryptionLayer.decrypt( m.getMessage(), key);
+            String retName = EncryptionLayer.decrypt( m.getUserName(), key);
+            DisplayMessage dm = new DisplayMessage(retName,retText, m.getChannelName());
+            decoratedView.appendChatText(dm);
         }
         catch (Exception e)
         {
             System.out.println(m.getMessage() + "-------");
             e.printStackTrace();
         }
-        DisplayMessage dm = new DisplayMessage(m.getUserName(),ret, m.getChannelName());
-    decoratedView.appendChatText(dm);
+
     }
 
     @Override
@@ -42,23 +43,22 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
         decoratedView.updateChannelList(u.getChannels(), u.getCurrentChannel());
     }
 
-    //TODO implement this
     public void handle(UIChannelHistory m) {
         List<DisplayMessage> messages = m.parseHistory();
         decoratedView.clearChatText();
         for (DisplayMessage message : messages) {
-            String ret = "";
             try
             {
-                ret = EncryptionLayer.decrypt(message.getMessage(), key);
+                String retText = EncryptionLayer.decrypt( message.getMessage(), key);
+                String retName = EncryptionLayer.decrypt( message.getUserName(), key);
+                DisplayMessage dm = new DisplayMessage(retName,retText, message.getChannelName());
+                decoratedView.appendChatText(dm);
             }
             catch (Exception e)
             {
-                System.out.println("hej");
+                System.out.println("Error in loading history");
             }
-            DisplayMessage dm = new DisplayMessage(message.getUserName(),ret, "---");
 
-            decoratedView.appendChatText(dm);
         }
 
 

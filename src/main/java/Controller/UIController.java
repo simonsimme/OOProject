@@ -52,7 +52,15 @@ public class UIController{
         view.addLeaveChannelButtonListener(new LeaveChannelButtonListener());
         view.addCreateNewChannelButtonListener(new CreateNewChannelButtonListener());
         view.addChannelListSelectionListener(new ChannelListSelectionListener());
-        channelController.setNickName(view.getNickNameFeild());
+        try
+        {
+            String encryptedNickName = EncryptionLayer.encrypt(view.getNickNameFeild(), key);
+            channelController.setNickName(encryptedNickName);
+                    }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**

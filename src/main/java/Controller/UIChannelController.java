@@ -87,7 +87,6 @@ public class UIChannelController {
      */
     public void setNickName(String name) {
         reference.setNickName(name);
-        view.showNotification("Your nickname is now: " + name);
-        System.out.println("clientName is" + name);
+
     }
 }
