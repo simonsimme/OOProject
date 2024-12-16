@@ -1,24 +1,22 @@
-dec. 12, 2024 5:09:02 EM Model.Server.Server <init>
-FIN: Server socket is created on port: 1234
-dec. 12, 2024 5:09:03 EM Model.Server.Server createServerInstance
-FIN: Server created on port: 1234
-dec. 12, 2024 5:09:03 EM Model.Server.Server startListening
-FIN: Waiting for clients...
-dec. 12, 2024 5:09:04 EM Model.Server.Server startListening
-FIN: Waiting for clients...
-dec. 12, 2024 5:09:05 EM Model.Server.Server startListening
-FIN: Waiting for clients...
-dec. 12, 2024 5:09:11 EM Model.Server.ChatChannel <init>
-FIN: Creating chat channel: das with password: 
-dec. 12, 2024 5:09:11 EM Model.Server.Server createChannel
-FIN: Channel created: das
-dec. 12, 2024 5:09:11 EM Model.Server.ChatChannel addClient
-FIN: Adding client: Thread-4 to chat channel: das
-dec. 12, 2024 5:09:24 EM Model.Server.ChatChannel addClient
-FIN: Adding client: Thread-2 to chat channel: das
-dec. 12, 2024 5:09:39 EM Model.Server.ChatChannel <init>
-FIN: Creating chat channel: ao with password: 
-dec. 12, 2024 5:09:39 EM Model.Server.Server createChannel
-FIN: Channel created: ao
-dec. 12, 2024 5:09:39 EM Model.Server.ChatChannel addClient
-FIN: Adding client: Thread-2 to chat channel: ao
+dec. 15, 2024 3:48:37 EM Model.Server.Server <init>
+FINE: Server socket is created on port: 1234
+dec. 15, 2024 3:48:37 EM Model.Server.Server createServerInstance
+FINE: Server created on port: 1234
+dec. 15, 2024 3:48:37 EM Model.Server.Server startListening
+FINE: Waiting for clients...
+dec. 15, 2024 3:48:41 EM Model.Server.Server startListening
+FINE: Waiting for clients...
+dec. 15, 2024 3:48:51 EM Model.Server.ChatChannel <init>
+FINE: Creating chat channel: start with password: start
+dec. 15, 2024 3:48:51 EM Model.Server.Server createChannel
+FINE: Channel created: start
+dec. 15, 2024 3:48:51 EM Model.Server.ChatChannel addClient
+FINE: Adding client: Thread-1 to chat channel: start
+dec. 15, 2024 3:49:04 EM Model.Server.Server startListening
+FINE: Waiting for clients...
+dec. 15, 2024 3:49:13 EM Model.Server.ChatChannel addClient
+FINE: Adding client: Thread-2 to chat channel: start
+dec. 15, 2024 3:49:40 EM Model.Server.Server startListening
+FINE: Waiting for clients...
+dec. 15, 2024 3:49:46 EM Model.Server.ChatChannel addClient
+FINE: Adding client: Thread-3 to chat channel: start
