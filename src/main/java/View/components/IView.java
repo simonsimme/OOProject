@@ -31,9 +31,7 @@ public interface IView {
     void clearInputText();
     String getNickNameFeild();
     void displayErrorMessage(String message);
-
-    void showNotification(String message) ;
-
+    void showNotification(String message);
     DefaultListModel<String> getChannelList();
     void showHistory(StringBuilder history);
     void addWindowExitListener(WindowListener listener);

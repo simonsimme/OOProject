@@ -101,6 +101,9 @@ public class UIController{
         @Override
         public void actionPerformed(ActionEvent e) {
             String inputText = view.getInputText();
+            if (inputText.isEmpty()) {
+                return;
+            }
             try {
                inputText = EncryptionLayer.encrypt(inputText, key); //TODO check if this is againg SRP
             } catch (Exception ex) {
