@@ -62,10 +62,7 @@ public class ViewDecorator implements IView {
         return decoratedView.getInputText();
     }
 
-    @Override
-    public void appendChatText(String text) {
-        decoratedView.appendChatText(text);
-    }
+
 
     @Override
     public void appendChatText(DisplayMessage text) {
@@ -107,10 +104,7 @@ public class ViewDecorator implements IView {
         decoratedView.showNotification(message);
     }
 
-    @Override
-    public void addCreateButtonListener(ActionListener listener) {
-        decoratedView.addCreateButtonListener(listener);
-    }
+
 
     @Override
     public void updateChannelList(List<String> channels, String currentChannel) {
@@ -137,10 +131,7 @@ public class ViewDecorator implements IView {
         return decoratedView.getChannelList();
     }
 
-    @Override
-    public void showHistory(StringBuilder history) {
-        decoratedView.showHistory(history);
-    }
+
 
     @Override
     public void addWindowExitListener(WindowListener listener) {

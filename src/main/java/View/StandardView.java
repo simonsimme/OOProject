@@ -191,15 +191,7 @@ public class StandardView implements IView {
         return channelListPanel.getChannelList();
     }
 
-    /**
-     * Displays the chat history.
-     *
-     * @param history the chat history to display
-     */
-    @Override
-    public void showHistory(StringBuilder history) {
-        chatArea.showHistory(history);
-    }
+
 
     /**
      * Changes the current channel and clears the chat text.
@@ -303,15 +295,7 @@ public class StandardView implements IView {
         }
     }
 
-    /**
-     * Adds a listener for the create button in the input panel.
-     *
-     * @param listener the ActionListener to add
-     */
-    @Override
-    public void addCreateButtonListener(ActionListener listener) {
-        inputPanel.addSendButtonListener(listener);
-    }
+
 
     /**
      * Returns the text from the nickname input field.
@@ -413,15 +397,7 @@ public class StandardView implements IView {
         windowManager.closeWindow();
     }
 
-    /**
-     * Appends text to the chat area.
-     *
-     * @param text the text to append
-     */
-    @Override
-    public void appendChatText(String text) {
-        chatArea.appendChatText(text);
-    }
+
 
     /**
      * Appends a DisplayMessage to the chat area.
