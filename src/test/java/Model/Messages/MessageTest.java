@@ -21,6 +21,7 @@ class MessageTest {
      * allowing for testing the behavior of the abstract {@link Message} class.
      * </p>
      */
+
     static class TestMessage extends Message {
         /**
          * Returns the string representation of the message content for testing.
@@ -37,8 +38,8 @@ class MessageTest {
          *
          * @return the sender as a string
          */
-        @Override
-        protected String getSenderAsString() {
+
+         String getSenderAsString() {
             return "TestSender";
         }
     }
@@ -91,4 +92,5 @@ class MessageTest {
     void getSenderAsString() {
         assertEquals("TestSender", message.getSenderAsString(), "Sender should be 'TestSender'");
     }
+
 }

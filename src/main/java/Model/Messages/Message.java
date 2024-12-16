@@ -27,66 +27,8 @@ import java.time.LocalDateTime;
  *       as part of the visitor design pattern.</li>
  * </ul>
  */
-public abstract class Message implements Serializable {
-    /**
-     * Unique identifier for the {@code Message} class to support serialization.
-     */
-    @Serial
-    private static final long serialVersionUID = 1L;
-    /**
-     * The timestamp indicating when the message was created.
-     */
-    private final LocalDateTime timestamp;
-    /**
-     * Constructs a new {@code Message} instance with the current time as the timestamp.
-     */
-    public Message() {
-        this.timestamp = LocalDateTime.now();
-    }
+public interface Message extends Serializable {
+    public String toString();
+    //String getSenderAsString();
 
-    /**
-     * Returns the timestamp of the message.
-     *
-     * @return the timestamp of the message
-     */
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-    /**
-     * Provides a string representation of the message, including the content, sender,
-     * and timestamp. Subclasses may override this method to customize the output.
-     *
-     * @return a string representation of the message
-     */
-    @Override
-    public String toString()
-    {
-        return timestamp + " Message: "+ getMessageAsString() + " from " + getSenderAsString();
-    }
-    /**
-     * Returns a string representation of the message content.
-     * Subclasses must override this method to provide specific content.
-     *
-     * @return the message content as a string
-     */
-    protected String getMessageAsString(){
-
-        return "Undefined message";
-    }
-    /**
-     * Returns a string representation of the message sender.
-     * Subclasses must override this method to provide sender information.
-     *
-     * @return the sender as a string
-     */
-    protected String getSenderAsString() { return "Undefined sender";}
-    /**
-     * Accepts a visitor for processing this message.
-     * Subclasses may override this method to implement specific visitor logic.
-     *
-     * @param handler the {@link ServerMessageVisitor} to handle this message
-     */
-    public void accept(ServerMessageVisitor handler) {
-        System.out.println("Message accept method missing for " + this.getClass().getName());
-    }
 }

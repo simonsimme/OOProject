@@ -5,7 +5,7 @@ package Model.Messages.Server;
  * Extends {@link ServerMessage} and contains the necessary information
  * for sending a message, including the user, channel, and message content.
  */
-public class SendMessageInChannelCommand extends ServerMessage {
+public class SendMessageInChannelCommand implements ServerMessage, ServerVisitableMessage {
     private final String userName;
     private final String channelName;
     private final String message;
@@ -65,4 +65,8 @@ public class SendMessageInChannelCommand extends ServerMessage {
         serverMessageVisitor.handle(this);
     }
 
+
+    public String getSenderAsString() {
+        return null;
+    }
 }

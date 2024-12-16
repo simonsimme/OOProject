@@ -64,7 +64,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
 
     }
 
-    @Override
+
     public void handle(DisplayChannelMessage displayChannelMessage) {
         DisplayMessage dm = new DisplayMessage("",displayChannelMessage.getChannelMessage(),"");
         decoratedView.appendChatText(dm);

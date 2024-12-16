@@ -3,7 +3,7 @@ package Model.Messages.Server;
  * Represents a command for a user to join a specific channel.
  * The command includes the user's name, the channel name, and an optional password for the channel.
  */
-public class JoinChannelCommand extends ServerMessage {
+public class JoinChannelCommand implements ServerMessage, ServerVisitableMessage {
     private final String userName;
     private final String channelName;
     private final String password;
@@ -52,5 +52,16 @@ public class JoinChannelCommand extends ServerMessage {
     public void accept(ServerMessageVisitor serverMessageVisitor)
     {
         serverMessageVisitor.handle(this);
+    }
+
+    @Override
+    public String toString() {
+        //
+        return null;
+    }
+
+
+    public String getSenderAsString() {
+        return getUserName();
     }
 }

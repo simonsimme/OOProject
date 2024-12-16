@@ -1,13 +1,21 @@
 package Model.Messages.Server;
+
+import java.time.LocalDateTime;
+import java.time.LocalDateTime;
+
 /**
  * Represents a command to create a new channel on the server.
  * This command contains information about the user requesting the channel creation,
  * the channel name, and an optional password for the channel.
  */
-public class CreateChannelCommand extends ServerMessage {
+public class CreateChannelCommand implements ServerMessage, ServerVisitableMessage {
     private final String userName;
     private final String channelName;
     private final String channelPassword;
+
+    LocalDateTime time;
+
+
     /**
      * Constructs a {@code CreateChannelCommand} with the specified username and channel name.
      * The channel will be created without a password.
@@ -29,6 +37,7 @@ public class CreateChannelCommand extends ServerMessage {
         this.userName = userName;
         this.channelName = channelName;
         this.channelPassword = channelPassword;
+        this.time = LocalDateTime.now();
     }
     /**
      * Returns the password for the channel.
@@ -58,5 +67,10 @@ public class CreateChannelCommand extends ServerMessage {
     public void accept(ServerMessageVisitor serverMessageVisitor)
     {
         serverMessageVisitor.handle(this);
+    }
+
+
+    public String getSenderAsString() {
+        return null;
     }
 }

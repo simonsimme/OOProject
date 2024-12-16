@@ -1,6 +1,6 @@
 package Model.Messages.Server;
 
-public class RetrieveChatHistoryCommand extends ServerMessage {
+public class RetrieveChatHistoryCommand implements ServerMessage, ServerVisitableMessage {
 
     private String channelName;
     private String userName;
@@ -16,5 +16,10 @@ public class RetrieveChatHistoryCommand extends ServerMessage {
 
     public void accept(ServerMessageVisitor visitor) {
         visitor.handle(this);
+    }
+
+
+    public String getSenderAsString() {
+        return null;
     }
 }

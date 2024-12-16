@@ -3,7 +3,7 @@ package Model.Messages.Client;
  * Message to client : Channel has been created.
  * This message contains information about the newly created channel.
  */
-public class CreateChannelResponse extends ClientMessage {
+public class CreateChannelResponse implements ClientMessage, ClientVisitableMessage {
     /**
      * This string represents the name of the channel that was created.
      */
@@ -30,5 +30,10 @@ public class CreateChannelResponse extends ClientMessage {
     @Override
     public void accept(ClientMessageVisitor visitor) {
         visitor.handle(this);
+    }
+
+
+    public String getSenderAsString() {
+        return null;
     }
 }

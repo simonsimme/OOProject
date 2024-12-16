@@ -4,7 +4,7 @@ package Model.Messages.Client;
  * Message to client : Represents an error response.
  * This message contains an error message that the client should be notified of.
  */
-public class ErrorResponse extends ClientMessage {
+public class ErrorResponse implements ClientMessage, ClientVisitableMessage {
     /**
      * This string represents a short error message that the user should be notified with.
      */
@@ -36,5 +36,10 @@ public class ErrorResponse extends ClientMessage {
     @Override
     public void accept(ClientMessageVisitor visitor) {
         visitor.handle(this);
+    }
+
+
+    public String getSenderAsString() {
+        return null;
     }
 }
