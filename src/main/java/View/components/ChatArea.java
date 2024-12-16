@@ -61,6 +61,7 @@ public class ChatArea {
      * @param tf the TextFormat containing the text and colors to append
      */
     public void appendChatText(TextFormat tf) {
+
         StyledDocument doc = chatArea.getStyledDocument();
         for (int i = 0; i < tf.getText().size(); i++) {
             Style style = chatArea.addStyle("ColorStyle", null);
