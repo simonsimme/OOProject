@@ -71,6 +71,7 @@ public class InputPanel extends JPanel {
     public void clearInputText() {
         inputField.setText("");
         inputField.setCaretPosition(0);
+        inputField.requestFocusInWindow();
     }
 
     /**

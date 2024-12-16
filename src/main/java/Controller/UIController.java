@@ -192,7 +192,7 @@ public class UIController{
                 return;
             }
             view.clearChatText();
-            view.showNotification("Channel created successfully");
+            view.getNotificationSystem().showNotification("Channel created successfully");
         }
     }
 }

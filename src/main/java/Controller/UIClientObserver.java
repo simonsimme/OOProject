@@ -59,12 +59,17 @@ public class UIClientObserver implements ClientObserver {
     @Override
     public void notification(DisplayMessage message) {
         try {
-            String msg = EncryptionLayer.decrypt(message.getMessage(),key);
-            String messageName = EncryptionLayer.decrypt(message.getUserName(),key);
-            String refrenceName = EncryptionLayer.decrypt(reference.getUserName(), key);
+            String msg = EncryptionLayer.decrypt(message.getMessage(), key);
+            String messageName = EncryptionLayer.decrypt(message.getUserName(), key);
+            String referenceName = EncryptionLayer.decrypt(reference.getUserName(), key);
 
-            if (!messageName.equals(refrenceName) &&  !reference.getCurrentChannelName().equals(message.getChannelName())) {
-                view.showNotification("Message from " + messageName+ " in " + message.getChannelName());
+            System.out.println(msg + " " + messageName + " " + referenceName);
+            System.out.println(!messageName.equals(referenceName));
+            System.out.println(!reference.getCurrentChannelName().equals(message.getChannelName()));
+            System.out.println(reference.getCurrentChannelName() + " " + message.getChannelName());
+            if (!messageName.equals(referenceName) &&  !reference.getCurrentChannelName().equals(message.getChannelName())) {
+                System.out.println("Message from " + messageName+ " in " + message.getChannelName());
+                view.getNotificationSystem().showNotification("Message from " + messageName+ " in " + message.getChannelName());
             }
         } catch (Exception e) {
             e.printStackTrace();

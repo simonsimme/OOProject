@@ -1,6 +1,7 @@
 package View.components.Decoraters;
 
 import View.components.IView;
+import View.components.NotificationSystem;
 import View.components.TextFormat;
 import Model.Messages.UI.DisplayMessage;
 
@@ -98,13 +99,10 @@ public class ViewDecorator implements IView {
     public void displayErrorMessage(String message) {
         decoratedView.displayErrorMessage(message);
     }
-
     @Override
-    public void showNotification(String message) {
-        decoratedView.showNotification(message);
+    public NotificationSystem getNotificationSystem() {
+        return decoratedView.getNotificationSystem();
     }
-
-
 
     @Override
     public void updateChannelList(List<String> channels, String currentChannel) {
