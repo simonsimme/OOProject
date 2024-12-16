@@ -12,13 +12,13 @@ import java.util.Map;
  * and notifying observers of updates. Acts as a central interface for client-side operations.
  */
 public class Client implements ClientSubject{
-    private String user;
+    private String userName;
     private final ClientChannelRecord channelRecord;
-    private final ClientCommunicationManager cm;
+    private final ClientCommunicationManager communicationManager;
     private final List<ClientObserver> observers = new ArrayList<>();
 
     //Client will hold a history of all channels it has been in. Less required for the client, but better for the server.
-    private final Map<String, StringBuilder> history = new HashMap<String, StringBuilder>();
+    //private final Map<String, StringBuilder> history = new HashMap<String, StringBuilder>();
 
     /**
      * Client's only constructor, requires the address to connect to and a port.
@@ -26,10 +26,10 @@ public class Client implements ClientSubject{
      * @param port The port that the Socket connects to. (Has to match with server port)
      */
     public Client(String address, int port) {
-        this.user = "client default user name";
+        this.userName = "client default user name";
         this.channelRecord = new ClientChannelRecord();
-        cm = new ClientCommunicationManager(address,port,this.channelRecord,observers);
-        new Thread(cm).start();
+        communicationManager = new ClientCommunicationManager(address,port,this.channelRecord,observers);
+        new Thread(communicationManager).start();
     }
     /**
      * Gets the username of the client.
@@ -37,7 +37,7 @@ public class Client implements ClientSubject{
      */
     public String getUserName()
     {
-        return user;
+        return userName;
     }
     /**
      * Sets a nickname for the client.
@@ -47,14 +47,14 @@ public class Client implements ClientSubject{
     }
     public void setNickName(String name)
     {
-        user = name;
+        userName = name;
     }
     /**
      * Sets the username for the client.
      * @param userName the new username for the client.
      */
     public void setUserName(String userName){
-        user = userName;
+        userName = userName;
     }
     /**
      * Creates a new channel with the given name and password.
@@ -63,7 +63,7 @@ public class Client implements ClientSubject{
      */
     public void createChannel(String channelName, String password)
     {
-        cm.createChannel(user,channelName,password);
+        communicationManager.createChannel(userName,channelName,password);
     }
     /**
      * Joins an existing channel with the given name and password.
@@ -72,8 +72,8 @@ public class Client implements ClientSubject{
      */
     public void joinChannel(String channelName, String password){
         try {
-            cm.joinChannel(user, channelName, password);
-            cm.getChannelHistory(user,channelName);
+            communicationManager.joinChannel(userName, channelName, password);
+            communicationManager.getChannelHistory(userName,channelName);
         } catch (Exception e){
             throw new IllegalArgumentException(e.getMessage());
         }
@@ -82,10 +82,10 @@ public class Client implements ClientSubject{
      * Leaves the current channel the client is in.
      */
     public void leaveChannel(){
-        cm.leaveChannel(user, channelRecord.getCurrentChannelName());
+        communicationManager.leaveChannel(userName, channelRecord.getCurrentChannelName());
     }
     public void leaveChannel(String channelName){
-        cm.leaveChannel(user,channelName);
+        communicationManager.leaveChannel(userName,channelName);
     }
     /**
      * Switches to a specified channel by its name.
@@ -94,7 +94,7 @@ public class Client implements ClientSubject{
     public void switchChannel(String channelName){
         channelRecord.switchToChannel(channelName);
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
-        cm.getChannelHistory(user,channelName);
+        communicationManager.getChannelHistory(userName,channelName);
     }
 
     /**
@@ -103,7 +103,7 @@ public class Client implements ClientSubject{
     public void switchChannel(){
         String newChannelName = channelRecord.switchToNextChannel();
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
-        cm.getChannelHistory(user,newChannelName);
+        communicationManager.getChannelHistory(userName,newChannelName);
     }
     /**
      * Switches to the next available channel in the channel record.
@@ -124,7 +124,7 @@ public class Client implements ClientSubject{
      */
     public void sendMessage(String message)
     {
-        cm.sendMessage(user,channelRecord.getCurrentChannelName(), message, false);
+        communicationManager.sendMessage(userName,channelRecord.getCurrentChannelName(), message);
     }
     /**
      * Retrieves a list of names of all channels the client is a member of.
@@ -147,7 +147,7 @@ public class Client implements ClientSubject{
      * Disconnect the user from channel and server
      */
     public void disconnect() {
-        cm.disconnect(user, channelRecord.getCurrentChannelName());
+        communicationManager.disconnect(userName, channelRecord.getCurrentChannelName());
     }
     /**
      * Attaches an observer to the client for receiving updates.
