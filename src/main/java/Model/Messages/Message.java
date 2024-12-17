@@ -29,6 +29,5 @@ import java.time.LocalDateTime;
  */
 public interface Message extends Serializable {
     public String toString();
-    //String getSenderAsString();
 
 }

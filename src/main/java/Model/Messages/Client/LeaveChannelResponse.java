@@ -4,7 +4,7 @@ package Model.Messages.Client;
  * Represents a response message sent to a client, indicating that they have successfully left a channel.
  * This class extends {@code ClientMessage} and includes the name of the channel that the client left.
  */
-public class LeaveChannelResponse extends ClientMessage {
+public class LeaveChannelResponse implements ClientMessage, ClientVisitableMessage {
     /**
      * This string represents the name of the channel that the client has left
      */

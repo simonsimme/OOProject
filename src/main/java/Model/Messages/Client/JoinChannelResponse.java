@@ -4,7 +4,7 @@ package Model.Messages.Client;
  * Represents a response message sent to a client, indicating that they have successfully joined a channel.
  * This class extends {@code ClientMessage} and includes the name of the channel that the client joined.
  */
-public class JoinChannelResponse extends ClientMessage {
+public class JoinChannelResponse implements ClientMessage, ClientVisitableMessage {
     /**
      * This string represents the name of the channel that the user has joined.
      */

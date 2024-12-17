@@ -22,7 +22,7 @@ public class CLIView implements ClientObserver {
     }
     @Override
     public void update(UIMessage message) {
-        message.accept(visitor);
+        //message.accept(visitor);
     }
 
     @Override

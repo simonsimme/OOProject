@@ -1,10 +1,12 @@
 package Model.Messages.UI;
 
+import java.time.LocalDateTime;
+
 /**
  * Represents a message to be displayed in the user interface,
  * containing details about the sender, the message content, and the channel.
  */
-public class DisplayMessage extends UIMessage {
+public class DisplayMessage implements UIMessage, UIVisitableMessage {
     /**
      * The username of the sender of the message.
      */
@@ -20,6 +22,8 @@ public class DisplayMessage extends UIMessage {
      */
     private final String channelName;
 
+    LocalDateTime time;
+
     /**
      * Constructs a {@code DisplayMessage} with the specified sender, message, and channel.
      *
@@ -31,6 +35,8 @@ public class DisplayMessage extends UIMessage {
         this.userName = userName;
         this.message = message;
         this.channelName = channelName;
+        //TODO to fix here to get the correct time;
+        time = LocalDateTime.now();
     }
 
     /**
@@ -68,4 +74,8 @@ public class DisplayMessage extends UIMessage {
     public void accept(UIMessageVisitor visitor) {
          visitor.handle(this);
     }
+
+    public LocalDateTime getTimestamp(){
+        return time;
+    };
 }

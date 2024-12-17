@@ -1,6 +1,6 @@
 package Model.Messages.UI;
 
-public class DisplayChannelMessage extends UIMessage{
+public class DisplayChannelMessage implements UIMessage, UIVisitableMessage{
     private final String channelMessage;
 
 
@@ -11,7 +11,7 @@ public class DisplayChannelMessage extends UIMessage{
     {
         return channelMessage;
     }
-    @Override
+
     public void accept(UIMessageVisitor visitor) {
         visitor.handle(this);
     }

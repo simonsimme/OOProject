@@ -7,7 +7,7 @@ import java.util.List;
  * Represents the history of a channel sent to the user interface.
  * This class provides functionality to parse the history string into individual messages.
  */
-public class UIChannelHistory extends UIMessage {
+public class UIChannelHistory implements UIMessage, UIVisitableMessage {
     /**
      * The history of the channel as a single string.
      */
@@ -27,6 +27,7 @@ public class UIChannelHistory extends UIMessage {
      * @return List of DisplayMessages.
      */
     public List<DisplayMessage> parseHistory() {
+
         List<DisplayMessage> messages = new ArrayList<>();
 
         StringBuilder historyString = new StringBuilder();

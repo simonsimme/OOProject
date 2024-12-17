@@ -3,7 +3,7 @@ package Model.Messages.Client;
  * Represents a message sent to a client, indicating that a message has been posted in a specific channel.
  * This class extends {@code ClientMessage} and includes details about the sender, the channel, and the message content.
  */
-public class MessageInChannel extends ClientMessage {
+public class MessageInChannel implements ClientMessage, ClientVisitableMessage {
     /**
      * The username of the sender of the message.
      * This string is displayed before the message in the user interface.
@@ -69,7 +69,7 @@ public class MessageInChannel extends ClientMessage {
         visitor.handle(this);
     }
 
-    @Override
+
     public String getMessageAsString() {
         return this.getMessage();
     }

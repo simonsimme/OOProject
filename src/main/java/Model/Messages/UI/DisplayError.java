@@ -3,7 +3,7 @@ package Model.Messages.UI;
 /**
  * Represents a message to display an error in the user interface.
  */
-public class DisplayError extends UIMessage {
+public class DisplayError implements UIMessage, UIVisitableMessage {
     /**
      * The error message to be displayed.
      */
@@ -29,7 +29,7 @@ public class DisplayError extends UIMessage {
      * Accepts a visitor, allowing it to handle the {@code DisplayError} message.
      * @param visitor The {@link UIMessageVisitor} that will handle the message.
      */
-    @Override
+
     public void accept(UIMessageVisitor visitor) {
         visitor.handle(this);
     }

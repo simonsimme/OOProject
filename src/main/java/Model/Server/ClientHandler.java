@@ -1,6 +1,7 @@
 package Model.Server;
 import Model.Messages.Client.ErrorResponse;
 import Model.Messages.Message;
+import Model.Messages.Server.ServerMessage;
 import Model.Messages.Server.ServerMessageVisitor;
 
 import java.net.*;
@@ -62,7 +63,7 @@ public class ClientHandler extends Thread {
     public void run() {
         try {
             while (input != null) {
-                Message message = readMessage();
+                ServerMessage message = readMessage();
                 if (message != null) {
                     processMessage(message);
                 }
@@ -85,14 +86,14 @@ public class ClientHandler extends Thread {
      * Reads a message from the client.
      * @return the message received from the client.
      */
-    private Message readMessage() throws IOException, ClassNotFoundException {
-        return (Message) input.readObject();
+    private ServerMessage readMessage() throws IOException, ClassNotFoundException {
+        return (ServerMessage) input.readObject();
     }
     /**
      * Processes a message received from the client.
      * @param message the message to process.
      */
-    private void processMessage(Message message) {
+    private void processMessage(ServerMessage message) {
         try{
             ServerMessageVisitor handler = new MessageVisitorServer(this);
             message.accept(handler);

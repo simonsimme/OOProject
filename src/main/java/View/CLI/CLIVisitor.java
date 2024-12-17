@@ -18,7 +18,7 @@ public class CLIVisitor implements UIMessageVisitor {
 
     @Override
     public void handle(DisplayMessage m) {
-        ps.println("(" + m.getTimestamp().toString() + ") " + m.getUserName() + " : " + m.getMessage());
+        //ps.println("(" + m.getTimestamp().toString() + ") " + m.getUserName() + " : " + m.getMessage());
     }
 
     @Override
