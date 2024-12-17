@@ -104,7 +104,7 @@ public class ClientHandler extends Thread {
     /**
      * Closes the input/output streams and the client socket connection.
      */
-    public void closeConnections() {
+    private void closeConnections() {
         // Ensure the input/output streams are closed properly
         try {
             if (input != null) {
@@ -186,17 +186,6 @@ public class ClientHandler extends Thread {
             System.out.println("Error sending message: " + e.getMessage());
         }
     }
-
-    /**
-     * returns the chatChannel thats in the last index of the list of channels
-     * if the list is empty it returns null
-     * @return the chatChannel that is in the last index of the list of channels
-     * Look into the function, currently only used in testing might be Removed
-     * */
-    public ChatChannel getCurrentChannel() {
-        return channels.isEmpty() ? null : channels.get(channels.size() - 1);
-    }
-
     /**
      * Creates a new chat channel with the given name and password.
      * Adds the client to the new channel.
@@ -230,5 +219,14 @@ public class ClientHandler extends Thread {
      */
     public ChatChannel getChannel(String channelName) {
         return server.getChannel(channelName);
+    }
+    /**
+     * returns the chatChannel thats in the last index of the list of channels
+     * if the list is empty it returns null
+     * @return the chatChannel that is in the last index of the list of channels
+     * Look into the function, currently only used in testing might be Removed
+     * */
+    public ChatChannel getCurrentChannel() {
+        return channels.isEmpty() ? null : channels.get(channels.size() - 1);
     }
 }

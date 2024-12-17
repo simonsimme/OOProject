@@ -19,7 +19,10 @@ public class MessageVisitorServer implements ServerMessageVisitor {
     @Override
     public void handle(LeaveChannelCommand leaveChannelCommand)
     {
-        if(clientHandler.leaveChannel(leaveChannelCommand.getChannelName())) clientHandler.sendMessage(new LeaveChannelResponse(leaveChannelCommand.getChannelName()));
+        if(clientHandler.leaveChannel(leaveChannelCommand.getChannelName())){
+            String channelName = leaveChannelCommand.getChannelName();
+            clientHandler.sendMessage(new LeaveChannelResponse(channelName));
+        }
     }
     /**
      * Handles the SendMessageInChannelCommand, sending a message to the current chat channel if the user is in one.
