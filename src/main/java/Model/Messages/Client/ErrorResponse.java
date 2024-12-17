@@ -39,7 +39,5 @@ public class ErrorResponse implements ClientMessage, ClientVisitableMessage {
     }
 
 
-    public String getSenderAsString() {
-        return null;
-    }
+
 }

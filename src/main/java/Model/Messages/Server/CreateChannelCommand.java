@@ -13,7 +13,7 @@ public class CreateChannelCommand implements ServerMessage, ServerVisitableMessa
     private final String channelName;
     private final String channelPassword;
 
-    LocalDateTime time;
+
 
 
     /**
@@ -37,7 +37,7 @@ public class CreateChannelCommand implements ServerMessage, ServerVisitableMessa
         this.userName = userName;
         this.channelName = channelName;
         this.channelPassword = channelPassword;
-        this.time = LocalDateTime.now();
+
     }
     /**
      * Returns the password for the channel.
@@ -70,7 +70,5 @@ public class CreateChannelCommand implements ServerMessage, ServerVisitableMessa
     }
 
 
-    public String getSenderAsString() {
-        return null;
-    }
+
 }

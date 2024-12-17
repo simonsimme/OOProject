@@ -44,7 +44,5 @@ public class LeaveChannelCommand implements ServerMessage, ServerVisitableMessag
     }
 
 
-    public String getSenderAsString() {
-        return null;
-    }
+
 }

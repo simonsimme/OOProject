@@ -54,14 +54,4 @@ public class JoinChannelCommand implements ServerMessage, ServerVisitableMessage
         serverMessageVisitor.handle(this);
     }
 
-    @Override
-    public String toString() {
-        //
-        return null;
-    }
-
-
-    public String getSenderAsString() {
-        return getUserName();
-    }
 }

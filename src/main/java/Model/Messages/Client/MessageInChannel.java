@@ -24,7 +24,7 @@ public class MessageInChannel implements ClientMessage, ClientVisitableMessage {
 
     private final boolean isServerMessage;
 
-    LocalDateTime time;
+    private final LocalDateTime time;
 
     /**
      * Constructs a {@code MessageInChannel} with the specified sender, channel, and message content.

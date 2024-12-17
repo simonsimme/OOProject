@@ -19,7 +19,5 @@ public class RetrieveChatHistoryCommand implements ServerMessage, ServerVisitabl
     }
 
 
-    public String getSenderAsString() {
-        return null;
-    }
+
 }

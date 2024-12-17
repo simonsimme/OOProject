@@ -66,7 +66,5 @@ public class SendMessageInChannelCommand implements ServerMessage, ServerVisitab
     }
 
 
-    public String getSenderAsString() {
-        return null;
-    }
+
 }

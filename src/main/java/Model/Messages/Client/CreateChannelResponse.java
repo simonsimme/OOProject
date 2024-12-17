@@ -32,8 +32,4 @@ public class CreateChannelResponse implements ClientMessage, ClientVisitableMess
         visitor.handle(this);
     }
 
-
-    public String getSenderAsString() {
-        return null;
-    }
 }
