@@ -14,6 +14,8 @@ It supports multiple clients and provides a user-friendly interface for seamless
 - 🛠️ **Create and join chat channels**
 - 📩 **Send and receive messages**
 - 🔄 **Switch between channels**
+- **Encrypt messages**
+- **Send emjoies**
 
 ---
 
@@ -38,8 +40,8 @@ mvn -v
 Follow these steps to start the application:
 
 ```bash
-# Step 1: Checkout to the MVP branch
-git checkout MVP
+# Step 1: Checkout to the main branch
+git checkout main
 
 # Step 2: Compile the project
 mvn clean install -DskipTests
@@ -71,6 +73,7 @@ java -jar chat-application-1.0-SNAPSHOT.jar /client
 - 4️⃣ Sending Messages
   Type your message in the Input Field.
   Press Enter or click Send to send the message.
+  By default your messages are encrypted client to client.
 - 5️⃣ Switching Channels
   Select any channel from the Channel List.
   The Chat Area will update to show messages from the selected channel.
