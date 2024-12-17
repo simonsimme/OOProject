@@ -16,6 +16,7 @@ It supports multiple clients and provides a user-friendly interface for seamless
 - 🔄 **Switch between channels**
 - **Encrypt messages**
 - **Send emjoies**
+- **Colour text messages**
 
 ---
 
