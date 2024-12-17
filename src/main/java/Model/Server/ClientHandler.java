@@ -28,7 +28,8 @@ public class ClientHandler extends Thread {
     private final Server server;
     //Current chat channel the client is joined in.
     private final List<ChatChannel> channels;
-    //we rewrite and create only one error object to lowe the dependecy between the classes
+
+    //we rewrite and create only one error object to lower the dependency between the classes
     private ErrorResponse error;
 
 
@@ -37,19 +38,17 @@ public class ClientHandler extends Thread {
 
     /**
      * Constructor for a {@code ClientHandler} for a given client socket and server instance.
-     * @param socket the client's socket connection.
+     * @param clientSocket the client's socket connection.
      * @param server the server instance manging chat channels.
      */
-    public ClientHandler(Socket socket, Server server) {
+    public ClientHandler(Socket clientSocket, Server server) {
         this.server = server;
-        this.clientSocket = socket;
+        this.clientSocket = clientSocket;
         this.channels = new ArrayList<>();
 
-
-
         try {
-            this.input = new ObjectInputStream(clientSocket.getInputStream());
-            this.output = new ObjectOutputStream(clientSocket.getOutputStream());
+            this.input = new ObjectInputStream(this.clientSocket.getInputStream());
+            this.output = new ObjectOutputStream(this.clientSocket.getOutputStream());
         } catch (IOException e) {
             System.out.println("Error setting up input/output stream: " + e.getMessage());
         }
@@ -128,7 +127,7 @@ public class ClientHandler extends Thread {
      * @param channelName the name of the channel to join
      */
     public boolean joinChannel(String channelName, String password) {       
-        ChatChannel channel = getChannel(channelName);
+        ChatChannel channel = this.getChannel(channelName);
         boolean result = false;
 
         if (channel == null) {
@@ -171,11 +170,6 @@ public class ClientHandler extends Thread {
         {
             channel.removeClient(this);
             result = true;
-        }
-        else
-        {
-            //TODO meybe also send a message to the client that you
-            // canot leave a channel if you are not in one
         }
         return result;
     }
