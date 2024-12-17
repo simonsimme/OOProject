@@ -10,12 +10,12 @@ public class UpdateChannels implements UIMessage, UIVisitableMessage {
     /**
      * The list of channel names that are available to the user.
      */
-    private final List<String> channels;
+    private final List<String> currentChannelList;
 
     /**
      * The name of the current channel the user is in.
      */
-    private final String current;
+    private final String currentChannel;
 
     /**
      * Constructor to create an UpdateChannels message.
@@ -24,8 +24,8 @@ public class UpdateChannels implements UIMessage, UIVisitableMessage {
      * @param current The name of the current channel the user is in.
      */
     public UpdateChannels(List<String> channels,String current){
-        this.channels = channels;
-        this.current = current;
+        this.currentChannelList = channels;
+        this.currentChannel = current;
     }
 
     /**
@@ -33,7 +33,7 @@ public class UpdateChannels implements UIMessage, UIVisitableMessage {
      * @return A list of channel names.
      */
     public List<String> getChannels() {
-        return channels;
+        return currentChannelList;
     }
 
     /**
@@ -41,7 +41,7 @@ public class UpdateChannels implements UIMessage, UIVisitableMessage {
      * @return The name of the current channel.
      */
     public String getCurrentChannel() {
-        return current;
+        return currentChannel;
     }
 
     /**
