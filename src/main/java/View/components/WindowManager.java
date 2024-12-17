@@ -13,6 +13,12 @@ public class WindowManager {
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
+        setIconImage();
+    }
+
+    private void setIconImage() {
+        //ImageIcon icon = new ImageIcon(getClass().getResource("./src/main/java/View/components/coding.png"));
+       // frame.setIconImage(icon.getImage());
     }
 
     public void setContentPane(Container contentPane) {
