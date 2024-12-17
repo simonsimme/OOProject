@@ -1,14 +1,14 @@
-dec. 17, 2024 11:02:09 FM Model.Server.Server <init>
+dec. 17, 2024 11:11:31 FM Model.Server.Server <init>
 FINE: Server socket is created on port: 1234
-dec. 17, 2024 11:02:09 FM Model.Server.Server createServerInstance
+dec. 17, 2024 11:11:31 FM Model.Server.Server createServerInstance
 FINE: Server created on port: 1234
-dec. 17, 2024 11:02:09 FM Model.Server.Server startListening
+dec. 17, 2024 11:11:31 FM Model.Server.Server startListening
 FINE: Waiting for clients...
-dec. 17, 2024 11:02:15 FM Model.Server.Server startListening
+dec. 17, 2024 11:11:37 FM Model.Server.Server startListening
 FINE: Waiting for clients...
-dec. 17, 2024 11:02:25 FM Model.Server.ChatChannel <init>
+dec. 17, 2024 11:11:43 FM Model.Server.ChatChannel <init>
 FINE: Creating chat channel: start with password: start
-dec. 17, 2024 11:02:25 FM Model.Server.Server createChannel
+dec. 17, 2024 11:11:43 FM Model.Server.Server createChannel
 FINE: Channel created: start
-dec. 17, 2024 11:02:25 FM Model.Server.ChatChannel addClient
+dec. 17, 2024 11:11:43 FM Model.Server.ChatChannel addClient
 FINE: Adding client: Thread-1 to chat channel: start

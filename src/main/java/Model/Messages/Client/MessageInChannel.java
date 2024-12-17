@@ -1,4 +1,7 @@
 package Model.Messages.Client;
+
+import java.time.LocalDateTime;
+
 /**
  * Represents a message sent to a client, indicating that a message has been posted in a specific channel.
  * This class extends {@code ClientMessage} and includes details about the sender, the channel, and the message content.
@@ -21,6 +24,8 @@ public class MessageInChannel implements ClientMessage, ClientVisitableMessage {
 
     private final boolean isServerMessage;
 
+    LocalDateTime time;
+
     /**
      * Constructs a {@code MessageInChannel} with the specified sender, channel, and message content.
      *
@@ -33,6 +38,7 @@ public class MessageInChannel implements ClientMessage, ClientVisitableMessage {
         this.channelName = channelName;
         this.message = message;
         this.isServerMessage = isServerMessage;
+        time = LocalDateTime.now();
     }
     public boolean isServerMessage()
     {
@@ -70,10 +76,9 @@ public class MessageInChannel implements ClientMessage, ClientVisitableMessage {
     }
 
 
-    public String getMessageAsString() {
-        return this.getMessage();
+    @Override
+    public String toString() {
+        return "Time:" + time.getHour() + time.getMinute() + "From:" + userName + "inChannel" + channelName;
     }
-    public String getSenderAsString(){
-        return this.getUserName();
-    }
+
 }
