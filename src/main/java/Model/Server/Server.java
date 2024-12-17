@@ -6,7 +6,9 @@ import javax.crypto.SecretKey;
 import java.net.*;
 import java.io.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,8 +23,9 @@ public class Server {
     private ServerSocket serverSocket = null;
     //Singleton instance of server.
     private static Server thisServerInstance = null;
+
     //A map of active chat channels, identified by their names.
-    private final Map<String, ChatChannel> channelsMap;
+    private final Set<ChatChannel> channelSet;
     private volatile boolean isRunning;
     private final SecretKey key;
 
@@ -71,7 +74,7 @@ public class Server {
     private Server(int port, SecretKey key) {
         this.key = key;
         isRunning = true;
-        channelsMap = new HashMap<>();
+        channelSet = new HashSet<ChatChannel>();
         System.out.println("Started new server:");
         try {
             this.serverSocket = new ServerSocket(port);
@@ -146,12 +149,12 @@ public class Server {
      * @param password the password for the channel, used for authentication.
      */
     public synchronized void createChannel(String channelName, String password) {
-        if (channelsMap.containsKey(channelName)) {
+        if (channelSet.contains(channelName)) {
             System.out.println("ChannelName taken, Try another one.");
             logger.log(Level.FINER, "ChannelName taken, Try another one.");
         } else {
             ChatChannel channel = new ChatChannel(channelName, password);
-            channelsMap.put(channelName, channel);
+            channelSet.add(channel);
             // the logic to add the observers to write to the txt files.
             ChatSaverObserver chatSaverObserver = new ChatSaverObserver(channel);
             channel.addObserver(chatSaverObserver);
@@ -165,17 +168,22 @@ public class Server {
      * @return the {@code ChatChannel} object associated with the specific name.
      */
     public synchronized ChatChannel getChannel(String channelName) {
-        return channelsMap.get(channelName);
-    }
-    public synchronized void deleteAllChannels() {
-        for (String channelName : channelsMap.keySet()) {
-            ChatChannel channel = channelsMap.get(channelName);
-            if (channel != null) {
-                channel.removeObserver(channelName); // Clean up observers if necessary
-                System.out.println("Channel " + channelName + " deleted.");
+        for (ChatChannel channel : channelSet) {
+            if (channel.getName().equals(channelName)) {
+                return channel;
             }
         }
-        channelsMap.clear();
+        return null; // Return null if the channel is not found
+
+    }
+    public synchronized void deleteAllChannels() {
+        for (ChatChannel channel : channelSet) {
+            if (channel != null) {
+                channel.removeObserver(channel); // Clean up observers if necessary
+                System.out.println("Channel " + channel.toString() + " deleted.");
+            }
+        }
+        channelSet.clear();
     }
     public synchronized void deleteAllLogFiles() {
         String folderPath = "./src/main/java/Model/Server/saving/logs";
