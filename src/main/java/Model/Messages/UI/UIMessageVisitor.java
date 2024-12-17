@@ -33,5 +33,10 @@ public interface UIMessageVisitor {
      */
     void handle(UIChannelHistory historyMessage);
 
+    /**
+     * Handles a {@link DisplayChannelMessage} message.
+     * This method is called when a {@code DisplayChannelMessage} message is encountered.
+     * @param displayChannelMessage The {@code DisplayChannelMessage} message to be handled.
+     */
     void handle(DisplayChannelMessage displayChannelMessage);
 }

@@ -75,6 +75,11 @@ public class DisplayMessage implements UIMessage, UIVisitableMessage {
          visitor.handle(this);
     }
 
+    /**
+     * Retrieves the time of the message to be displayed.
+     *
+     * @return time of the message
+     */
     public LocalDateTime getTimestamp(){
         return time;
     };

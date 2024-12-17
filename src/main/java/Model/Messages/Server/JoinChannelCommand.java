@@ -53,5 +53,4 @@ public class JoinChannelCommand implements ServerMessage, ServerVisitableMessage
     {
         serverMessageVisitor.handle(this);
     }
-
 }

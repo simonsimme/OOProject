@@ -2,17 +2,13 @@ package Model.Messages.Server;
 
 /**
  * Represents a command to send a message in a specific channel.
- * Extends {@link ServerMessage} and contains the necessary information
+ * implements {@link ServerMessage}, {@link ServerVisitableMessage} and contains the necessary information
  * for sending a message, including the user, channel, and message content.
  */
 public class SendMessageInChannelCommand implements ServerMessage, ServerVisitableMessage {
     private final String userName;
     private final String channelName;
     private final String message;
-
-    public boolean isServerMessage() {
-        return isServerMessage;
-    }
 
     private final boolean isServerMessage;
 
@@ -45,6 +41,7 @@ public class SendMessageInChannelCommand implements ServerMessage, ServerVisitab
     public String getUserName() {
         return userName;
     }
+
     /**
      * Retrieves the name of the channel where the message is sent.
      *
@@ -53,6 +50,16 @@ public class SendMessageInChannelCommand implements ServerMessage, ServerVisitab
     public String getChannelName() {
         return channelName;
     }
+
+    /**
+     * Retrieves the boolean that check if the message is sent from server.
+     *
+     * @return isServerMessage which is if message is sent from server.
+     */
+    public boolean isServerMessage() {
+        return isServerMessage;
+    }
+
     /**
      * Accepts a {@code ServerMessageVisitor} to handle this message command.
      * This method allows the visitor to perform an operation on the command,
@@ -64,7 +71,4 @@ public class SendMessageInChannelCommand implements ServerMessage, ServerVisitab
     public void accept(ServerMessageVisitor serverMessageVisitor) {
         serverMessageVisitor.handle(this);
     }
-
-
-
 }

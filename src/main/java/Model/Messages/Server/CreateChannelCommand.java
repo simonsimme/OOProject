@@ -1,8 +1,5 @@
 package Model.Messages.Server;
 
-import java.time.LocalDateTime;
-import java.time.LocalDateTime;
-
 /**
  * Represents a command to create a new channel on the server.
  * This command contains information about the user requesting the channel creation,
@@ -12,9 +9,6 @@ public class CreateChannelCommand implements ServerMessage, ServerVisitableMessa
     private final String userName;
     private final String channelName;
     private final String channelPassword;
-
-
-
 
     /**
      * Constructs a {@code CreateChannelCommand} with the specified username and channel name.
@@ -27,7 +21,7 @@ public class CreateChannelCommand implements ServerMessage, ServerVisitableMessa
      this(userName,channelName,"");
     }
     /**
-     * Constructs a {@code CreateChannelCommand} with the specified user name, channel name, and channel password.
+     * Constructs a {@code CreateChannelCommand} with the specified username, channel name, and channel password.
      *
      * @param userName       the name of the user creating the channel.
      * @param channelName    the name of the channel to be created.
@@ -68,7 +62,4 @@ public class CreateChannelCommand implements ServerMessage, ServerVisitableMessa
     {
         serverMessageVisitor.handle(this);
     }
-
-
-
 }

@@ -56,6 +56,7 @@ public class ClientHandlerTest {
     void testJoinChannelSuccess() {
         clientHandler.createChannel(channelName, password); // Creating a channel on the server
         // Assuming the password is correct
+
         clientHandler.joinChannel(channelName, password);
 
         // Retrieve the channel from the server to verify

@@ -7,7 +7,7 @@ public class LeaveChannelCommand implements ServerMessage, ServerVisitableMessag
     private final String userName;
     private final String channelName;
     /**
-     * Constructs a {@code LeaveChannelCommand} with the specified user name and channel name.
+     * Constructs a {@code LeaveChannelCommand} with the specified username and channel name.
      *
      * @param userName    the name of the user leaving the channel.
      * @param channelName the name of the channel the user wants to leave.
@@ -42,7 +42,4 @@ public class LeaveChannelCommand implements ServerMessage, ServerVisitableMessag
     {
         serverMessageVisitor.handle(this);
     }
-
-
-
 }

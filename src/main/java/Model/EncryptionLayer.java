@@ -42,14 +42,6 @@ public class EncryptionLayer {
         }
     }
 
-    //TODO first fix bugs but messages and then start implementing this method.
-    public static String encrypt(Message message, SecretKey key) throws Exception {
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] encryptedBytes = cipher.doFinal(message.toString().getBytes());
-        return Base64.getEncoder().encodeToString(encryptedBytes);
-    }
-
     public static String decrypt(String encryptedData, SecretKey key) throws Exception {
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, key);
@@ -57,17 +49,4 @@ public class EncryptionLayer {
         byte[] decryptedBytes = cipher.doFinal(decodedBytes);
         return new String(decryptedBytes);
     }
-    public static String decrypt(Object encryptedData, SecretKey key) throws Exception {
-        if(encryptedData != null) {
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] decodedBytes = Base64.getDecoder().decode(encryptedData.toString());
-        byte[] decryptedBytes = cipher.doFinal(decodedBytes);
-        return new String(decryptedBytes);
-        }
-        else {
-            throw new Exception("The message is null, you can't decrypt a null message");
-        }
-    }
-
 }

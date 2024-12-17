@@ -36,7 +36,7 @@ public class EncryptionTest {
     public void testEncryption() {
         try {
             String message = "My name is test and i hate programs without tests";
-            Object encryptedMessage = EncryptionLayer.encrypt(message, key);
+            String encryptedMessage = EncryptionLayer.encrypt(message, key);
             String decryptedMessage = EncryptionLayer.decrypt(encryptedMessage, key);
             assert message.equals(decryptedMessage);
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class EncryptionTest {
         String message = null;
         // Using assertThrows to check for the expected exception
         assertThrows(Exception.class, () -> {
-        Object encryptedMessage = EncryptionLayer.encrypt(message, key);
+        String encryptedMessage = EncryptionLayer.encrypt(message, key);
         String decryptedMessage = EncryptionLayer.decrypt(encryptedMessage, key);
         assert message.equals(decryptedMessage); // This line won't be reached if the exception is thrown
         });
