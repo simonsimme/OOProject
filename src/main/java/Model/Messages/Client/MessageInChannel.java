@@ -78,7 +78,7 @@ public class MessageInChannel implements ClientMessage, ClientVisitableMessage {
 
     @Override
     public String toString() {
-        return "Time:" + time.getHour() + time.getMinute() + "From:" + userName + "inChannel" + channelName;
+        return "Time: " + time.getHour() + time.getMinute() + time.getSecond() + " From: " + userName + " inChannel: " + channelName;
     }
 
 }
