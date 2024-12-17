@@ -14,8 +14,8 @@ It supports multiple clients and provides a user-friendly interface for seamless
 - 🛠️ **Create and join chat channels**
 - 📩 **Send and receive messages**
 - 🔄 **Switch between channels**
-- **Encrypt messages**
-- **Send emjoies**
+- 🔒 **Encrypt messages**
+- 😀 **Send emjoies**
 
 ---
 
