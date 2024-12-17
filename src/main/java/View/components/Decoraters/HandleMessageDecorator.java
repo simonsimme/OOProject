@@ -28,6 +28,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
             String retText = EncryptionLayer.decrypt( m.getMessage(), key);
             String retName = EncryptionLayer.decrypt( m.getUserName(), key);
             DisplayMessage dm = new DisplayMessage(retName,retText, m.getChannelName());
+            dm.setTimestamp(m.getTimestamp());
             decoratedView.appendChatText(dm);
         }
         catch (Exception e)
@@ -52,6 +53,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
                 String retText = EncryptionLayer.decrypt( message.getMessage(), key);
                 String retName = EncryptionLayer.decrypt( message.getUserName(), key);
                 DisplayMessage dm = new DisplayMessage(retName,retText, message.getChannelName());
+                dm.setTimestamp(message.getTimestamp());
                 decoratedView.appendChatText(dm);
             }
             catch (Exception e)
@@ -67,6 +69,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
     @Override
     public void handle(DisplayChannelMessage displayChannelMessage) {
         DisplayMessage dm = new DisplayMessage("",displayChannelMessage.getChannelMessage(),"");
+        dm.setTimestamp(displayChannelMessage.getTimestamp());
         decoratedView.appendChatText(dm);
     }
 }

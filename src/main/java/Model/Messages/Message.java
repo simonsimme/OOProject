@@ -36,7 +36,7 @@ public abstract class Message implements Serializable {
     /**
      * The timestamp indicating when the message was created.
      */
-    private final LocalDateTime timestamp;
+    private LocalDateTime timestamp;
     /**
      * Constructs a new {@code Message} instance with the current time as the timestamp.
      */
@@ -51,6 +51,9 @@ public abstract class Message implements Serializable {
      */
     public LocalDateTime getTimestamp() {
         return timestamp;
+    }
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
     /**
      * Provides a string representation of the message, including the content, sender,

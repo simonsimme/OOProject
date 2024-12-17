@@ -1,5 +1,6 @@
 package Model.Messages.UI;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,10 @@ public class UIChannelHistory extends UIMessage {
                     if (messageParts.length == 2) {
                         String message = messageParts[0].trim();
                         String sender = messageParts[1].trim();
-                        messages.add(new DisplayMessage(sender, message, "---"));
+                        LocalDateTime time = LocalDateTime.parse(timestamp);
+                        DisplayMessage dm = new DisplayMessage(sender, message, "---");
+                        dm.setTimestamp(time);
+                        messages.add(dm);
                     }
                 }
             }
