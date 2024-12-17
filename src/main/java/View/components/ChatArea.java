@@ -11,7 +11,7 @@ import java.awt.*;
  * It contains a JTextPane for displaying chat messages.
  */
 public class ChatArea {
-    private JTextPane chatArea;
+    private final JTextPane chatArea;
 
     /**
      * Constructs a new ChatArea and initializes the UI components.

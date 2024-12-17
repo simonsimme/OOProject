@@ -11,8 +11,8 @@ import java.awt.event.KeyEvent;
  * It contains a text area for user input and a send button.
  */
 public class InputPanel extends JPanel {
-    private JTextArea inputField;
-    private JButton sendButton;
+    private final JTextArea inputField;
+    private final JButton sendButton;
 
     /**
      * Constructs a new InputPanel and initializes the UI components.
