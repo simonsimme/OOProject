@@ -2,12 +2,13 @@ package Model.Server;
 
 import Model.EncryptionLayer;
 import Model.Server.saving.ChatSaverObserver;
+
 import javax.crypto.SecretKey;
-import java.net.*;
-import java.io.*;
-import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;

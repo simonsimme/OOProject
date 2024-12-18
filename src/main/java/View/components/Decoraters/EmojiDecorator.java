@@ -1,8 +1,8 @@
 // EmojiDecorator.java
 package View.components.Decoraters;
 
-import View.components.IView;
 import Model.Messages.UI.DisplayMessage;
+import View.components.IView;
 
 public class EmojiDecorator extends ViewDecorator {
 

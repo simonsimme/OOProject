@@ -2,10 +2,9 @@ package Model.Client;
 
 import Model.Messages.UI.UIMessage;
 import Model.Messages.UI.UpdateChannels;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Facade for the client Provides methods for managing channels, send messages,

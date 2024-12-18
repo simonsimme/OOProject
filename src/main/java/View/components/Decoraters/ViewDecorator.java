@@ -1,9 +1,9 @@
 package View.components.Decoraters;
 
+import Model.Messages.UI.DisplayMessage;
 import View.components.IView;
 import View.components.NotificationSystem;
 import View.components.TextFormat;
-import Model.Messages.UI.DisplayMessage;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;

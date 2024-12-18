@@ -1,9 +1,9 @@
 package View.components.Factorys;
 
+import View.StandardView;
 import View.components.Decoraters.EmojiDecorator;
 import View.components.Decoraters.MessageDecorator;
 import View.components.IView;
-import View.StandardView;
 
 public class StandardViewFactory implements ViewFactory {
 

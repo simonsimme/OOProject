@@ -2,12 +2,12 @@
 package Main;
 
 import Controller.UIClientObserver;
+import Controller.UIController;
+import Model.Client.Client;
+import Model.Server.Server;
 import View.components.Factorys.StandardViewFactory;
 import View.components.Factorys.ViewFactory;
 import View.components.IView;
-import Controller.UIController;
-import Model.Server.Server;
-import Model.Client.Client;
 
 import javax.crypto.SecretKey;
 

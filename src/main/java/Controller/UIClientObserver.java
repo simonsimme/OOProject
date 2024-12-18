@@ -1,12 +1,13 @@
 package Controller;
 
 import Model.Client.Client;
+import Model.Client.ClientObserver;
 import Model.EncryptionLayer;
 import Model.Messages.UI.DisplayMessage;
 import Model.Messages.UI.UIMessage;
-import Model.Client.ClientObserver;
 import View.components.Decoraters.HandleMessageDecorator;
 import View.components.IView;
+
 import javax.crypto.SecretKey;
 
 /**

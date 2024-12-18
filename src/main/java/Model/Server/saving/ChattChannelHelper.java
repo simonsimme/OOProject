@@ -2,7 +2,9 @@ package Model.Server.saving;
 
 import Model.Messages.Message;
 import Model.Server.ClientHandler;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChattChannelHelper {
     private String name; // Name of the channel

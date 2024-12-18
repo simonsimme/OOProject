@@ -2,11 +2,11 @@ package Main;
 
 import Controller.UIClientObserver;
 import Controller.UIController;
+import Model.Client.Client;
 import Model.EncryptionLayer;
 import View.components.Factorys.StandardViewFactory;
 import View.components.Factorys.ViewFactory;
 import View.components.IView;
-import Model.Client.Client;
 
 import javax.crypto.SecretKey;
 

@@ -1,8 +1,8 @@
 package View.components.Decoraters;
 
 import Model.EncryptionLayer;
-import View.components.IView;
 import Model.Messages.UI.*;
+import View.components.IView;
 
 import javax.crypto.SecretKey;
 import java.util.List;
