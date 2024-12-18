@@ -230,6 +230,6 @@ public class ClientHandler extends Thread {
      * Look into the function, currently only used in testing might be Removed
      * */
     public ChatChannel getCurrentChannel() {
-        return channels.isEmpty() ? null : channels.get(channels.size() - 1);
+        return channels.isEmpty() ? null : channels.getLast();
     }
 }

@@ -14,12 +14,12 @@ public class ClientVisitor implements ClientMessageVisitor{
      * The channelRecord is passed down to the ClientMessageVisitor from the Client class since ClientMessageVisitor
      * needs to manipulate it.
      */
-    private ClientChannelRecord channelRecord;
+    private final ClientChannelRecord channelRecord;
     /**
      * The list of observers observing the client is passed down to ClientMessageVisitor since ClientMessageVisitor
      * needs to notify them.
      */
-    private List<ClientObserver> observers;
+    private final List<ClientObserver> observers;
 
     /**
      * Constructor

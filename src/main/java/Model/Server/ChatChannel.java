@@ -84,7 +84,7 @@ public class ChatChannel {
     }
     private void notifyObservers(Message message) {
         for (SaveObserver observer : observers) {
-            observer.update(ChannelName, message);
+            observer.update(message);
         }
     }
     //method to turn the string builder to later send to the client

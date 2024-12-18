@@ -12,8 +12,6 @@ public class ChatSaver {
     private static String filePath;
     private BufferedWriter writer;
 
-    private final String startString;
-
 
     public ChatSaver(ChatChannel channel) {
         //dont remove the dot in the start
@@ -22,7 +20,7 @@ public class ChatSaver {
 
     private ChatSaver(String folderPath, ChatChannel channel) {
         this.filePath = folderPath + File.separator + channel.getName() + ".txt";
-        this.startString = "/*******Chat history for channel: " + channel.getName() + "********/" + System.lineSeparator();
+        String startString = "/*******Chat history for channel: " + channel.getName() + "********/" + System.lineSeparator();
         try {
             File folder = new File(folderPath);
             if (!folder.exists()) {
@@ -36,7 +34,7 @@ public class ChatSaver {
     }
 
 
-    public void saveMessage(String channelName, Message message) {
+    public void saveMessage(Message message) {
         try {
             writer.write(message.toString());
 

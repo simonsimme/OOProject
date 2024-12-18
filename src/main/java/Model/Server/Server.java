@@ -76,12 +76,10 @@ public class Server {
         this.key = key;
         isRunning = true;
         channelSet = new HashSet<ChatChannel>();
-        System.out.println("Started new server:");
         try {
             this.serverSocket = new ServerSocket(port);
             logger.log(Level.FINE, "Server socket is created on port: " + serverSocket.getLocalPort());
         } catch (IOException e) {
-            System.out.println(e.getMessage());
             logger.log(Level.SEVERE, e.getMessage());
 
         }
@@ -107,18 +105,17 @@ public class Server {
         try {
             while (isRunning) {
                 Server.logger.log(Level.FINE, "Waiting for clients...");
-                System.out.println("Waiting for clients...");
                 Socket clientSocket = serverSocket.accept();
 
                 if(!isRunning) {
                     break;
                 }
-                System.out.println("New client connected: " + clientSocket.getLocalAddress());
+                Server.logger.log(Level.FINE, "New client connected: " + clientSocket.getLocalAddress());
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
                 clientHandler.start();
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            Server.logger.log(Level.SEVERE, e.getMessage());
         }
     }
 
@@ -190,7 +187,7 @@ public class Server {
             if (files != null) {
                 for (File file : files) {
                     if (!file.delete()) {
-                        System.err.println("Failed to delete file: " + file.getName());
+                        logger.log(Level.SEVERE, "Failed to delete file: " + file.getName());
                     }
                 }
             }
