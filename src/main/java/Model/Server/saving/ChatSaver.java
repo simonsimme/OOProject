@@ -77,7 +77,14 @@ public class ChatSaver {
         }
         return null;
     }
+    public void clearContent(){
+        try (PrintWriter pw = new PrintWriter(filePath)){
+            pw.print("");
+        } catch (FileNotFoundException e) {
+            System.out.println("Error clearing file: " + e.getMessage());
+        }
 
+    }
 
     public void close() {
         try {

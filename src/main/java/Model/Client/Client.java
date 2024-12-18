@@ -73,7 +73,6 @@ public class Client implements ClientSubject{
     public void joinChannel(String channelName, String password){
         try {
             communicationManager.joinChannel(userName, channelName, password);
-            communicationManager.getChannelHistory(userName,channelName);
         } catch (Exception e){
             throw new IllegalArgumentException(e.getMessage());
         }

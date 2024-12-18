@@ -33,6 +33,7 @@ public class ChatChannel {
         this.clientsSet = new HashSet<>();
         this.observers = new HashSet<>();
         this.chatSaverLocal = new ChatSaver(this);
+        this.chatSaverLocal.clearContent();
         Server.logger.fine("Creating chat channel: " + name + " with password: " + password);
 
     }

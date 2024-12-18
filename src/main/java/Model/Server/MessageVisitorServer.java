@@ -50,7 +50,8 @@ public class MessageVisitorServer implements ServerMessageVisitor {
 
             if (clientHandler.joinChannel(joinChannelCommand.getChannelName(), joinChannelCommand.getPassword())) {
                 clientHandler.sendMessage(new JoinChannelResponse(joinChannelCommand.getChannelName()));
-
+                ChatChannel channel = clientHandler.getChannel(joinChannelCommand.getChannelName());
+                clientHandler.sendMessage(new RetrieveChatHistoryResponse(channel.getName(), channel.getChatChannelHistory()));
             }
 
         } catch (IllegalArgumentException e) {
