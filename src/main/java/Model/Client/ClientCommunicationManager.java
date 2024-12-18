@@ -56,7 +56,11 @@ public class ClientCommunicationManager implements Runnable{
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(null,
+                    "Could not connect to the server at " + host + ":" + port + "\nReason: " + e.getMessage(),
+                    "Connection Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
         }
     }
 
