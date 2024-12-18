@@ -1,7 +1,7 @@
-// ViewDecorator.java
 package View.components.Decoraters;
 
 import View.components.IView;
+import View.components.NotificationSystem;
 import View.components.TextFormat;
 import Model.Messages.UI.DisplayMessage;
 
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.util.List;
 
-public  class ViewDecorator implements IView {
+public class ViewDecorator implements IView {
     protected IView decoratedView;
 
     public ViewDecorator(IView decoratedView) {
@@ -63,14 +63,13 @@ public  class ViewDecorator implements IView {
         return decoratedView.getInputText();
     }
 
-    @Override
-    public void appendChatText(String text) {
-        decoratedView.appendChatText(text);
-    }
+
+
     @Override
     public void appendChatText(DisplayMessage text) {
         decoratedView.appendChatText(text);
     }
+
     @Override
     public void clearChatText() {
         decoratedView.clearChatText();
@@ -80,9 +79,10 @@ public  class ViewDecorator implements IView {
     public void clearInputText() {
         decoratedView.clearInputText();
     }
+
     @Override
-    public void appendChatText(TextFormat ft) {
-        decoratedView.appendChatText(ft);
+    public void appendChatText(TextFormat tf) {
+        decoratedView.appendChatText(tf);
     }
 
     @Override
@@ -90,57 +90,53 @@ public  class ViewDecorator implements IView {
         return decoratedView.getNickNameFeild();
     }
 
-
-
     @Override
     public String[] getChannelNameAndPasswordInput(String type) {
         return decoratedView.getChannelNameAndPasswordInput(type);
     }
+
     @Override
     public void displayErrorMessage(String message) {
         decoratedView.displayErrorMessage(message);
     }
     @Override
-    public void showNotification(String message) {
-        decoratedView.showNotification(message);
+    public NotificationSystem getNotificationSystem() {
+        return decoratedView.getNotificationSystem();
     }
-
-
-    @Override
-    public void addCreateButtonListener(ActionListener listener) {
-        decoratedView.addCreateButtonListener(listener);
-    }
-
 
     @Override
     public void updateChannelList(List<String> channels, String currentChannel) {
         decoratedView.updateChannelList(channels, currentChannel);
     }
+
     @Override
     public void changeChannel(String channelName) {
         decoratedView.changeChannel(channelName);
     }
+
     @Override
     public void addChannelListSelectionListener(ListSelectionListener listener) {
         decoratedView.addChannelListSelectionListener(listener);
     }
+
     @Override
     public void removeChannelFromList(String channelName) {
         decoratedView.removeChannelFromList(channelName);
     }
+
     @Override
     public DefaultListModel<String> getChannelList() {
         return decoratedView.getChannelList();
     }
-    @Override
-    public void showHistory(StringBuilder history) {
-        decoratedView.showHistory(history);
-    }
+
+
 
     @Override
     public void addWindowExitListener(WindowListener listener) {
         decoratedView.addWindowExitListener(listener);
     }
+
+    @Override
     public void closeWindow() {
         decoratedView.closeWindow();
     }

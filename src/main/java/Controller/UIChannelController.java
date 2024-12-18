@@ -41,8 +41,9 @@ public class UIChannelController {
             }
             String channelName = channelNameAndPassword[0];
             String password = channelNameAndPassword[1];
+            String[] compareText = channelName.split(" ");
             System.out.println(password);
-            if(channelName.isEmpty()){
+            if(channelName.isEmpty() || compareText.length == 0){
                 throw new Exception("Channel name cannot be empty");
             }
             reference.joinChannel(channelName, password); //TODO fix so if wrong pass not continue
@@ -63,7 +64,9 @@ public class UIChannelController {
             }
             String channelName = channelNameAndPassword[0];
             String password = channelNameAndPassword[1];
-            if(channelName.isEmpty()){
+            String[] compareText = channelName.split(" ");
+
+            if(channelName.isEmpty() || compareText.length == 0){
                 throw new Exception("Channel name cannot be empty");
             }
             reference.createChannel(channelName, password);
@@ -84,7 +87,6 @@ public class UIChannelController {
      */
     public void setNickName(String name) {
         reference.setNickName(name);
-        view.showNotification("Your nickname is now: " + name);
-        System.out.println("clientName is" + name);
+
     }
 }

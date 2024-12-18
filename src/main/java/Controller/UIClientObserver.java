@@ -25,6 +25,7 @@ public class UIClientObserver implements ClientObserver {
     private final HandleMessageDecorator handleMessageDecorator;
     private final Client reference;
 
+
     /**
      * Constructs a new {@code UIClientObserver} to observe client updates and interact with the view.
      *
@@ -36,6 +37,7 @@ public class UIClientObserver implements ClientObserver {
         this.view = view;
         this.key = key;
         this.reference = reference;
+
         this.handleMessageDecorator = new HandleMessageDecorator(view,key);
     }
 
@@ -57,9 +59,17 @@ public class UIClientObserver implements ClientObserver {
     @Override
     public void notification(DisplayMessage message) {
         try {
-            String msg = EncryptionLayer.decrypt(message.getMessage(),key);
-            if (!message.getUserName().equals(reference.getUserName()) &&  !reference.getCurrentChannelName().equals(message.getChannelName())) {
-                view.showNotification("Message from " + message.getUserName() + " in " + message.getChannelName());
+            String msg = EncryptionLayer.decrypt(message.getMessage(), key);
+            String messageName = EncryptionLayer.decrypt(message.getUserName(), key);
+            String referenceName = EncryptionLayer.decrypt(reference.getUserName(), key);
+
+            System.out.println(msg + " " + messageName + " " + referenceName);
+            System.out.println(!messageName.equals(referenceName));
+            System.out.println(!reference.getCurrentChannelName().equals(message.getChannelName()));
+            System.out.println(reference.getCurrentChannelName() + " " + message.getChannelName());
+            if (!messageName.equals(referenceName) &&  !reference.getCurrentChannelName().equals(message.getChannelName())) {
+                System.out.println("Message from " + messageName+ " in " + message.getChannelName());
+                view.getNotificationSystem().showNotification("Message from " + messageName+ " in " + message.getChannelName());
             }
         } catch (Exception e) {
             e.printStackTrace();

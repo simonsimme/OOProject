@@ -1,0 +1,14 @@
+dec. 17, 2024 12:25:01 EM Model.Server.Server <init>
+FINE: Server socket is created on port: 1234
+dec. 17, 2024 12:25:01 EM Model.Server.Server createServerInstance
+FINE: Server created on port: 1234
+dec. 17, 2024 12:25:01 EM Model.Server.Server startListening
+FINE: Waiting for clients...
+dec. 17, 2024 12:25:09 EM Model.Server.Server startListening
+FINE: Waiting for clients...
+dec. 17, 2024 12:25:14 EM Model.Server.ChatChannel <init>
+FINE: Creating chat channel: start with password: start
+dec. 17, 2024 12:25:14 EM Model.Server.Server createChannel
+FINE: Channel created: start
+dec. 17, 2024 12:25:14 EM Model.Server.ChatChannel addClient
+FINE: Adding client: Thread-1 to chat channel: start

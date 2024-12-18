@@ -52,7 +52,15 @@ public class UIController{
         view.addLeaveChannelButtonListener(new LeaveChannelButtonListener());
         view.addCreateNewChannelButtonListener(new CreateNewChannelButtonListener());
         view.addChannelListSelectionListener(new ChannelListSelectionListener());
-        channelController.setNickName(view.getNickNameFeild());
+        try
+        {
+            String encryptedNickName = EncryptionLayer.encrypt(view.getNickNameFeild(), key);
+            channelController.setNickName(encryptedNickName);
+                    }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -101,6 +109,10 @@ public class UIController{
         @Override
         public void actionPerformed(ActionEvent e) {
             String inputText = view.getInputText();
+            String[] compText = inputText.split(" ");
+            if (inputText.isEmpty() || compText.length == 0) {
+                return;
+            }
             try {
                inputText = EncryptionLayer.encrypt(inputText, key); //TODO check if this is againg SRP
             } catch (Exception ex) {
@@ -180,7 +192,7 @@ public class UIController{
                 return;
             }
             view.clearChatText();
-            view.showNotification("Channel created successfully");
+            view.getNotificationSystem().showNotification("Channel created successfully");
         }
     }
 }
