@@ -3,7 +3,7 @@ package Model.Messages.UI;
 /**
  * Represents a message to display an error in the user interface.
  */
-public class DisplayError implements UIMessage, UIVisitableMessage {
+public class DisplayError implements UIMessage {
     /**
      * The error message to be displayed.
      */

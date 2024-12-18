@@ -4,7 +4,7 @@ package Model.Messages.Client;
  * Represents a response sent to a client, containing the chat history for a specific channel.
  * This class extends {@code ClientMessage} and includes the channel name and its associated history.
  */
-public class RetrieveChatHistoryResponse implements ClientMessage, ClientVisitableMessage {
+public class RetrieveChatHistoryResponse implements ClientMessage {
     /**
      * The name of the channel for which the chat history is being retrieved.
      */

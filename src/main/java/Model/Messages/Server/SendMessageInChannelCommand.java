@@ -2,10 +2,10 @@ package Model.Messages.Server;
 
 /**
  * Represents a command to send a message in a specific channel.
- * implements {@link ServerMessage}, {@link ServerVisitableMessage} and contains the necessary information
+ * implements {@link ServerMessage} and contains the necessary information
  * for sending a message, including the user, channel, and message content.
  */
-public class SendMessageInChannelCommand implements ServerMessage, ServerVisitableMessage {
+public class SendMessageInChannelCommand implements ServerMessage {
     private final String userName;
     private final String channelName;
     private final String message;

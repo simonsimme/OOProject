@@ -6,7 +6,7 @@ import java.util.List;
  * Message to update the list of channels and set the current channel.
  * This class is used to notify the view about the available channels and the currently active channel.
  */
-public class UpdateChannels implements UIMessage, UIVisitableMessage {
+public class UpdateChannels implements UIMessage {
     /**
      * The list of channel names that are available to the user.
      */

@@ -4,7 +4,7 @@ package Model.Messages.Client;
  * Message to client : Represents an error response.
  * This message contains an error message that the client should be notified of.
  */
-public class ErrorResponse implements ClientMessage, ClientVisitableMessage {
+public class ErrorResponse implements ClientMessage {
     /**
      * This string represents a short error message that the user should be notified with.
      */

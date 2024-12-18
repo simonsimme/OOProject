@@ -3,7 +3,7 @@ package Model.Messages.Server;
  * Represents a command for a user to leave a specific channel.
  * The command includes the user's name and the channel name.
  */
-public class LeaveChannelCommand implements ServerMessage, ServerVisitableMessage {
+public class LeaveChannelCommand implements ServerMessage {
     private final String userName;
     private final String channelName;
     /**

@@ -3,7 +3,7 @@ package Model.Messages.Client;
  * Message to client : Channel has been created.
  * This message contains information about the newly created channel.
  */
-public class CreateChannelResponse implements ClientMessage, ClientVisitableMessage {
+public class CreateChannelResponse implements ClientMessage {
     /**
      * This string represents the name of the channel that was created.
      */

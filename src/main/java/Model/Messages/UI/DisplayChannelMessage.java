@@ -4,7 +4,7 @@ package Model.Messages.UI;
 * Represents a message to display a channel message in the UI.
 * This class is part of the message model for the UI system.
 */
-public class DisplayChannelMessage implements UIMessage, UIVisitableMessage{
+public class DisplayChannelMessage implements UIMessage {
     /**
      * The message content to be displayed for a channel.
      */

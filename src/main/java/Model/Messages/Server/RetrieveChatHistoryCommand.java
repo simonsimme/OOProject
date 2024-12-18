@@ -6,7 +6,7 @@ package Model.Messages.Server;
  * This command is used to request historical messages for a given channel
  * on behalf of a user.
  */
-public class RetrieveChatHistoryCommand implements ServerMessage, ServerVisitableMessage {
+public class RetrieveChatHistoryCommand implements ServerMessage {
 
     /**
      * The name of the channel for which chat history is being requested.

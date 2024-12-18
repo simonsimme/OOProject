@@ -5,7 +5,7 @@ package Model.Messages.Server;
  * This command contains information about the user requesting the channel creation,
  * the channel name, and an optional password for the channel.
  */
-public class CreateChannelCommand implements ServerMessage, ServerVisitableMessage {
+public class CreateChannelCommand implements ServerMessage {
     private final String userName;
     private final String channelName;
     private final String channelPassword;

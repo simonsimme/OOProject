@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
  * Represents a message to be displayed in the user interface,
  * containing details about the sender, the message content, and the channel.
  */
-public class DisplayMessage implements UIMessage, UIVisitableMessage {
+public class DisplayMessage implements UIMessage {
     /**
      * The username of the sender of the message.
      */
