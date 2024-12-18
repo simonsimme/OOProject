@@ -69,7 +69,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
 
     public void handle(DisplayChannelMessage displayChannelMessage) {
         DisplayMessage dm = new DisplayMessage("",displayChannelMessage.getChannelMessage(),"");
-        dm.setTimestamp(displayChannelMessage.getTimestamp());
+        dm.setTimestamp(displayChannelMessage.getTime());
         decoratedView.appendChatText(dm);
     }
 }

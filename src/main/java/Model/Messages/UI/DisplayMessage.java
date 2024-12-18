@@ -82,5 +82,8 @@ public class DisplayMessage implements UIMessage {
      */
     public LocalDateTime getTimestamp(){
         return time;
-    };
+    }
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.time = timestamp;
+    }
 }

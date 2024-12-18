@@ -1,5 +1,7 @@
 package Model.Messages.UI;
 
+import java.time.LocalDateTime;
+
 /**
 * Represents a message to display a channel message in the UI.
 * This class is part of the message model for the UI system.
@@ -9,6 +11,7 @@ public class DisplayChannelMessage implements UIMessage {
      * The message content to be displayed for a channel.
      */
     private final String channelMessage;
+    LocalDateTime time;
 
     /**
      * Constructs a {@code DisplayChannelMessage} with the specified channel message.
@@ -17,6 +20,7 @@ public class DisplayChannelMessage implements UIMessage {
      */
     public DisplayChannelMessage(String channelMessage) {
         this.channelMessage = channelMessage;
+        time = LocalDateTime.now();
     }
 
     /**
@@ -27,6 +31,9 @@ public class DisplayChannelMessage implements UIMessage {
     public String getChannelMessage()
     {
         return channelMessage;
+    }
+    public LocalDateTime getTime() {
+        return time;
     }
 
     /**
