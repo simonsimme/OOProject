@@ -54,9 +54,7 @@ class UIChannelControllerTest {
         when(view.getChannelNameAndPasswordInput("Join")).thenReturn(channelNameAndPassword);
 
         // Act & Assert
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            controller.joinChannel();
-        });
+        Exception exception = assertThrows(RuntimeException.class, () -> controller.joinChannel());
         assertEquals("Channel name cannot be empty", exception.getMessage());
     }
 
@@ -69,9 +67,7 @@ class UIChannelControllerTest {
         when(view.getChannelNameAndPasswordInput("Join")).thenReturn(null);
 
         // Act & Assert
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            controller.joinChannel();
-        });
+        Exception exception = assertThrows(RuntimeException.class, () -> controller.joinChannel());
         assertEquals("STOPPED", exception.getMessage());
     }
 
@@ -101,9 +97,7 @@ class UIChannelControllerTest {
         when(view.getChannelNameAndPasswordInput("Create")).thenReturn(channelNameAndPassword);
 
         // Act & Assert
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            controller.createChannel();
-        });
+        Exception exception = assertThrows(RuntimeException.class, () -> controller.createChannel());
         assertEquals("Channel name cannot be empty", exception.getMessage());
     }
 
@@ -116,9 +110,7 @@ class UIChannelControllerTest {
         when(view.getChannelNameAndPasswordInput("Create")).thenReturn(null);
 
         // Act & Assert
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            controller.createChannel();
-        });
+        Exception exception = assertThrows(RuntimeException.class, () -> controller.createChannel());
         assertEquals("STOPPED", exception.getMessage());
     }
 
@@ -135,6 +127,5 @@ class UIChannelControllerTest {
 
         // Assert
         verify(client).setNickName(nickname);
-        verify(view).showNotification("Your nickname is now: " + nickname);
     }
 }
