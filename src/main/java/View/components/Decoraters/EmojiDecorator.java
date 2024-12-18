@@ -18,7 +18,6 @@ public class EmojiDecorator extends ViewDecorator {
 
     private DisplayMessage convertEmoticonsToEmojis(DisplayMessage text) {
         String messageWithEmojis = text.getMessage().replaceAll(":\\)", "😊").replaceAll(":\\(", "😢");
-        System.out.println("Converted message: " + messageWithEmojis);
         return new DisplayMessage(text.getUserName(), messageWithEmojis, text.getChannelName());
     }
 }

@@ -86,8 +86,6 @@ public class Server {
         }
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
         {
-            System.out.println("Shutting down server...");
-
             try {
                 this.stop();
             } catch (IOException e) {
@@ -114,7 +112,6 @@ public class Server {
                 if(!isRunning) {
                     break;
                 }
-
                 System.out.println("New client connected: " + clientSocket.getLocalAddress());
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
                 clientHandler.start();
@@ -180,7 +177,6 @@ public class Server {
         for (ChatChannel channel : channelSet) {
             if (channel != null) {
                 channel.removeObserver(channel); // Clean up observers if necessary
-                System.out.println("Channel " + channel.toString() + " deleted.");
             }
         }
         channelSet.clear();

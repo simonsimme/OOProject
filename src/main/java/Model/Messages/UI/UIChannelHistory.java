@@ -51,7 +51,6 @@ public class UIChannelHistory implements UIMessage {
                 }
             }
         }
-        System.out.println(historyString.toString());
         return messages;
     }
 

@@ -47,13 +47,9 @@ public class ClientCommunicationManager implements Runnable{
      * @param observers Passed reference.
      */
     public ClientCommunicationManager(String address, int port, ClientChannelRecord channelGroup, List<ClientObserver> observers){
-
         this.visitor = new ClientVisitor(channelGroup,observers);
-
         this.host = address;
         this.port = port;
-        System.out.println("Connecting to server" + address);
-
         try {
             socket = new Socket(host, port);
             out = new ObjectOutputStream(socket.getOutputStream());
@@ -106,7 +102,6 @@ public class ClientCommunicationManager implements Runnable{
      */
     public void createChannel(String userName,String channelName, String password)
     {
-        System.out.println("Sending create channel command");
         ServerMessage message = new CreateChannelCommand(userName,channelName,password);
         sendMessageToServer(message);
     }

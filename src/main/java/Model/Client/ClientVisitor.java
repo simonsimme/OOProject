@@ -59,7 +59,6 @@ public class ClientVisitor implements ClientMessageVisitor{
     @Override
     public void handle(LeaveChannelResponse message) {
         channelRecord.removeChannel(message.getChannelName());
-        System.out.println("Channel removed: " + message.getChannelName() + " and this is currChannel" + channelRecord.getCurrentChannelName());
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(), channelRecord.getCurrentChannelName()));
     }
 
@@ -103,7 +102,6 @@ public class ClientVisitor implements ClientMessageVisitor{
     public void handle(RetrieveChatHistoryResponse message) {
         String channelName = message.getChannelName(); // get the channel name
         String history = message.toString(); // get the history
-        System.out.println("History: " + history);
         channelRecord.setChannelHistory(channelName, new StringBuilder(history));
         notifyObservers(new UIChannelHistory(history));
     }
