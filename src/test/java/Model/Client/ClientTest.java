@@ -270,8 +270,7 @@ public class ClientTest {
 
         // Verify that sendMessageToServer was called with the correct ServerMessage
         verify(client).sendMessageToServer(argThat(argument -> {
-            if (argument instanceof SendMessageInChannelCommand) {
-                SendMessageInChannelCommand command = (SendMessageInChannelCommand) argument;
+            if (argument instanceof SendMessageInChannelCommand command) {
                 return command.getUserName().equals(userName) &&
                         command.getChannelName().equals(channel) &&
                         command.getMessage().equals(message) &&
