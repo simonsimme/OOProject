@@ -6,8 +6,7 @@ target/
 *.class # Java
 *.log # the log file to stay locally
 *.txt
-*.idiots
-*.simonComimts
+*.log
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

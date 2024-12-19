@@ -2,7 +2,6 @@ package Model.Client;
 
 import Model.Messages.UI.UIMessage;
 import Model.Messages.UI.UpdateChannels;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +15,6 @@ public class Client implements ClientSubject{
     private final ClientCommunicationManager communicationManager;
     private final List<ClientObserver> observers = new ArrayList<>();
 
-    //Client will hold a history of all channels it has been in. Less required for the client, but better for the server.
-    //private final Map<String, StringBuilder> history = new HashMap<String, StringBuilder>();
 
     /**
      * Client's only constructor, requires the address to connect to and a port.
@@ -44,16 +41,12 @@ public class Client implements ClientSubject{
     public String getCurrentChannelName(){
         return channelRecord.getCurrentChannelName();
     }
+    /**
+     * Sets a nickname for the client.
+     */
     public void setNickName(String name)
     {
         userName = name;
-    }
-    /**
-     * Sets the username for the client.
-     * @param userName the new username for the client.
-     */
-    public void setUserName(String userName){
-        userName = userName;
     }
     /**
      * Creates a new channel with the given name and password.
@@ -82,6 +75,10 @@ public class Client implements ClientSubject{
     public void leaveChannel(){
         communicationManager.leaveChannel(userName, channelRecord.getCurrentChannelName());
     }
+    /**
+     * Leaves the current channel the client is in.
+     * @param channelName the name of the channel to leave.
+     */
     public void leaveChannel(String channelName){
         communicationManager.leaveChannel(userName,channelName);
     }
@@ -103,18 +100,6 @@ public class Client implements ClientSubject{
         notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
         communicationManager.getChannelHistory(userName,newChannelName);
     }
-    /**
-     * Switches to the next available channel in the channel record.
-     */
-    //TODO NO uses at all?
-    public void nextChannel(){
-        channelRecord.switchToNextChannel();
-        notifyObservers(new UpdateChannels(channelRecord.getChannelNames(),channelRecord.getCurrentChannelName()));
-    }
-    //TODO Is this not used?
-    public StringBuilder getHistory(){
-        return channelRecord.getCurrentChannelHistory();
-    }
 
     /**
      * Sends a message to the current channel.
@@ -132,14 +117,6 @@ public class Client implements ClientSubject{
     public List<String> getChannelNames(){
         return channelRecord.getChannelNames();
     }
-    /**
-     * Retrieves a list of usernames in the current channel.
-     *
-     * @return a list of usernames in the current channel.
-     */
-    public List<String> getUserNamesInCurrentChannel(){
-        return channelRecord.getUsersInCurrentChannel();
-    }
 
     /**
      * Disconnect the user from channel and server
@@ -152,7 +129,7 @@ public class Client implements ClientSubject{
      *
      * @param observer the observer to attach.
      */
-    public void attach( ClientObserver observer){
+    public void attach(ClientObserver observer){
         observers.add(observer);
     }
     /**
@@ -161,7 +138,7 @@ public class Client implements ClientSubject{
      * @param observer the observer to detach.
      */
     public void detach(ClientObserver observer){
-         observers.add(observer);
+         observers.remove(observer);
     }
     /**
      * Notifies all attached observers with a given message.

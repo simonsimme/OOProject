@@ -1,19 +1,30 @@
 package Model.Client;
 
+import Model.Messages.Server.SendMessageInChannelCommand;
+import Model.Messages.UI.UIMessage;
 import Model.Server.Server;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+/**
+ * Unit tests for the {@code Client} class.
+ */
 public class ClientTest {
 
     private Client client;
     private Server server;
     private Thread serverThread;
 
+    /**
+     * Sets up a test environment by starting a mock server and initializing the client.
+     *
+     * @throws InterruptedException if interrupted while waiting for the server to start.
+     */
     @BeforeEach
     void setUp() throws InterruptedException {
 
@@ -27,6 +38,12 @@ public class ClientTest {
         client = new Client("localhost", 8080);
     }
 
+    /**
+     * Tears down the test environment by stopping the server and cleaning up resources.
+     *
+     * @throws IOException          if an I/O error occurs while stopping the server.
+     * @throws InterruptedException if interrupted while waiting for the server thread to finish.
+     */
     @AfterEach
     void tearDown() throws IOException, InterruptedException {
 
@@ -42,6 +59,16 @@ public class ClientTest {
         client = null;
         server = null;
         serverThread = null;
+    }
+
+    /**
+     * Tests the {@code setNickName} method to ensure the client's username is updated correctly.
+     */
+    @Test
+    void setNickName() {
+        String username = "Test username";
+        client.setNickName(username);
+        assertEquals(username, client.getUserName());
     }
 
     /**
@@ -65,7 +92,7 @@ public class ClientTest {
         assertEquals(channelName, result);
     }
     /**
-     * Test the client's ability to join a channel
+     * Test the {@code joinChannel} client's ability to join a channel
      * */
     @Test
     void joinChannelTest() throws InterruptedException {
@@ -97,8 +124,9 @@ public class ClientTest {
         assertEquals("empty-channel", client.getCurrentChannelName());
     }
 
+
     /**
-     * Test the client's ability to leave a channel
+     * Test the {@code leaveChannel} client's ability to leave a channel
      * */
     @Test
     void leaveChannelTest() {
@@ -125,7 +153,7 @@ public class ClientTest {
         String password = "password";
 
         client.createChannel(channelName, password);
-        client.leaveChannel(channelName);
+        client.leaveChannel();
 
         // check the client is not in the channel
         assertEquals("empty-channel", client.getCurrentChannelName());
@@ -133,7 +161,7 @@ public class ClientTest {
 
 
     /**
-     * Test the client's ability to switch channels
+     * Test the client's ability to switch channels with provided channel name
      * */
     @Test
     void switchChannelTest() throws InterruptedException {
@@ -149,6 +177,28 @@ public class ClientTest {
         client.joinChannel(channelName2, password);
         Thread.sleep(50);
         client.switchChannel(channelName1);
+
+        // check the current channel is updated
+        assertEquals(channelName1, client.getCurrentChannelName());
+    }
+
+    /**
+     * Test the client's ability to switch channels to next in list
+     * */
+    @Test
+    void switchChannelToNext() throws InterruptedException {
+        String channelName1 = "testChannel1";
+        String channelName2 = "testChannel2";
+        String password = "password";
+
+
+        server.createChannel(channelName1, password);
+        server.createChannel(channelName2, password);
+
+        client.joinChannel(channelName1, password);
+        client.joinChannel(channelName2, password);
+        Thread.sleep(50);
+        client.switchChannel();
 
         // check the current channel is updated
         assertEquals(channelName1, client.getCurrentChannelName());
@@ -202,6 +252,36 @@ public class ClientTest {
     }
 
     /**
+     * Tests the {@code sendMessage} method using Mockito to verify server communication.
+     */
+    @Test
+    void sendMessage() {
+        // Create a spy for the ClientCommunicationManager
+        ClientCommunicationManager client = spy(new ClientCommunicationManager("localhost", 8080, null, null));
+
+        // Test data
+        String userName = "testUser";
+        String channel = "testChannel";
+        String message = "Hello, world!";
+        boolean isServerMessage = false;
+
+        // Call the method under test
+        client.sendMessage(userName, channel, message, isServerMessage);
+
+        // Verify that sendMessageToServer was called with the correct ServerMessage
+        verify(client).sendMessageToServer(argThat(argument -> {
+            if (argument instanceof SendMessageInChannelCommand) {
+                SendMessageInChannelCommand command = (SendMessageInChannelCommand) argument;
+                return command.getUserName().equals(userName) &&
+                        command.getChannelName().equals(channel) &&
+                        command.getMessage().equals(message) &&
+                        !command.isServerMessage(); // Ensure isServerMessage is false
+            }
+            return false;
+        }));
+    }
+
+    /**
      * Testing client during stress, 50 create/join/leave requests gets handled to check for bugs, None found
      * */
     @Test
@@ -225,5 +305,67 @@ public class ClientTest {
         Thread.sleep(50);
         // check the client is in the empty channel
         assertEquals("empty-channel", client.getCurrentChannelName());
+    }
+
+    /**
+     * Tests the {@code attach} method to ensure that a {@code ClientObserver} is correctly attached
+     * and receives notifications when the client notifies observers.
+     */
+    @Test
+    void attachObserverTest() {
+        // Create a mock observer
+        ClientObserver observer = mock(ClientObserver.class);
+
+        // Attach the observer
+        client.attach(observer);
+
+        // Notify observers with a mock message
+        UIMessage message = mock(UIMessage.class);
+        client.notifyObservers(message);
+
+        // Verify the observer received the notification
+        verify(observer, times(1)).update(message);
+    }
+
+    /**
+     * Tests the {@code detach} method to ensure that a {@code ClientObserver} is correctly detached
+     * and does not receive notifications after being removed.
+     */
+    @Test
+    void detachObserverTest() {
+        // Create a mock observer
+        ClientObserver observer = mock(ClientObserver.class);
+
+        // Attach and then detach the observer
+        client.attach(observer);
+        client.detach(observer);
+
+        // Notify observers with a mock message
+        UIMessage message = mock(UIMessage.class);
+        client.notifyObservers(message);
+
+        // Verify the observer did not receive the notification
+        verify(observer, times(0)).update(message);
+    }
+
+    /**
+     * Tests the {@code notifyObservers} method to ensure that all attached observers receive notifications
+     * when the client sends an update.
+     */
+    @Test
+    void notifyObserversTest() {
+        ClientObserver observer1 = mock(ClientObserver.class);
+        ClientObserver observer2 = mock(ClientObserver.class);
+
+        client.attach(observer1);
+        client.attach(observer2);
+
+        UIMessage message = mock(UIMessage.class);
+
+        client.notifyObservers(message);
+
+        // Verify that both observers received the message
+        verify(observer1, times(1)).update(message);
+        verify(observer2, times(1)).update(message);
     }
 }
