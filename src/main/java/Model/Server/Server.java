@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.FileHandler;
@@ -35,13 +37,14 @@ public class Server {
     //this will be used to debug the server
     static {
         try {
-            // Create a FileHandler that writes log messages to a file
-            FileHandler fileHandler = new FileHandler("./src/main/java/Model/Server/server.log", false);
+            // Ensure the directory exists
+            Files.createDirectories(Paths.get("./src/main/java/Model/Server/"));
+            FileHandler fileHandler = new FileHandler("./src/main/java/Model/Server/server.log", true);
             fileHandler.setFormatter(new SimpleFormatter());
             logger.addHandler(fileHandler);
-            logger.setLevel(Level.ALL);
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Failed to initialize logger FileHandler.", e);
+            logger.severe("Failed to initialize logger FileHandler.");
+            e.printStackTrace();
         }
     }
 
