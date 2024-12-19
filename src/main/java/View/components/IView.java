@@ -1,5 +1,6 @@
 package View.components;
 
+import Controller.UIController;
 import Model.Messages.UI.DisplayMessage;
 
 import javax.swing.*;
@@ -33,4 +34,8 @@ public interface IView {
     NotificationSystem getNotificationSystem();
     void addWindowExitListener(WindowListener listener);
     void closeWindow();
+
+    void addHelpButtonListener(ActionListener helpButtonListener);
+    ChatArea getChatArea();
+    void addHelpChatButtonListener(ActionListener chatHelpButtonListener);
 }

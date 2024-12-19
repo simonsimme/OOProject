@@ -35,6 +35,9 @@ public class StandardView implements IView {
     private JButton joinNewChannelButton;
     private JButton leaveChannelButton;
     private JButton createNewChannelButton;
+    private final JButton helpButton;
+    private final JButton helpButtoninChat;
+
 
     /**
      * Constructs a new StandardView and initializes the UI components.
@@ -45,6 +48,8 @@ public class StandardView implements IView {
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
+        helpButton = new JButton("\u2753");
+        helpButtoninChat = new JButton("Commands");
         windowManager = new WindowManager();
         chatArea = new ChatArea();
         inputPanel = new InputPanel();
@@ -60,6 +65,12 @@ public class StandardView implements IView {
         nickname = "Guest"+ processId + uniqueId.substring(uniqueId.length()-2,uniqueId.length());
         startArea();
         notificationSystem.showNotification("Welcome " + "Guest" + nickname + "!");
+    }
+    public void addHelpButtonListener(ActionListener listener) {
+        helpButton.addActionListener(listener);
+    }
+    public ChatArea getChatArea() {
+        return chatArea;
     }
 
     @Override
@@ -108,6 +119,10 @@ public class StandardView implements IView {
         gbc.gridx = 0;
         gbc.gridy = 3;
         startPanel.add(inputTextField, gbc);
+        JPanel helpPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        helpPanel.setBackground(new Color(43, 43, 43));
+        helpPanel.add(helpButton);
+        panel.add(helpPanel, BorderLayout.NORTH);
 
         panel.add(startPanel, BorderLayout.CENTER);
 
@@ -144,7 +159,7 @@ public class StandardView implements IView {
         sidebar.setBackground(new Color(43, 43, 43));
         sidebar.add(channelScrollPane, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
+        JPanel buttonPanel = new JPanel(new GridLayout(4, 1));
         buttonPanel.setBackground(new Color(43, 43, 43));
          joinNewChannelButton = new JButton("+ Join New Channel");
         joinNewChannelButton.setFont(new Font("Arial", Font.BOLD, 14));
@@ -158,9 +173,13 @@ public class StandardView implements IView {
         createNewChannelButton.setFont(new Font("Arial", Font.BOLD, 14));
         createNewChannelButton.setBackground(new Color(60, 63, 65));
         createNewChannelButton.setForeground(Color.WHITE);
+
         buttonPanel.add(joinNewChannelButton);
         buttonPanel.add(leaveChannelButton);
         buttonPanel.add(createNewChannelButton);
+        buttonPanel.add(helpButtoninChat);
+
+
 
         sidebar.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -169,11 +188,15 @@ public class StandardView implements IView {
         splitPane.setDividerLocation(200);
 
         panel.add(splitPane, BorderLayout.CENTER);
+        //inputPanelComponent.add(helpButtoninChat, BorderLayout.SOUTH);
         panel.add(inputPanelComponent, BorderLayout.SOUTH);
 
         windowManager.setContentPane(panel);
     }
-
+    @Override
+    public void addHelpChatButtonListener(ActionListener chatHelpButtonListener) {
+        helpButtoninChat.addActionListener(chatHelpButtonListener);
+    }
     /**
      * Clears the chat text area.
      */

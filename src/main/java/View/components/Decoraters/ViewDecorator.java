@@ -1,5 +1,6 @@
 package View.components.Decoraters;
 
+import View.components.ChatArea;
 import View.components.IView;
 import View.components.NotificationSystem;
 import View.components.TextFormat;
@@ -139,5 +140,19 @@ public class ViewDecorator implements IView {
     @Override
     public void closeWindow() {
         decoratedView.closeWindow();
+    }
+
+    @Override
+    public void addHelpButtonListener(ActionListener helpButtonListener) {
+        decoratedView.addHelpButtonListener(helpButtonListener);
+    }
+    @Override
+    public ChatArea getChatArea() {
+        return decoratedView.getChatArea();
+    }
+
+    @Override
+    public void addHelpChatButtonListener(ActionListener chatHelpButtonListener) {
+        decoratedView.addHelpChatButtonListener(chatHelpButtonListener);
     }
 }

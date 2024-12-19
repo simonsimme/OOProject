@@ -5,6 +5,7 @@ import Model.Messages.UI.DisplayMessage;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * The ChatArea class represents the chat display area of the application.
@@ -101,4 +102,6 @@ public class ChatArea {
     public void showHistory(StringBuilder history) {
         chatArea.setText(history.toString());
     }
+
+
 }

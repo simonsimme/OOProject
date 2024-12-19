@@ -8,6 +8,7 @@ import Model.Client.Client;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import View.components.HelpManager;
 import View.components.IView;
 
 import javax.crypto.SecretKey;
@@ -38,6 +39,7 @@ public class UIController{
         this.key = key;
         this.view.addCreateChannelButtonListener(new CreateChannelButtonListener());
         this.view.addJoinChannelButtonListener(new JoinChannelButtonListener());
+        this.view.addHelpButtonListener(new HelpButtonListener());
         WindowController windowController = new WindowController(view, reference); //TODO Do we need this
         channelController = new UIChannelController(view, ref);
     }
@@ -52,6 +54,8 @@ public class UIController{
         view.addLeaveChannelButtonListener(new LeaveChannelButtonListener());
         view.addCreateNewChannelButtonListener(new CreateNewChannelButtonListener());
         view.addChannelListSelectionListener(new ChannelListSelectionListener());
+        view.addHelpChatButtonListener(new ChatHelpButtonListener());
+
         try
         {
             String encryptedNickName = EncryptionLayer.encrypt(view.getNickNameFeild(), key);
@@ -195,4 +199,18 @@ public class UIController{
             view.getNotificationSystem().showNotification("Channel created successfully");
         }
     }
+    class HelpButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            HelpManager.showHelpDialog();
+        }
+    }
+    class ChatHelpButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Chat Help Button Pressed");
+            HelpManager.showCommandHelpDialog();
+        }
+    }
+
 }
