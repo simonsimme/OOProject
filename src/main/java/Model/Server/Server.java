@@ -145,7 +145,6 @@ public class Server {
      */
     public synchronized void createChannel(String channelName, String password) {
         if (channelSet.contains(channelName)) {
-            System.out.println("ChannelName taken, Try another one.");
             logger.log(Level.FINER, "ChannelName taken, Try another one.");
         } else {
             ChatChannel channel = new ChatChannel(channelName, password);
