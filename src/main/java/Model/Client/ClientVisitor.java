@@ -2,12 +2,13 @@ package Model.Client;
 
 import Model.Messages.Client.*;
 import Model.Messages.UI.*;
-
 import java.util.List;
 
 /**
- * Client visitor handles each different "request" sent to the client from the server. The "request" comes in the
- * explicit form of a ClientMessage.
+ * ClientVisitor handles each different "request" sent to the client from the server.
+ * The "request" comes in the explicit form of a ClientMessage. This class processes
+ * the various types of messages and updates the client accordingly by modifying
+ * the channel record and notifying observers.
  */
 public class ClientVisitor implements ClientMessageVisitor{
     /**
@@ -22,19 +23,19 @@ public class ClientVisitor implements ClientMessageVisitor{
     private final List<ClientObserver> observers;
 
     /**
-     * Constructor
-     * @param channelGroup Passed down reference.
-     * @param observers Passed down reference.
+     * Constructor for the ClientVisitor.
+     * @param channelRecord A reference to the ClientChannelRecord that holds the channels.
+     * @param observers A list of observers to be notified of changes.
      */
-    public  ClientVisitor(ClientChannelRecord channelGroup, List<ClientObserver> observers){
-        this.channelRecord = channelGroup;
+    public  ClientVisitor(ClientChannelRecord channelRecord, List<ClientObserver> observers){
+        this.channelRecord = channelRecord;
         this.observers = observers;
     }
 
     /**
-     * Adds the newly joined channel to channelGroup and notifies the UI to update its channels with the new
-     * information.
-     * @param message
+     * Handles the JoinChannelResponse message by adding the new channel to the channel record
+     * and notifying observers to update the UI with the new channel information.
+     * @param message The JoinChannelResponse message containing the channel name.
      */
     @Override
     public void handle(JoinChannelResponse message) {
@@ -43,8 +44,9 @@ public class ClientVisitor implements ClientMessageVisitor{
     }
 
     /**
-     * Adds the new channel to channelGroup and notifies the UI to update its channels with the new information.
-     * @param message
+     * Handles the CreateChannelResponse message by adding the new channel to the channel record
+     * and notifying observers to update the UI with the new channel information.
+     * @param message The CreateChannelResponse message containing the channel name.
      */
     @Override
     public void handle(CreateChannelResponse message) {
@@ -53,8 +55,9 @@ public class ClientVisitor implements ClientMessageVisitor{
     }
 
     /**
-     * Removes the channel from channelGroup and notifies the UI to update its channels with the new information.
-     * @param message
+     * Handles the LeaveChannelResponse message by removing the specified channel from the channel record
+     * and notifying observers to update the UI with the new channel information.
+     * @param message The LeaveChannelResponse message containing the channel name to leave.
      */
     @Override
     public void handle(LeaveChannelResponse message) {
@@ -63,41 +66,43 @@ public class ClientVisitor implements ClientMessageVisitor{
     }
 
     /**
-     * Notifies the UI to display an error description.
-     * @param m
+     * Handles the ErrorResponse message by notifying observers to display an error message in the UI.
+     * @param message The ErrorResponse message containing the error description.
      */
     @Override
-    public void handle(ErrorResponse m) {
-        notifyObservers(new DisplayError(m.getErrorMessage()));
+    public void handle(ErrorResponse message) {
+        notifyObservers(new DisplayError(message.getErrorMessage()));
     }
 
     /**
-     * Handles the receiving of a message from a user in a channel. If the message is sent to the currently active
-     * channel, the message is saved to the client's channel record(channelGroup.sendMessage(message,channel)) and
-     * is displayed. However, if the message is sent to any other channel that is not currently active, the message
-     * simply gets stored without being displayed.
-     * @param message message
+     * Handles the MessageInChannel message by checking if the message belongs to the currently active channel.
+     * If it does, the message is displayed. If the message is from another channel, it is stored without displaying.
+     * The message is recorded in the channel history.
+     * @param message The MessageInChannel containing the details of the message.
      */
     @Override
     public void handle(MessageInChannel message) {
-        DisplayMessage dm = new DisplayMessage(message.getUserName(), message.getMessage(), message.getChannelName());
-
+        DisplayMessage displayMessage = new DisplayMessage(message.getUserName(), message.getMessage(), message.getChannelName());
         if(message.isServerMessage())
         {
             DisplayChannelMessage displayChannelMessage = new DisplayChannelMessage(message.getMessage());
             notifyObservers(displayChannelMessage);
         }
-
         else
         if (message.getChannelName().equals(channelRecord.getCurrentChannelName())) {
-            notifyObservers(dm);
+            notifyObservers(displayMessage);
         }else {
-            notificationToClients(dm);
+            notificationToClients(displayMessage);
 
         }
         channelRecord.recordMessageInChannel(message.getMessage(),message.getChannelName());
     }
 
+    /**
+     * Handles the RetrieveChatHistoryResponse message by updating the channel's chat history
+     * and notifying observers to display the updated history in the UI.
+     * @param message The RetrieveChatHistoryResponse containing the channel name and chat history.
+     */
     @Override
     public void handle(RetrieveChatHistoryResponse message) {
         String channelName = message.getChannelName(); // get the channel name
@@ -107,14 +112,19 @@ public class ClientVisitor implements ClientMessageVisitor{
     }
 
     /**
-     * Notifies any listening observers (the UI)
-     * @param message
+     * Notifies all registered observers of a UI message update.
+     * @param message The UIMessage containing the update to notify observers about.
      */
     public void notifyObservers(UIMessage message) {
         for (ClientObserver observer: observers) {
             observer.update(message);
         }
     }
+
+    /**
+     * Sends a notification to all clients (observers) without displaying the message in the UI.
+     * @param message The DisplayMessage to be notified to the clients.
+     */
     private void notificationToClients(DisplayMessage message){
         for (ClientObserver observer:observers) {
             observer.notification(message);

@@ -79,7 +79,7 @@ public class ClientCommunicationManager implements Runnable{
                     handleMessage((ClientMessage) message);
                 }
                 else{
-                    throw new IllegalArgumentException("Yousef & Gunnar are unsure about this");
+                    throw new IllegalArgumentException("Error in message handling");
 
                 }
             }
