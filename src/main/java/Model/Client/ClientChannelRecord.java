@@ -1,38 +1,38 @@
 package Model.Client;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * A record of the channels that a client is connected to.
+ * Manages the list of channels, the current active channel, and provides functionality
+ * to switch channels, record messages, and maintain channel-specific history.
  */
 public class ClientChannelRecord {
     /**
      * All channels that the local client has a record of.
      */
-    private List<ClientChannel> channels;
+    private final List<ClientChannel> channels;
     /**
      * Reference to the element of "channels" that is the currently open channel in the UI.
      */
     private ClientChannel currentChannel;
 
     /**
-     * Constructor
+     * Creates a new {@code ClientChannelRecord} with no initial channels.
+     * Initializes the {@code currentChannel} to an empty channel.
      */
     public ClientChannelRecord(){
         this.channels = new ArrayList<>();
         this.currentChannel = new ClientChannel("empty-channel");
     }
 
-    public void setNameOfCurrentChannel(String name){
-        currentChannel.setName(name);
-    }
-
     /**
-     * Manipulates currentChannel.
-     * @param channelName The name of the channel to switch to.
+     * Switches the active channel to the specified channel by name.
+     *
+     * @param channelName the name of the channel to switch to.
+     * If the channel name does not exist in the record, no action is taken.
      */
     public void switchToChannel(String channelName){
         for (ClientChannel channel : channels) {
@@ -43,6 +43,12 @@ public class ClientChannelRecord {
         }
     }
 
+    /**
+     * Switches the active channel to the next channel in the list.
+     *
+     * @return the name of the next channel that is now active.
+     * If the list is circular, the first channel is returned after the last one.
+     */
     public String switchToNextChannel(){
         int i = channels.indexOf(currentChannel);
         i = (i+1) % channels.size();
@@ -51,9 +57,11 @@ public class ClientChannelRecord {
     }
 
     /**
-     * Saves a record of the given message in the given channel
-     * @param message
-     * @param channelName
+     * Records a message in the specified channel by name.
+     *
+     * @param message     the message to record.
+     * @param channelName the name of the channel where the message should be recorded.
+     * If the channel does not exist, no action is taken.
      */
     public void recordMessageInChannel(String message, String channelName){
         for (ClientChannel channel: channels) {
@@ -64,6 +72,11 @@ public class ClientChannelRecord {
         }
     }
 
+    /**
+     * Adds a new channel to the list of channels and sets it as the active channel.
+     *
+     * @param channelName the name of the new channel to add.
+     */
     public void addNewChannel(String channelName){
         channels.add(new ClientChannel(channelName));
         currentChannel = channels.getLast();
@@ -72,7 +85,6 @@ public class ClientChannelRecord {
     /**
      * Removes the channel with the given name from the list of channels.
      * @param channelName The name of the channel to remove.
-     *
      * If the channel to be removed is the current channel, the next channel in the list is switched to.
      * If there are no more channels left, the current channel is set to an empty channel.
      *
@@ -98,38 +110,20 @@ public class ClientChannelRecord {
         }
     }
 
-    public void loadChannels(){
-        //TODO : Implement saving feature
-
-    }
-
-    public void saveChannels(){
-        //TODO : Implement saving feature
-        for (ClientChannel channel: channels) {
-            channel.saveHistory();
-        }
-    }
-
-    public void updateChannels( ClientChannel[] channels){
-        this.channels = Arrays.stream(channels).toList();
-    }
-
-    public void updateChannels(List<ClientChannel> channels ){
-        this.channels = channels;
-    }
-
+    /**
+     * Retrieves the name of the currently active channel.
+     *
+     * @return the name of the current channel.
+     */
     public String getCurrentChannelName(){
         return currentChannel.getName();
     }
 
-    public StringBuilder getCurrentChannelHistory(){
-        return currentChannel.getHistory();
-    }
-
-    public List<String> getUsersInCurrentChannel(){
-        return currentChannel.getUsers();
-    }
-
+    /**
+     * Retrieves the names of all channels currently in the record.
+     *
+     * @return a list of channel names.
+     */
     public List<String> getChannelNames(){
         List<String> result = new ArrayList<>();
         for (ClientChannel channel:channels) {
@@ -138,6 +132,13 @@ public class ClientChannelRecord {
         return result;
     }
 
+    /**
+     * Sets the message history for the specified channel.
+     *
+     * @param channelName   the name of the channel for which the history is being set.
+     * @param stringBuilder the {@code StringBuilder} containing the history to set.
+     * If the channel does not exist, no action is taken.
+     */
     public void setChannelHistory(String channelName, StringBuilder stringBuilder) {
         for (ClientChannel channel: channels) {
             if(Objects.equals(channel.getName(), channelName)){
