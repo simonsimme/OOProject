@@ -45,7 +45,7 @@ public class UIChannelController {
             if(channelName.isEmpty() || compareText.length == 0){
                 throw new Exception("Channel name cannot be empty");
             }
-            reference.joinChannel(channelName, password); //TODO fix so if wrong pass not continue
+            reference.joinChannel(channelName, password);
         }catch (Exception e){
             throw new RuntimeException(e.getMessage());
         }

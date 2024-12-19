@@ -55,7 +55,6 @@ public class ChatChannel {
         Server.logger.fine("Adding client: " + client.getName() + " to chat channel: " + this.ChannelName);
         boolean added = clientsSet.add(client);
         if(!added){
-            //TODO throw exception or something like that to notify the client that he is already in the channel
             Server.logger.log(Level.SEVERE, "Client already in the channel or we have a problem in adding the client");
         }
     }
@@ -67,7 +66,6 @@ public class ChatChannel {
     public synchronized void removeClient(ClientHandler client) {
         boolean removed = clientsSet.remove(client);
         if(!removed){
-            //TODO: throw exception or something like that to notify the client that he is not in the channel
             Server.logger.log(Level.SEVERE, "Client not in the channel or we have a problem in removing the client");
         }
     }

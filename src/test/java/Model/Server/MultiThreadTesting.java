@@ -98,9 +98,4 @@ public class MultiThreadTesting {
         }
         assertTrue(truthTable.stream().allMatch(x -> x == true));
     }
-    @Test
-    void testBroadCastMessage(){
-        //TODO  Implement this test
-    }
-
 }

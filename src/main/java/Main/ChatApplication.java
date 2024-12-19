@@ -8,7 +8,6 @@ import Model.Server.Server;
 import View.components.Factorys.StandardViewFactory;
 import View.components.Factorys.ViewFactory;
 import View.components.IView;
-
 import javax.crypto.SecretKey;
 
 public class ChatApplication {
@@ -43,8 +42,8 @@ public class ChatApplication {
         ViewFactory viewFactory1 = new StandardViewFactory();
         IView view1 = viewFactory1.createView();
         client = new Client("localhost", 1234);
-        UIClientObserver observer = new UIClientObserver(view1,key, client);
 
+        UIClientObserver observer = new UIClientObserver(view1,key, client);
         uiController1 = new  UIController( view1, client,key);
 
 
@@ -52,15 +51,11 @@ public class ChatApplication {
         ViewFactory viewFactory2 = new StandardViewFactory ();
         IView view2 = viewFactory2.createView();
         client2 = new Client("localhost", 1234);
+
         UIClientObserver observer2 = new UIClientObserver(view2,key, client2);
+        uiController2 = new UIController(view2, client2,key);
 
-         uiController2 = new UIController(view2, client2,key);
-        //new Thread(client2).start(); Thread startas i client nu
-
-        //TODO: Add so the client only attaches its own uicontroller the client should be the one who recives messages
         client.attach(observer);
-      //  client.attach(uiController2);
         client2.attach(observer2);
-       //    client2.attach(uiController1);
-    }//e
+    }
 }
