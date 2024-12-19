@@ -35,9 +35,7 @@ public class ClientChannelRecord {
      * @param channelName The name of the channel to switch to.
      */
     public void switchToChannel(String channelName){
-
         for (ClientChannel channel : channels) {
-            System.out.println(channel.getName());
             if(channel.getName().equals(channelName) ){
                 currentChannel = channel;
                 break;
@@ -67,9 +65,8 @@ public class ClientChannelRecord {
     }
 
     public void addNewChannel(String channelName){
-        System.out.println("Adding new channel: " + channelName);
         channels.add(new ClientChannel(channelName));
-        currentChannel = channels.get(channels.size()-1);
+        currentChannel = channels.getLast();
     }
 
     /**

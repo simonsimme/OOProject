@@ -1,8 +1,8 @@
 // EmojiDecorator.java
 package View.components.Decoraters;
 
-import View.components.IView;
 import Model.Messages.UI.DisplayMessage;
+import View.components.IView;
 
 public class EmojiDecorator extends ViewDecorator {
 
@@ -18,7 +18,6 @@ public class EmojiDecorator extends ViewDecorator {
 
     private DisplayMessage convertEmoticonsToEmojis(DisplayMessage text) {
         String messageWithEmojis = text.getMessage().replaceAll(":\\)", "😊").replaceAll(":\\(", "😢");
-        System.out.println("Converted message: " + messageWithEmojis);
         return new DisplayMessage(text.getUserName(), messageWithEmojis, text.getChannelName());
     }
 }

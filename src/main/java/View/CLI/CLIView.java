@@ -1,9 +1,9 @@
 package View.CLI;
 
+import Model.Client.ClientObserver;
 import Model.Messages.UI.DisplayMessage;
 import Model.Messages.UI.UIMessage;
 import Model.Messages.UI.UIMessageVisitor;
-import Model.Client.ClientObserver;
 
 import java.io.PrintStream;
 

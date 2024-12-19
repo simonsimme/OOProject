@@ -1,8 +1,8 @@
 package View.components.Decoraters;
 
 import Model.EncryptionLayer;
-import View.components.IView;
 import Model.Messages.UI.*;
+import View.components.IView;
 
 import javax.crypto.SecretKey;
 import java.util.List;
@@ -33,7 +33,6 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
         }
         catch (Exception e)
         {
-            System.out.println(m.getMessage() + "-------");
             e.printStackTrace();
         }
 
@@ -58,7 +57,7 @@ public class HandleMessageDecorator extends ViewDecorator implements UIMessageVi
             }
             catch (Exception e)
             {
-                System.out.println("Error in loading history");
+                System.out.println("Error in loading history" + e);
             }
 
         }

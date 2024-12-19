@@ -1,9 +1,9 @@
 // MessageDecorator.java
 package View.components.Decoraters;
 
+import Model.Messages.UI.DisplayMessage;
 import View.components.IView;
 import View.components.TextFormat;
-import Model.Messages.UI.DisplayMessage;
 
 import java.awt.*;
 import java.util.ArrayList;

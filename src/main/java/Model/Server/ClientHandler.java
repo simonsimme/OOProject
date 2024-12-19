@@ -1,11 +1,14 @@
 package Model.Server;
+
 import Model.Messages.Client.ErrorResponse;
 import Model.Messages.Message;
 import Model.Messages.Server.ServerMessage;
 import Model.Messages.Server.ServerMessageVisitor;
 
-import java.net.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -227,6 +230,6 @@ public class ClientHandler extends Thread {
      * Look into the function, currently only used in testing might be Removed
      * */
     public ChatChannel getCurrentChannel() {
-        return channels.isEmpty() ? null : channels.get(channels.size() - 1);
+        return channels.isEmpty() ? null : channels.getLast();
     }
 }

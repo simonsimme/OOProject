@@ -22,7 +22,7 @@ public class DisplayMessage implements UIMessage {
      */
     private final String channelName;
 
-    LocalDateTime time;
+    private LocalDateTime time;
 
     /**
      * Constructs a {@code DisplayMessage} with the specified sender, message, and channel.
@@ -35,8 +35,7 @@ public class DisplayMessage implements UIMessage {
         this.userName = userName;
         this.message = message;
         this.channelName = channelName;
-        //TODO to fix here to get the correct time;
-        time = LocalDateTime.now();
+        this.time = LocalDateTime.now();
     }
 
     /**

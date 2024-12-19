@@ -2,12 +2,13 @@ package Model.Server;
 
 import Model.EncryptionLayer;
 import Model.Server.saving.ChatSaverObserver;
+
 import javax.crypto.SecretKey;
-import java.net.*;
-import java.io.*;
-import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -75,19 +76,15 @@ public class Server {
         this.key = key;
         isRunning = true;
         channelSet = new HashSet<ChatChannel>();
-        System.out.println("Started new server:");
         try {
             this.serverSocket = new ServerSocket(port);
             logger.log(Level.FINE, "Server socket is created on port: " + serverSocket.getLocalPort());
         } catch (IOException e) {
-            System.out.println(e.getMessage());
             logger.log(Level.SEVERE, e.getMessage());
 
         }
         Runtime.getRuntime().addShutdownHook(new Thread(() ->
         {
-            System.out.println("Shutting down server...");
-
             try {
                 this.stop();
             } catch (IOException e) {
@@ -108,19 +105,17 @@ public class Server {
         try {
             while (isRunning) {
                 Server.logger.log(Level.FINE, "Waiting for clients...");
-                System.out.println("Waiting for clients...");
                 Socket clientSocket = serverSocket.accept();
 
                 if(!isRunning) {
                     break;
                 }
-
-                System.out.println("New client connected: " + clientSocket.getLocalAddress());
+                Server.logger.log(Level.FINE, "New client connected: " + clientSocket.getLocalAddress());
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
                 clientHandler.start();
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            Server.logger.log(Level.SEVERE, e.getMessage());
         }
     }
 
@@ -150,7 +145,6 @@ public class Server {
      */
     public synchronized void createChannel(String channelName, String password) {
         if (channelSet.contains(channelName)) {
-            System.out.println("ChannelName taken, Try another one.");
             logger.log(Level.FINER, "ChannelName taken, Try another one.");
         } else {
             ChatChannel channel = new ChatChannel(channelName, password);
@@ -180,7 +174,6 @@ public class Server {
         for (ChatChannel channel : channelSet) {
             if (channel != null) {
                 channel.removeObserver(channel); // Clean up observers if necessary
-                System.out.println("Channel " + channel.toString() + " deleted.");
             }
         }
         channelSet.clear();
@@ -193,7 +186,7 @@ public class Server {
             if (files != null) {
                 for (File file : files) {
                     if (!file.delete()) {
-                        System.err.println("Failed to delete file: " + file.getName());
+                        logger.log(Level.SEVERE, "Failed to delete file: " + file.getName());
                     }
                 }
             }

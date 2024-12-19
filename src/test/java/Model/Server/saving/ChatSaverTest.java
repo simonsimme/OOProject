@@ -55,7 +55,7 @@ class ChatSaverTest {
         }
     }
     /**
-     * Tests the {@link ChatSaver#saveMessage(String, Message)} method.
+     * Tests the {@link ChatSaver#saveMessage{Message)} method.
      * Verifies that a message is correctly saved to a file.
      *
      * @throws IOException if file reading or writing fails.
@@ -63,7 +63,7 @@ class ChatSaverTest {
     @Test
     void saveMessage() throws IOException {
         // Save a message
-        chatSaver.saveMessage("TestChannel", message);
+        chatSaver.saveMessage(message);
 
         // Check if the message was written to the file
         File testFile = new File(filePath);
@@ -88,7 +88,7 @@ class ChatSaverTest {
      */
     @Test
     void getChatHistory() {
-        chatSaver.saveMessage("TestChannel", message);
+        chatSaver.saveMessage(message);
         StringBuilder chatHistory = ChatSaver.getChatHistory(channel);
         assertNotNull(chatHistory);
         assertTrue(chatHistory.toString().contains("Test message in chat history"));
@@ -101,7 +101,7 @@ class ChatSaverTest {
     @Test
     void close() {
         // Initialize and save a message
-        chatSaver.saveMessage("TestChannel", message);
+        chatSaver.saveMessage(message);
 
         // Close the writer
         chatSaver.close();
@@ -112,7 +112,7 @@ class ChatSaverTest {
         System.setErr(new PrintStream(errContent));
 
         // Attempt to save another message
-        chatSaver.saveMessage("TestChannel", new SendMessageInChannelCommand("user", "TestChannel", "Another message", false));
+        chatSaver.saveMessage(new SendMessageInChannelCommand("user", "TestChannel", "Another message", false));
 
         // Restore the original System.err
         System.setErr(originalErr);

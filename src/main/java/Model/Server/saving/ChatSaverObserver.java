@@ -16,8 +16,8 @@ public class ChatSaverObserver implements SaveObserver {
     }
 
     @Override
-    public void update(String channelName, Message message) {
-        this.chatSaver.saveMessage(channelName, message);
+    public void update(Message message) {
+        this.chatSaver.saveMessage(message);
     }
 
     public void close() {

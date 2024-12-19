@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Client.Client;
 import View.components.IView;
+
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
