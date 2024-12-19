@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 /**
  * Unit test for {@link MessageInChannel} class
  * Tests the functionality of the methods in the {@code MessageInChannel} class
@@ -26,6 +27,14 @@ class MessageInChannelTest {
         this.message = "message to be tested";
         this.msgInChannel = new MessageInChannel(userName, channelName, message, false);
     }
+
+    /**
+     * Test the {@code isServerMessage} method to ensure it returns the correct boolean.
+     */
+   @Test
+   void isServerMessage() {
+        assertFalse(msgInChannel.isServerMessage());
+   }
 
     /**
      * Test the {@code getChannelName} method to ensure it returns the correct channelName.
@@ -66,19 +75,12 @@ class MessageInChannelTest {
     }
 
     /**
-     * Test the {@code getMessageAsString} method to ensure it returns the correct channelName.
+     * Test the {@code toString} method to ensure it returns the correct String.
      */
     @Test
-    void getMessageAsString() {
-       // String result = msgInChannel.getMessageAsString();
-        //assertEquals(message, result);
-    }
-
-    /**
-     * Test the {@code getSenderAsString} method to ensure it returns the correct channelName.
-     */
-    @Test
-    void getSenderAsString() {
-        ////assertEquals(userName, result);
+    void toStringTest() {
+        String expected = " Message: "+ message + " from " + userName;
+        String result = msgInChannel.toString();
+        assertTrue(result.contains(expected));
     }
 }
