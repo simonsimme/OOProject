@@ -40,20 +40,17 @@ mvn -v
 Follow these steps to start the application:
 
 ```bash
+Compile and Run :
 # Step 1: Checkout to the main branch
 git checkout main
 
-# Step 2: Compile the project
-mvn clean install -DskipTests
+# Step 2: Compile and run the project
+mvn clean install
 
-# Step 3: Navigate to the target directory
-cd target
+Run without compiling :
 
-# Step 4: Run the Server in a new terminal window
-java -jar chat-application-1.0-SNAPSHOT.jar /server
+java -jar target/concord.jar
 
-# Step 5: Run the client(s) in a new terminal window
-java -jar chat-application-1.0-SNAPSHOT.jar /client
 ``` 
 ---
 ## **📖 User Guide**
