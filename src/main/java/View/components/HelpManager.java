@@ -23,7 +23,8 @@ public class HelpManager {
                 + "/yellow \"text\" - Display text in yellow color.\n"
                 + "/purple \"text\" - Display text in purple color.\n"
                 + "/orange \"text\" - Display text in orange color.\n"
-                + "@username - Mention a user.";
+                + "@username - Mention a user.\n"
+                + "```code``` - Display code in cyan color.";
         JOptionPane.showMessageDialog(null, helpMessage, "Command Help", JOptionPane.INFORMATION_MESSAGE);
     }
 }
