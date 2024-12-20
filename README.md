@@ -56,7 +56,7 @@ java -jar chat-application-1.0-SNAPSHOT.jar /server
 java -jar chat-application-1.0-SNAPSHOT.jar /client
 ``` 
 ---
-## **📖 UserGuide**
+## **📖 User Guide**
 
 
 - 1️⃣ Starting the Program

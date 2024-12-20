@@ -4,19 +4,38 @@ package View.components.Decoraters;
 import Model.Messages.UI.DisplayMessage;
 import View.components.IView;
 import View.components.TextFormat;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The {@code CodeDecorator} class is a concrete decorator for the {@link IView} interface.
+ * It formats chat messages by applying specific styles to code blocks and other text elements.
+ * Code blocks are identified by enclosing backticks (e.g., `code block`).
+ */
 public class CodeDecorator extends ViewDecorator {
 
+    /**
+     * Constructs a {@code CodeDecorator} that wraps the given {@link IView}.
+     *
+     * @param decoratedView the view to be decorated.
+     */
     public CodeDecorator(IView decoratedView) {
         super(decoratedView);
     }
 
+    /**
+     * Appends a chat message to the decorated view with styles applied.
+     *
+     * <p>This method extracts components of the message, such as the timestamp,
+     * username, and message content, and applies specific styles. Code blocks
+     * enclosed in backticks (e.g., `code here`) are styled with a monospaced font
+     * and a distinct color.</p>
+     *
+     * @param text the {@link DisplayMessage} object containing the chat message details.
+     */
     @Override
     public void appendChatText(DisplayMessage text) {
         String timestamp = text.getTimestamp().getHour() + "." + text.getTimestamp().getMinute();
