@@ -1,10 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.example</groupId>
-    <artifactId>chat-application</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.concord</groupId>
+    <artifactId>concord</artifactId>
+    <version>1.0</version>
+
+    <description>Concord is a (work in progress) chat application project for the technically curious.</description>
+
+    <organization>
+        <name>University Of Gothenburg</name>
+    </organization>
+
     <properties>
+        <skipTests>true</skipTests>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
     </properties>
@@ -42,17 +50,34 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
+
+        <finalName> <!-- CONFIGURATION OF THE NAME OF THE JAR FILE GENERATED WHILE BUILDING -->
+            ${project.artifactId}
+        </finalName>
+
         <plugins>
-            <plugin>
+
+            <plugin> <!-- EXECUTES THE JAR FILE WITH JAVA GOAL IN VERIFY PHASE, USE mvn verify TO BUILD AND EXEC -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
                     <mainClass>Main.ChatApplication</mainClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
             </plugin>
-            <plugin>
+
+            <plugin> <!-- BUILDS A JAR FILE WITH Main.ChatApplication AS MAINCLASS -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
@@ -64,7 +89,8 @@
                     </archive>
                 </configuration>
             </plugin>
-            <plugin>
+
+            <plugin> <!-- BUILDS AN UBER JAR CONTAINING ALL DEPENDENCIES -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
@@ -74,9 +100,14 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+            
         </plugins>
     </build>
 </project>
