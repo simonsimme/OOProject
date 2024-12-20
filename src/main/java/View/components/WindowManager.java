@@ -22,7 +22,7 @@ public class WindowManager {
      * It also sets the default close operation to {@link JFrame#DO_NOTHING_ON_CLOSE}.
      */
     public WindowManager() {
-        frame = new JFrame("Concorde");
+        frame = new JFrame("Concord");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
