@@ -15,8 +15,8 @@ It supports multiple clients and provides a user-friendly interface for seamless
 - 📩 **Send and receive messages**
 - 🔄 **Switch between channels**
 - 🔒 **Encrypt messages**
-- 😀 **Send emjoies**
-
+- 😀 **Send emojis**
+- 💻 **Send code**
 ---
 
 ## **⚙️ Prerequisites**
@@ -70,7 +70,7 @@ java -jar target/concord.jar
 - 4️⃣ Sending Messages : 
   Type your message in the Input Field.
   Press Enter or click Send to send the message.
-  By default your messages are encrypted client to client.
+  By default, your messages are encrypted client to client.
 - 5️⃣ Switching Channels : 
   Select any channel from the Channel List.
   The Chat Area will update to show messages from the selected channel.
