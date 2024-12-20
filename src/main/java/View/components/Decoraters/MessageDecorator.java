@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 /**
  * A decorator class for formatting and appending chat messages with different styles.
  * This class processes and styles chat messages by detecting patterns such as color commands,
- * @username mentions, and code blocks, and applies appropriate colors and fonts to them.
+ * "@username" mentions, and code blocks, and applies appropriate colors and fonts to them.
  * It extends the {@link ViewDecorator} class to decorate the base view with formatted text.
  */
 public class MessageDecorator extends ViewDecorator {
@@ -112,21 +112,14 @@ public class MessageDecorator extends ViewDecorator {
      * @return The corresponding {@link Color} object.
      */
     private Color getColorFromString(String color) {
-        switch (color) {
-            case "red":
-                return Color.red;
-            case "blue":
-                return Color.blue;
-            case "green":
-                return Color.green;
-            case "yellow":
-                return Color.yellow;
-            case "purple":
-                return new Color(128, 0, 128); // Custom purple color
-            case "orange":
-                return Color.orange;
-            default:
-                return Color.gray;
-        }
+        return switch (color) {
+            case "red" -> Color.red;
+            case "blue" -> Color.blue;
+            case "green" -> Color.green;
+            case "yellow" -> Color.yellow;
+            case "purple" -> new Color(128, 0, 128); // Custom purple color
+            case "orange" -> Color.orange;
+            default -> Color.gray;
+        };
     }
 }
