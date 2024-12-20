@@ -56,25 +56,25 @@ java -jar target/concord.jar
 ## **📖 User Guide**
 
 
-- 1️⃣ Starting the Program
+- 1️⃣ Starting the Program :
   Two application windows will launch upon starting.
   Arrange them side by side for better visibility.
-- 2️⃣ Creating a Channel
+- 2️⃣ Creating a Channel : 
   Click Create Channel.
   Enter the desired channel name and password.
   Click Create to confirm.
-- 3️⃣ Joining a Channel
+- 3️⃣ Joining a Channel : 
   Click Join Channel.
   Enter the channel name and password.
   Click Join to enter the channel.
-- 4️⃣ Sending Messages
+- 4️⃣ Sending Messages : 
   Type your message in the Input Field.
   Press Enter or click Send to send the message.
   By default your messages are encrypted client to client.
-- 5️⃣ Switching Channels
+- 5️⃣ Switching Channels : 
   Select any channel from the Channel List.
   The Chat Area will update to show messages from the selected channel.
-- 🛠️ Stress Testing
+- 🛠️ Stress Testing : 
   Test by creating multiple channels and switching between them.
   Add multiple clients and simulate a high volume of messages.
 ---
