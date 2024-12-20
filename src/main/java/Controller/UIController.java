@@ -1,13 +1,7 @@
 package Controller;
 
-import Model.EncryptionLayer;
-import View.components.Decoraters.HandleMessageDecorator;
-import Model.Messages.UI.*;
 import Model.Client.Client;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import Model.EncryptionLayer;
 import View.components.HelpManager;
 import View.components.IView;
 
@@ -15,6 +9,8 @@ import javax.crypto.SecretKey;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * The UIController class is responsible for handling user input and updating the view based on the received messages.
@@ -199,16 +195,23 @@ public class UIController{
             view.getNotificationSystem().showNotification("Channel created successfully");
         }
     }
+
+    /**
+     * Listener for the help button. Displays the help dialog for the user.
+     */
     class HelpButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             HelpManager.showHelpDialog();
         }
     }
+
+    /**
+     * Listener for the chat help button. Displays the help dialog specific to chat commands.
+     */
     class ChatHelpButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Chat Help Button Pressed");
             HelpManager.showCommandHelpDialog();
         }
     }

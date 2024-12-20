@@ -18,8 +18,9 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 /**
- * The Server class implements a basic server that listens for incoming client
- * connections, handles chat channels and communication between clients.
+ * The {@code Server} class implements a basic server that listens for incoming client
+ * connections, handles chat channels, and facilitates communication between clients.
+ * It supports creating, retrieving, and deleting chat channels, as well as managing client connections.
  */
 public class Server {
     //ServerSocket will listen for incoming connections.
@@ -68,12 +69,13 @@ public class Server {
         }
         return thisServerInstance;
     }
+
     /**
-     * Private constructor to initialize the server on the specific port.
+     * Private constructor to initialize the server on the specified port.
      * Initializes the channels map and creates a default channel.
      *
      * @param port the port number the server will listen to.
-     * @param key
+     * @param key  the secret key used for encryption.
      */
     private Server(int port, SecretKey key) {
         this.key = key;
@@ -96,13 +98,18 @@ public class Server {
         }));
     }
 
+    /**
+     * Returns the secret key used for encryption.
+     *
+     * @return the secret key.
+     */
     public SecretKey getKeys() {
         return key;
     }
 
     /**
-     * Starts the server to listen to for incoming client connections.
-     * Each client connection is handled by a thread using {@code ClientHandler}
+     * Starts the server to listen for incoming client connections.
+     * Each client connection is handled by a separate thread using {@code ClientHandler}.
      */
     public  void startListening() {
         try {
@@ -173,6 +180,11 @@ public class Server {
         return null; // Return null if the channel is not found
 
     }
+
+    /**
+     * Deletes all channels and removes their observers.
+     * This method is synchronized to ensure thread-safe access to the shared {@code channelSet}.
+     */
     public synchronized void deleteAllChannels() {
         for (ChatChannel channel : channelSet) {
             if (channel != null) {
@@ -181,6 +193,11 @@ public class Server {
         }
         channelSet.clear();
     }
+
+    /**
+     * Deletes all log files in the logs directory.
+     * The log files are located in {@code ./src/main/java/Model/Server/saving/logs}.
+     */
     public synchronized void deleteAllLogFiles() {
         String folderPath = "./src/main/java/Model/Server/saving/logs";
         File folder = new File(folderPath);

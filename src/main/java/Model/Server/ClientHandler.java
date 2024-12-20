@@ -14,11 +14,9 @@ import java.util.List;
 
 /**
  * This class handles communication with a single client connected to the server.
- * Each {@code ClientHandler} instance runs its own thread, managing:
- * <li>Receiving messages from the client</li>
- * <li>Sending messages to the client</li>
- * <li>Joining chat channels</li>
- * <li>Broadcast messages to other clients in the same channel</li>
+ * Each {@code ClientHandler} instance runs its own thread to manage the client's interaction
+ * with the server. It is responsible for receiving and sending messages, joining chat channels,
+ * broadcasting messages, and handling errors.
  */
 public class ClientHandler extends Thread {
     //The socket represents the client's connection.
@@ -35,14 +33,11 @@ public class ClientHandler extends Thread {
     //we rewrite and create only one error object to lower the dependency between the classes
     private ErrorResponse error;
 
-
-
-
-
     /**
      * Constructor for a {@code ClientHandler} for a given client socket and server instance.
-     * @param clientSocket the client's socket connection.
-     * @param server the server instance manging chat channels.
+     *
+     * @param clientSocket the client's socket connection
+     * @param server the server instance managing chat channels
      */
     public ClientHandler(Socket clientSocket, Server server) {
         this.server = server;
@@ -56,9 +51,11 @@ public class ClientHandler extends Thread {
             System.out.println("Error setting up input/output stream: " + e.getMessage());
         }
     }
+
     /**
-     * Listens for incoming messages from the clients and processes then.
-     * <li>MESSAGE: execute SendMessageCommand to send message to the clients</li>
+     * Listens for incoming messages from the client and processes them.
+     * It handles different types of messages, such as sending a message to other clients
+     * or performing channel management tasks (joining and leaving channels).
      * Ensures resources are cleaned up when the client disconnects.
      */
     @Override
@@ -77,12 +74,13 @@ public class ClientHandler extends Thread {
             closeConnections();
         }
     }
+
     /**
      * Handles exceptions that occur during message processing. At this time its only printing the error message
-     * @param e the exception that occurred.
+     * @param error the exception that occurred.
      */
-    private void handleError(Exception e) {
-        System.out.println("Client handler exception: " + e.getMessage());
+    private void handleError(Exception error) {
+        System.out.println("Client handler exception: " + error.getMessage());
     }
     /**
      * Reads a message from the client.
@@ -124,10 +122,14 @@ public class ClientHandler extends Thread {
             System.out.println("Error closing connections: " + e.getMessage());
         }
     }
+
     /**
-     * Joins the client to a new chat channel. If the client was in a previous
-     * channel, they are removed from it before joining a new chat channel.
+     * Joins the client to a new chat channel. If the client was already in another channel,
+     * they are removed from the old channel before joining the new one.
+     *
      * @param channelName the name of the channel to join
+     * @param password the password for the channel
+     * @return true if the client successfully joined the channel, false otherwise
      */
     public boolean joinChannel(String channelName, String password) {       
         ChatChannel channel = this.getChannel(channelName);
@@ -160,10 +162,10 @@ public class ClientHandler extends Thread {
     }
 
     /**
-     * Leaves the chat channel if the client is in that one.
-     * If the client is not in the channel, nothing happens.
-     * Uses booleam to indicate if the client was removed from the channel
+     * Leaves the chat channel if the client is currently in that channel.
+     *
      * @param channelName the name of the channel to leave
+     * @return true if the client successfully left the channel, false otherwise
      */
     public boolean leaveChannel(String channelName) {
         ChatChannel channel = getChannel(channelName);
@@ -189,6 +191,7 @@ public class ClientHandler extends Thread {
             System.out.println("Error sending message: " + e.getMessage());
         }
     }
+
     /**
      * Creates a new chat channel with the given name and password.
      * Adds the client to the new channel.

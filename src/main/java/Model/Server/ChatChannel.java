@@ -80,32 +80,61 @@ public class ChatChannel {
         }
         notifyObservers(message);
     }
+
+    /**
+     * Notifies all observers of the new message.
+     * Observers are typically responsible for saving the message to storage.
+     *
+     * @param message the message to notify the observers about
+     */
     private void notifyObservers(Message message) {
         for (SaveObserver observer : observers) {
             observer.update(message);
         }
     }
-    //method to turn the string builder to later send to the client
+
+    /**
+     * Retrieves the chat history of the channel.
+     * This method returns the saved chat history as a {@link StringBuilder}.
+     *
+     * @return the chat history of the channel
+     */
     public StringBuilder getChatChannelHistory() {
         return ChatSaver.getChatHistory(this);
     }
 
     /**
-     * Returns the name of the chat channel.
-     * @return the name of the chat channel.
+     * Returns the set of clients currently in the chat channel.
+     *
+     * @return the set of clients
      */
-
     public Set<ClientHandler> getClients() {
         return clientsSet;
     }
 
+    /**
+     * Returns the name of the chat channel.
+     *
+     * @return the name of the chat channel
+     */
     public String getName() {
         return ChannelName;
     }
 
+    /**
+     * Adds an observer to the channel. Observers typically respond to new messages.
+     *
+     * @param observer the observer to add
+     */
     public void addObserver(ChatSaverObserver observer){
         observers.add(observer);
     }
+
+    /**
+     * Removes an observer from the channel. Observers no longer receive updates after removal.
+     *
+     * @param observer the observer to remove
+     */
     public void removeObserver(ChatChannel observer){
         observers.remove(observer);
     }

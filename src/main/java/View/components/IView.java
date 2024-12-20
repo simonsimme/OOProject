@@ -1,6 +1,7 @@
 package View.components;
 
 import Model.Messages.UI.DisplayMessage;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionListener;

@@ -8,7 +8,6 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 /**
  * The ChatArea class represents the chat display area of the application.
@@ -105,6 +104,4 @@ public class ChatArea {
     public void showHistory(StringBuilder history) {
         chatArea.setText(history.toString());
     }
-
-
 }

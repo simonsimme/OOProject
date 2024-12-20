@@ -2,6 +2,7 @@ package Model.Client;
 
 import Model.Messages.UI.UIMessage;
 import Model.Messages.UI.UpdateChannels;
+
 import java.util.ArrayList;
 import java.util.List;
 

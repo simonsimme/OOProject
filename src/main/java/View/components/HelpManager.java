@@ -2,7 +2,21 @@ package View.components;
 
 import javax.swing.*;
 
+/**
+ * The {@code HelpManager} class provides static methods to display help dialogs to users.
+ * These dialogs provide information about the application features and available commands.
+ * <p>
+ * The class includes methods to show general help information and specific command help, which assist users in understanding
+ * how to interact with the chat application and its features.
+ * </p>
+ */
 public class HelpManager {
+
+    /**
+     * Displays a general help dialog with information about the chat application's features.
+     * The dialog provides users with information on how to create a channel, join a channel,
+     * change nickname, send messages, and more.
+     */
     public static void showHelpDialog() {
         String helpMessage = "This is the help information for the chat application.\n\n"
                 + "1. Create Channel: Click to create a new chat channel.\n"
@@ -15,6 +29,12 @@ public class HelpManager {
 
         JOptionPane.showMessageDialog(null, helpMessage, "Help", JOptionPane.INFORMATION_MESSAGE);
     }
+
+    /**
+     * Displays a command help dialog with information about available text formatting commands.
+     * The dialog shows users how to use commands to change the color of text, mention users,
+     * and format messages as code.
+     */
     public static void showCommandHelpDialog() {
         String helpMessage = "Command Help:\n\n"
                 + "/red \"text\" - Display text in red color.\n"

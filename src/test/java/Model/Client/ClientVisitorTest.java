@@ -1,13 +1,20 @@
 package Model.Client;
 
-import Model.Messages.Client.*;
-import Model.Messages.UI.*;
+import Model.Messages.Client.ErrorResponse;
+import Model.Messages.Client.LeaveChannelResponse;
+import Model.Messages.UI.DisplayError;
+import Model.Messages.UI.UIMessage;
+import Model.Messages.UI.UpdateChannels;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+
 import java.util.Collections;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for the ClientVisitor class. This test class ensures that the ClientVisitor
