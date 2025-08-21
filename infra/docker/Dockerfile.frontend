@@ -1,0 +1,8 @@
+FROM openjdk:17-jre-slim
+
+WORKDIR /app
+COPY target/frontend.jar app.jar
+
+EXPOSE 3000
+
+ENTRYPOINT ["java", "-jar", "app.jar"]

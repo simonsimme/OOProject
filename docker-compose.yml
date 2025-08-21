@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: ../infra/docker/Dockerfile.gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user-service
+      - item-service
+    environment:
+      - USER_SERVICE_URL=http://user-service:8081
+      - ITEM_SERVICE_URL=http://item-service:8082
+
+  user-service:
+    build:
+      context: ./services/user-service
+      dockerfile: ../../infra/docker/Dockerfile.user-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SERVICE_PORT=8081
+
+  item-service:
+    build:
+      context: ./services/item-service
+      dockerfile: ../../infra/docker/Dockerfile.item-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SERVICE_PORT=8082
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../infra/docker/Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - gateway
+    environment:
+      - GATEWAY_URL=http://gateway:8080
+
+networks:
+  default:
+    name: devops-microservices-network
