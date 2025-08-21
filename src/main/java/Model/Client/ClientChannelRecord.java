@@ -79,7 +79,7 @@ public class ClientChannelRecord {
      */
     public void addNewChannel(String channelName){
         channels.add(new ClientChannel(channelName));
-        currentChannel = channels.getLast();
+        currentChannel = channels.get(channels.size() - 1);
     }
 
     /**
